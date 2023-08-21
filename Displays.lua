@@ -1,4 +1,6 @@
-Neutral_pos = {["x"] = 1, ["y"] = 14}
+Neutral_pos = {
+    ["Pocket"] = {["x"] = 1, ["y"] = 15}
+}
 
 local Displays = {
     ["Pocket"] = {
@@ -10,6 +12,7 @@ local Displays = {
             "Energy",
             "Items",
             "Machines",
+            "",
             "",
             "",
             "",
@@ -38,6 +41,7 @@ local Displays = {
             "                     |    ",
             "                     |    ",
             "                     |    ",
+            "                     |    ",
             "-------- Messages ---O----",
             "",
             "",
@@ -48,6 +52,7 @@ local Displays = {
             "---------------------O----",
             "Alerts:              |Home",
             "---------------------O----",
+            "                     |    ",
             "                     |    ",
             "                     |    ",
             "                     |    ",
