@@ -66,24 +66,27 @@ Package_types = {
 	["Targeted"]  = "Targeted"
 }
 
-function Log(Value, To_file)
+function Log(Value, To_file, To_screen)
 	if type(Value) ~= "string" and type(Value) ~= "number" then return false end
 	if To_file == nil then To_file = false end
+	if To_screen == nil then To_screen = false end
 
-	term.clear()
-	term.setCursorPos(1,1)
-	term.write("---- Error ----")
-	term.setCursorPos(1,2)
-	term.write(Value)
-
-	if To_file ~= true then return true end
+	if To_screen == true then
+		term.clear()
+		term.setCursorPos(1,1)
+		term.write("---- Error ----")
+		term.setCursorPos(1,2)
+		term.write(Value)
+	end
 	
-	local Time = os.time()
-	local Day = os.day()
-	local File = fs.open(Constants.Log_file_path,"a")
-	local Log_string = Day .. ":" .. Time .. ":" .. Value
-	File.writeLine(Log_string)
-	File.close()
+	if To_file == true then
+		local Time = os.time()
+		local Day = os.day()
+		local File = fs.open(Constants.Log_file_path,"a")
+		local Log_string = Day .. ":" .. Time .. ":" .. Value
+		File.writeLine(Log_string)
+		File.close()
+	end
 
 	return true
 end
@@ -92,6 +95,14 @@ function Log_clear()
 	local File = fs.open(Constants.Log_file_path,"w")
 	File.flush()
 	File.close()
+end
+
+function Round_decimal(Value, Positions)
+	if Positions == nil or tonumber(Positions) == 1 then
+		return string.format("%2.1f", Value)
+	end
+
+	return 0
 end
 
 -- Setup --
