@@ -9,10 +9,18 @@ Brave.Log_clear()
 
 local Recieved_messages = {{},{},{}}
 
+-- Moves all revieved messages one position in the Table
+-- Newest iteration (1) will get the input message insterted
 function Update_message_table(Input_message)
-    Recieved_messages[3] = Recieved_messages[2]
-    Recieved_messages[2] = Recieved_messages[1]
-    Recieved_messages[1] = Input_message
+    local n = 0
+
+    for n = #Recieved_messages, 1, -1 do
+        if n ~= 1 then
+            Recieved_messages[n] = Recieved_messages[n - 1]
+        else
+            Recieved_messages[n] = Input_message
+        end
+    end
 end
 
 function Write_message_log()
@@ -42,7 +50,7 @@ function Write_message_log()
 end
 
 while true do
-    Input = {os.pullEvent("modem_message")}
+    Input = {os.pullEvent()}
 
     if Input[1] == "modem_message" then
 
@@ -56,12 +64,7 @@ while true do
         Update_message_table(Input_message)
     end
 
-
-
     Write_message_log()
     term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
     term.write("update: " .. os.time())
-
-
-
 end
