@@ -24,7 +24,7 @@ else
 	local Tab = multishell.launch({}, "run_ipso.lua")
 	multishell.setTitle(Tab, "Ipso")
 
-	if Pc_label == "arch:net_1" then
+	if Pc_label == "arch:Small_boiler" then
 		local Interface = peripheral.wrap("bottom")
 
 		while true do
