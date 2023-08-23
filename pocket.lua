@@ -2,10 +2,14 @@ os.loadAPI("Brave.lua")
 os.loadAPI("Displays.lua")
 os.loadAPI("IPSO.lua")
 
-Displays.Print_display("Home")
+--Displays.Print_display("Home")
 
 Brave.Modem.open(1)
 Brave.Log_clear()
+
+local Current_display = "Home"
+local New_display = ""
+local Scroll_offset = 0
 
 local Recieved_messages = {{},{},{}}
 
@@ -54,8 +58,23 @@ function Write_message_log()
     end
 end
 
+function Handle_display(Window)
+    Displays.Print_display(Window)
+
+end
+
+function Go_Home()
+    New_display = "Home"
+    Scroll_offset = 0
+end
+
+-------{ Main }-------
+
+Handle_display(Current_display)
+
 while true do
-    Input = {os.pullEvent("modem_message")}
+    Input = {os.pullEvent()}
+    Brave.Log(textutils.serialize(Input), true, false)
 
     if Input[1] == "modem_message" then
 
@@ -67,10 +86,46 @@ while true do
         --Brave.Log(textutils.serialize(Input_message), true, false) 
 
         Update_message_table(Input_message)
+
+    elseif Input[1] == "mouse_click" then
+        local X = Input[3]
+        local Y = Input[4]
+
+        if Y == 2 and X > 22 then 
+            Brave.Log("Home was pressed", true, false)
+            Go_Home() 
+        end
+    
+        if Y >= 4 and Y <= 15 then
+            local Option_selection = Y - 3 + Scroll_offset
+
+            --Brave.Log("Cur_dis; " .. Option_selection, true, false)
+            --Brave.Log("Cur_dis; " .. Current_display, true, false)
+            --Brave.Log("Cur_dis; " .. textutils.serialise(Displays.Displays), true, false)
+            --Brave.Log("Cur_dis; " .. textutils.serialise(Displays.Displays.Pocket), true, false)
+            --Brave.Log("Cur_dis; " .. textutils.serialise(Displays.Displays.Pocket[Current_display]), true, false)
+            --Brave.Log("Cur_dis; " .. textutils.serialise(Displays.Displays.Pocket[Current_display].Options), true, false)
+            --Brave.Log("Cur_dis; " .. textutils.serialise(Displays.Displays.Pocket[Current_display].Options[Option_selection]), true, false)
+            --Brave.Log("Cur_dis; " .. tostring(Displays.Displays.Pocket[Current_display].Options[Option_selection].Discoverable), true, false)
+
+            if Displays.Displays.Pocket[Current_display].Options[Option_selection].Discoverable == true then
+                New_display = Displays.Displays.Pocket[Current_display].Options[Option_selection].Name
+            else
+                New_display = Current_display
+            end
+
+            Brave.Log("new display; " .. New_display, true, false)
+
+        end
+
+        Current_display = New_display
+
     end
 
+    Handle_display(Current_display)
 
 
+    --Displays.Print_display(Current_display)
     Write_message_log()
     term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
     term.write("update: " .. os.time())
