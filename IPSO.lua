@@ -106,12 +106,13 @@ function Debug_log_smart_object(Smart_object)
 end
 
 Object_list = {
-    ["Device"]           = 1,
-    ["Redstone"]         = 2,
-    ["File_system"]      = 3,
-    ["Energy%_create"]   = 4,
-    ["RPM%_create"]      = 5
-
+    ["Device"]            = 1,
+    ["Redstone"]          = 2,
+    ["File_system"]       = 3,
+    ["Kinetic_capacity"]  = 4,
+    ["Kinetic_speed"]     = 5,
+    ["Kinetic_direction"] = 6,
+    ["Kinetic_stress"]    = 7
 }
 
 Resource_list = {

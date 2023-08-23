@@ -31,8 +31,8 @@ function Write_message_log()
         local Log = ""
 
         if Message ~= nil and Message.Data ~= nil then
-            --Brave.Log("new scroll", true, false)
-            --Brave.Log(type(textutils.serialize(Message)), true, false) 
+            Brave.Log("new scroll", true, false)
+            Brave.Log(type(textutils.serialize(Message)), true, false) 
 
             local Day          = Message.Server_day
             local Time         = Brave.Round_decimal(Message.Server_time)
@@ -40,7 +40,12 @@ function Write_message_log()
             local Targets      = Message.Targets
             local Sender       = Message.Device_id
             local Value        = Message.Data[1].Value
-                  Log          = Day .. ":" .. Time .. ":" .. Sender .. ":" .. Targets[1] .. ":" .. Value
+
+            if Targets[1] == nil then Targets[1] = "BC" end
+
+            if Value ~= nil then
+                Log = Day .. ":" .. Time .. ":" .. Sender .. ":" .. Targets[1] .. ":" .. Value
+            end
 
         end
         
@@ -50,7 +55,7 @@ function Write_message_log()
 end
 
 while true do
-    Input = {os.pullEvent()}
+    Input = {os.pullEvent("modem_message")}
 
     if Input[1] == "modem_message" then
 
@@ -64,7 +69,12 @@ while true do
         Update_message_table(Input_message)
     end
 
+
+
     Write_message_log()
     term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
     term.write("update: " .. os.time())
+
+
+
 end
