@@ -26,12 +26,12 @@ function Update_message_table(Input_message)
         end
     end
 
-    Brave.Log("Potential energy message", true, false)
-    Brave.Log(textutils.serialise(Input_message), true, false) 
-    Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false) 
+    --Brave.Log("Potential energy message", true, false)
+    --Brave.Log(textutils.serialise(Input_message), true, false) 
+    --Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false) 
     if Recieved_energy_messages[Device_id] ~= nil then
         Recieved_energy_messages[Device_id] = Input_message
-        Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
     end
 
 end
@@ -70,16 +70,16 @@ end
 function Handle_display(Window)
     Displays.Print_display(Window)
 
-    Brave.Log("Display handle", true, false)
-    Brave.Log(Window, true, false) 
-    Brave.Log(tostring(Window == "Energy"), true, false) 
+    --Brave.Log("Display handle", true, false)
+    --Brave.Log(Window, true, false) 
+    --Brave.Log(tostring(Window == "Energy"), true, false) 
 
     if Window == "Energy" then
         local n = 0
         local Number_of_messages = Brave.Get_table_length(Recieved_energy_messages)
-        Brave.Log("Energy windows found", true, false) 
-        Brave.Log(Number_of_messages, true, false) 
-        Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+        --Brave.Log("Energy windows found", true, false) 
+        --Brave.Log(Number_of_messages, true, false) 
+        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
 
         for id, Message in pairs(Recieved_energy_messages) do
             --local Message = Recieved_energy_messages[n]
@@ -92,17 +92,17 @@ function Handle_display(Window)
                 local Capacity  = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_capacity , 0, IPSO.Resource_list.Set_value)
                 local Percent   = Brave.Get_percentage(Stress, Capacity)
 
-                Brave.Log("Energy display handle", true, false)
-                Brave.Log(type(textutils.serialize(Message)), true, false) 
-                Brave.Log(Name, true, false)
-                Brave.Log(Stress, true, false)
-                Brave.Log(Speed, true, false)
-                Brave.Log(Direction, true, false)
-                Brave.Log(Capacity, true, false)
-                Brave.Log(Percent, true, false)
+                --Brave.Log("Energy display handle", true, false)
+                --Brave.Log(type(textutils.serialize(Message)), true, false) 
+                --Brave.Log(Name, true, false)
+                --Brave.Log(Stress, true, false)
+                --Brave.Log(Speed, true, false)
+                --Brave.Log(Direction, true, false)
+                --Brave.Log(Capacity, true, false)
+                --Brave.Log(Percent, true, false)
 
                 local Line = string.format("%s :%d:%d:%s", Name, Stress, Speed, Percent)
-                Brave.Log(Line, true, false)
+                --Brave.Log(Line, true, false)
 
                 term.setCursorPos(1, n + 4)
                 term.write(Line)

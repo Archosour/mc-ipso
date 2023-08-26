@@ -28,7 +28,7 @@ else
 		local Interface = peripheral.wrap("bottom")
 
 		while true do
-			local RPM = Interface.getKineticSpeed("left")
+			local RPM = math.abs(Interface.getKineticSpeed("bottom"))
 			local Direction = true
 			local Stress = Interface.getKineticStress("right")
 			local Capacity = Interface.getKineticCapacity("right")
@@ -41,7 +41,7 @@ else
 			local Capacity_object  = IPSO.Generate_object(IPSO.Object_list.Kinetic_capacity,  0, IPSO.Resource_list.Set_value, Capacity)
 			local Package = Brave.Generate_package({RPM_object, Direction_object,Stress_object,Capacity_object}, Brave.Package_types.Broadcast, {})
 
-			Brave.Log(textutils.serialise(Package), true)
+			--Brave.Log(textutils.serialise(Package), true)
 			Brave.Modem.transmit(1,1,Package)
 
 			sleep(10)
