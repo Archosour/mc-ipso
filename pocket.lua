@@ -2,8 +2,6 @@ os.loadAPI("Brave.lua")
 os.loadAPI("Displays.lua")
 os.loadAPI("IPSO.lua")
 
---Displays.Print_display("Home")
-
 Brave.Modem.open(1)
 Brave.Log_clear()
 
@@ -97,13 +95,14 @@ while true do
     
         if Y >= 4 and Y <= 15 then
             local Option_selection = Y - 3 + Scroll_offset
+            local Selected_option = Displays.Displays.Pocket[Current_display].Options[Option_selection]
 
-            if Displays.Displays.Pocket[Current_display].Options[Option_selection].Discoverable == true then
+            if Selected_option ~= nil and Selected_option.Discoverable == true then
                 New_display = Displays.Displays.Pocket[Current_display].Options[Option_selection].Name
             else
                 New_display = Current_display
             end
-
+            
             Brave.Log("new display; " .. New_display, true, false)
 
         end
@@ -117,7 +116,4 @@ while true do
     Write_message_log()
     term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
     term.write("update: " .. os.time())
-
-
-
 end
