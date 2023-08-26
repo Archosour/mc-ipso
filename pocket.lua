@@ -10,10 +10,12 @@ local New_display = ""
 local Scroll_offset = 0
 
 local Recieved_messages = {{},{},{}}
+local Recieved_energy_messages = {[2] = {}, [3] = {}}
 
 -- Moves all revieved messages one position in the Table
 -- Newest iteration (1) will get the input message insterted
 function Update_message_table(Input_message)
+    local Device_id = Input_message.Device_id
     local n = 0
 
     for n = #Recieved_messages, 1, -1 do
@@ -23,6 +25,15 @@ function Update_message_table(Input_message)
             Recieved_messages[n] = Input_message
         end
     end
+
+    Brave.Log("Potential energy message", true, false)
+    Brave.Log(textutils.serialise(Input_message), true, false) 
+    Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false) 
+    if Recieved_energy_messages[Device_id] ~= nil then
+        Recieved_energy_messages[Device_id] = Input_message
+        Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+    end
+
 end
 
 function Write_message_log()
@@ -58,6 +69,49 @@ end
 
 function Handle_display(Window)
     Displays.Print_display(Window)
+
+    Brave.Log("Display handle", true, false)
+    Brave.Log(Window, true, false) 
+    Brave.Log(tostring(Window == "Energy"), true, false) 
+
+    if Window == "Energy" then
+        local n = 0
+        local Number_of_messages = Brave.Get_table_length(Recieved_energy_messages)
+        Brave.Log("Energy windows found", true, false) 
+        Brave.Log(Number_of_messages, true, false) 
+        Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+
+        for id, Message in pairs(Recieved_energy_messages) do
+            --local Message = Recieved_energy_messages[n]
+            local Smart_objects = Message.Data
+            if Message.Device_name ~= nil then
+                local Name = string.match(Message.Device_name, ":(.*)")
+                local Stress    = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_stress   , 0, IPSO.Resource_list.Set_value)
+                local Speed     = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_speed    , 0, IPSO.Resource_list.Set_value)
+                local Direction = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_direction, 0, IPSO.Resource_list.Set_value)
+                local Capacity  = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_capacity , 0, IPSO.Resource_list.Set_value)
+                local Percent   = Brave.Get_percentage(Stress, Capacity)
+
+                Brave.Log("Energy display handle", true, false)
+                Brave.Log(type(textutils.serialize(Message)), true, false) 
+                Brave.Log(Name, true, false)
+                Brave.Log(Stress, true, false)
+                Brave.Log(Speed, true, false)
+                Brave.Log(Direction, true, false)
+                Brave.Log(Capacity, true, false)
+                Brave.Log(Percent, true, false)
+
+                local Line = string.format("%s :%d:%d:%s", Name, Stress, Speed, Percent)
+                Brave.Log(Line, true, false)
+
+                term.setCursorPos(1, n + 4)
+                term.write(Line)
+
+                n = n + 1
+            end
+        end
+
+    end
 
 end
 

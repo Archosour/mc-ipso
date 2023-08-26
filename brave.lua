@@ -67,8 +67,8 @@ Package_types = {
 }
 
 function Log(Value, To_file, To_screen)
-	if type(Value) ~= "string" and type(Value) ~= "number" then return false end
-	if To_file == nil then To_file = false end
+	if type(Value) ~= "string" and type(Value) ~= "number" then Value = "Brave: Invalid Value recieved!" end
+	if To_file == nil then To_file = true end
 	if To_screen == nil then To_screen = false end
 
 	if To_screen == true then
@@ -103,6 +103,32 @@ function Round_decimal(Value, Positions)
 	end
 
 	return 0
+end
+
+function Get_percentage(Input1, Input2)
+	if Input1 == nil then return "nil%" end
+	if Input2 == nil then return "nil%" end
+
+	local Percent = math.floor((Input1 / Input2) * 100)
+	return tostring(Percent) .. "%"
+end
+
+function Get_table_length(Table)
+	local Count = 0
+	if Table == nil then 
+		Log("table was nil", true, false)
+		return 0 
+	end
+	if type(Table) ~= "table" then 
+		Log("table type was not table", true, false)
+		return 0 
+	end
+
+	for i,j in pairs(Table) do
+		Count = Count + 1
+	end
+
+	return Count
 end
 
 -- Setup --

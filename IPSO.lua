@@ -93,6 +93,33 @@ function Generate_object(Object, Instance, Resource, Value)
     return Smart_object
 end
 
+function Retrieve_value(Smart_objects, object, instance, resource)
+    local n = 0
+
+    for n = 1, #Smart_objects, 1 do
+        local Object = Smart_objects[n]
+        local Object_match = (Object.Object == object)
+        local Instance_match = (Object.Instance == instance)
+        local Resource_match = (Object.Resource == resource)
+
+        Brave.Log("retrieve value form object", true, false)
+        Brave.Log(textutils.serialise(Object), true, false)
+        Brave.Log(tostring(Object_match), true, false)
+        Brave.Log(object, true, false)
+        Brave.Log(Object.Instance, true, false)
+        Brave.Log(type(Object.Instance), true, false)
+        Brave.Log(tostring(Instance_match), true, false)
+        Brave.Log(instance, true, false)
+        Brave.Log(tostring(Resource_match), true, false)
+        Brave.Log(resource, true, false)
+        
+
+        if Object_match == true and Instance_match == true and Resource_match == true then
+            return Object.Value
+        end
+    end
+end
+
 function Debug_log_smart_object(Smart_object)
     term.clear()
     term.setCursorPos(1,1)

@@ -1,5 +1,5 @@
 local Console_tab = multishell.getCurrent()
-local Tab = multishell.launch({}, "pocket.lua")
+local Tab = 0
 
 multishell.setTitle(Tab, "Home")
 multishell.setTitle(Console_tab, "Con")
@@ -12,7 +12,7 @@ local Console_tab = multishell.getCurrent()
 local Pc_label = os.getComputerLabel()
 
 if pocket then
-	local Tab = multishell.launch({}, "pocket.lua")
+	Tab = multishell.launch({}, "pocket.lua", {"true"})
 	
 	multishell.setTitle(Tab, "Home")
 	multishell.setTitle(Console_tab, "Con")
@@ -21,10 +21,10 @@ if pocket then
 else
 	Brave.Modem.open(1)
 
-	local Tab = multishell.launch({}, "run_ipso.lua")
+	Tab = multishell.launch({}, "run_ipso.lua", {"false"})
 	multishell.setTitle(Tab, "Ipso")
 
-	if Pc_label == "arch:Small_boiler" then
+	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" then
 		local Interface = peripheral.wrap("bottom")
 
 		while true do

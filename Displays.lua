@@ -58,11 +58,6 @@ Displays = {
                 ""
             },
             ["Options"] = {
-                [1] = {
-                    ["Name"] = "Small boiler",
-                    ["Discoverable"] = false
-                }
-                
             }
         }
     }

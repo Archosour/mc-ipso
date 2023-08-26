@@ -4,6 +4,8 @@ os.loadAPI("IPSO.lua")
 Brave.Modem.open(1)
 Brave.Log_clear()
 
+local Params = {...}
+
 function Run_ipso(Message)
   local Smart_objects = Message.Data
 
@@ -33,7 +35,7 @@ while true do
     Input_message = textutils.unserialize(Input[5])
     Brave.Log(textutils.serialize(Input_message), true) 
 
-    if Input_message.Package_type == Brave.Package_types.Broadcast then
+    if Input_message.Package_type == Brave.Package_types.Broadcast and Params[1] == true then
       Run_ipso(Input_message)
     end
 
