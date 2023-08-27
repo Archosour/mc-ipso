@@ -30,12 +30,41 @@ Displays = {
                 [1] = {
                     ["Name"] = "Energy",
                     ["Discoverable"] = true
+                },
+                [2] = {
+                    ["Name"] = "Fluid",
+                    ["Discoverable"] = true
                 }
             }
         },
         
-
         ["Energy"] = {
+            ["Background"] = {
+                "---------------------O----",
+                "Alerts:              |Home",
+                "---------------------O----",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "                          ",
+                "-------- Messages --------",
+                "",
+                "",
+                ""
+            },
+            ["Options"] = {
+            }
+        },
+
+        ["Fluid"] = {
             ["Background"] = {
                 "---------------------O----",
                 "Alerts:              |Home",
@@ -90,12 +119,9 @@ function Print_display(Display)
             term.write(Option_line)
         end
 
-
-
     else
         term.clear()
         term.setCursorPos(1,1)
         term.write("Device type not supported")
     end
-
 end

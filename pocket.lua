@@ -11,6 +11,7 @@ local Scroll_offset = 0
 
 local Recieved_messages = {{},{},{}}
 local Recieved_energy_messages = {[2] = {}, [3] = {}}
+local Recieved_fluid_messages = {[5] = {}}
 
 -- Moves all revieved messages one position in the Table
 -- Newest iteration (1) will get the input message insterted
@@ -31,6 +32,11 @@ function Update_message_table(Input_message)
     --Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false) 
     if Recieved_energy_messages[Device_id] ~= nil then
         Recieved_energy_messages[Device_id] = Input_message
+        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+    end
+
+    if Recieved_fluid_messages[Device_id] ~= nil then
+        Recieved_fluid_messages[Device_id] = Input_message
         --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
     end
 
@@ -111,8 +117,29 @@ function Handle_display(Window)
             end
         end
 
-    end
+    elseif Window == "Fluid" then
+        local n = 0
+        for id, Message in pairs(Recieved_fluid_messages) do
+            local Smart_objects = Message.Data
+            if Message.Device_name ~= nil then
+                local Name = string.match(Message.Device_name, ":(.*)")
+                for key, value in pairs(Constants.Fluid_type) do
 
+                    local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Volume, value, IPSO.Resource_list.Set_percentage_value)
+
+                    if Value ~= nil then
+
+                        local Line = string.format("%s :%s:%s", Name, key, Value)
+                        --Brave.Log(Line, true, false)
+
+                        term.setCursorPos(1, n + 4)
+                        term.write(Line)
+                        n = n + 1
+                    end
+                end
+            end
+        end
+    end
 end
 
 function Go_Home()
