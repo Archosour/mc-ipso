@@ -113,7 +113,6 @@ function Retrieve_value(Smart_objects, object, instance, resource)
         --Brave.Log(tostring(Resource_match), true, false)
         --Brave.Log(resource, true, false)
         
-
         if Object_match == true and Instance_match == true and Resource_match == true then
             return Object.Value
         end
@@ -139,23 +138,26 @@ Object_list = {
     ["Kinetic_capacity"]  = 4,
     ["Kinetic_speed"]     = 5,
     ["Kinetic_direction"] = 6,
-    ["Kinetic_stress"]    = 7
+    ["Kinetic_stress"]    = 7,
+    ["Volume"]            = 8
 }
 
 Resource_list = {
-    ["Set_Output_level"] = 1,
-    ["Get_Output_level"] = 2,
-    ["Set_SW_version"]   = 3,
-    ["Get_SW_version"]   = 4,
-    ["Set_sleep"]        = 5,
-    ["Get_sleep"]        = 6,
-    ["Set_delete"]       = 7,
-    ["Set_reboot"]       = 9,
-    ["Set_shutdown"]     = 11,
-    ["Set_max_value"]    = 13,
-    ["Get_max_value"]    = 14,
-    ["Set_min_value"]    = 15,
-    ["Get_min_value"]    = 16,
-    ["Set_value"]        = 17,
-    ["Get_value"]        = 18
+    ["Set_Output_level"]    = 1,
+    ["Get_Output_level"]    = 2,
+    ["Set_SW_version"]      = 3,
+    ["Get_SW_version"]      = 4,
+    ["Set_sleep"]           = 5,
+    ["Get_sleep"]           = 6,
+    ["Set_delete"]          = 7,
+    ["Set_reboot"]          = 9,
+    ["Set_shutdown"]        = 11,
+    ["Set_max_value"]       = 13,
+    ["Get_max_value"]       = 14,
+    ["Set_min_value"]       = 15,
+    ["Get_min_value"]       = 16,
+    ["Set_value"]           = 17,
+    ["Get_value"]           = 18,
+    ["Set_percentage_value"] = 19,
+    ["Set_percentage_value"] = 20
 }
