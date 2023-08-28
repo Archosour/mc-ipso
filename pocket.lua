@@ -10,7 +10,7 @@ local New_display = ""
 local Scroll_offset = 0
 
 local Recieved_messages = {{},{},{}}
-local Recieved_energy_messages = {[2] = {}, [3] = {}}
+local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}}
 local Recieved_fluid_messages = {[5] = {}}
 
 -- Moves all revieved messages one position in the Table
@@ -27,16 +27,19 @@ function Update_message_table(Input_message)
         end
     end
 
+    Brave.Log("object recieved from device: " .. Device_id, true, false) 
+
     --Brave.Log("Potential energy message", true, false)
     --Brave.Log(textutils.serialise(Input_message), true, false) 
     --Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false) 
     if Recieved_energy_messages[Device_id] ~= nil then
         Recieved_energy_messages[Device_id] = Input_message
-        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+        Brave.Log("added object to energy for device: " .. Device_id, true, false) 
     end
 
     if Recieved_fluid_messages[Device_id] ~= nil then
         Recieved_fluid_messages[Device_id] = Input_message
+        Brave.Log("added object to fluid for device: " .. Device_id, true, false) 
         --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
     end
 

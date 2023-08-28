@@ -45,7 +45,7 @@ else
 	Tab = multishell.launch({}, "run_ipso.lua", {"false"})
 	multishell.setTitle(Tab, "Ipso")
 
-	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" then
+	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" or Pc_label == "arch:Boiler_prod1" then
 		local Update_timer = os.startTimer(1)
 		local Last_timer = 0
 		local Count = 0
