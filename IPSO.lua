@@ -117,6 +117,9 @@ function Retrieve_value(Smart_objects, object, instance, resource)
             return Object.Value
         end
     end
+
+    Brave.Log("Smart object not found in message. Retrieve Value function in Brave", true, false)
+    return "nil"
 end
 
 function Debug_log_smart_object(Smart_object)

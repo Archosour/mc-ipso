@@ -8,6 +8,7 @@ Brave.Log_clear()
 local Current_display = "Home"
 local New_display = ""
 local Scroll_offset = 0
+local System_pause = false
 
 local Recieved_messages = {{},{},{}}
 local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}}
@@ -45,32 +46,37 @@ function Update_message_table(Input_message)
 
 end
 
+function Generate_message_log(n)
+    local Message = Recieved_messages[n]
+    local Log = "nil"
+
+    if Message == nil      then return Log end
+    if Message.Data == nil then return Log end
+    --Brave.Log("new scroll", true, false)
+    --Brave.Log(type(textutils.serialize(Message)), true, false) 
+
+    local Day          = Message.Server_day
+    local Time         = Brave.Round_decimal(Message.Server_time)
+    local Package_type = Message.Package_type
+    local Targets      = Message.Targets
+    local Sender       = Message.Device_id
+    local Value        = Message.Data[1].Value
+
+    if Targets[1] == nil then Targets[1] = "BC" end
+
+    if Value ~= nil then
+        Log = Day .. ":" .. Time .. ":" .. Sender .. ":" .. Targets[1] .. ":" .. Value
+    end
+
+    return Log
+
+end
+
 function Write_message_log()
     local n = 0
 
     for n = 1, #Recieved_messages, 1 do
-        local Message = Recieved_messages[n]
-        local Log = ""
-
-        if Message ~= nil and Message.Data ~= nil then
-            --Brave.Log("new scroll", true, false)
-            --Brave.Log(type(textutils.serialize(Message)), true, false) 
-
-            local Day          = Message.Server_day
-            local Time         = Brave.Round_decimal(Message.Server_time)
-            local Package_type = Message.Package_type
-            local Targets      = Message.Targets
-            local Sender       = Message.Device_id
-            local Value        = Message.Data[1].Value
-
-            if Targets[1] == nil then Targets[1] = "BC" end
-
-            if Value ~= nil then
-                Log = Day .. ":" .. Time .. ":" .. Sender .. ":" .. Targets[1] .. ":" .. Value
-            end
-
-        end
-        
+        local Log = Generate_message_log(n)
         term.setCursorPos(1,16 + n)
         term.write(Log)
     end
@@ -158,46 +164,60 @@ while true do
     Input = {os.pullEvent()}
     Brave.Log(textutils.serialize(Input), true, false)
 
-    if Input[1] == "modem_message" then
-
-        -- Recieved data is stored in field 5
-        Input_message = textutils.unserialize(Input[5])
-
-        -- can do used to debug incomming messages in Log file
-        --Brave.Log("new message", true, false)
-        --Brave.Log(textutils.serialize(Input_message), true, false) 
-
-        Update_message_table(Input_message)
-
-    elseif Input[1] == "mouse_click" then
-        local X = Input[3]
-        local Y = Input[4]
-
-        if Y == 2 and X > 22 then 
-            Go_Home() 
-        end
-    
-        if Y >= 4 and Y <= 15 then
-            local Option_selection = Y - 3 + Scroll_offset
-            local Selected_option = Displays.Displays.Pocket[Current_display].Options[Option_selection]
-
-            if Selected_option ~= nil and Selected_option.Discoverable == true then
-                New_display = Displays.Displays.Pocket[Current_display].Options[Option_selection].Name
-            else
-                New_display = Current_display
-            end
-            
-            Brave.Log("new display; " .. New_display, true, false)
-
+    if Input[1] == "key" then
+        if Input[2] == Constants.Keyboard_keys.Pause_break then
+            System_pause = !System_pause
         end
 
-        Current_display = New_display
-
+        if Input[2] == Constants.Keyboard_keys.Home then
+            Go_Home()
+        end
     end
 
-    Handle_display(Current_display)
+    -- if system is not paused, then react on events.
+    -- if system is paused, then all events are ignored.
+    if System_pause ~= true then
 
-    Write_message_log()
-    term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
-    term.write("update: " .. os.time())
+        if Input[1] == "modem_message" then
+
+            -- Recieved data is stored in field 5
+            Input_message = textutils.unserialize(Input[5])
+
+            -- can do used to debug incomming messages in Log file
+            --Brave.Log("new message", true, false)
+            --Brave.Log(textutils.serialize(Input_message), true, false) 
+
+            Update_message_table(Input_message)
+
+        elseif Input[1] == "mouse_click" then
+            local X = Input[3]
+            local Y = Input[4]
+
+            if Y == 2 and X > 22 then 
+                Go_Home() 
+            end
+        
+            if Y >= 4 and Y <= 15 then
+                local Option_selection = Y - 3 + Scroll_offset
+                local Selected_option = Displays.Displays.Pocket[Current_display].Options[Option_selection]
+
+                if Selected_option ~= nil and Selected_option.Discoverable == true then
+                    New_display = Displays.Displays.Pocket[Current_display].Options[Option_selection].Name
+                else
+                    New_display = Current_display
+                end
+                
+                Brave.Log("new display; " .. New_display, true, false)
+
+            end
+
+            Current_display = New_display
+        end
+
+        Handle_display(Current_display)
+
+        Write_message_log()
+        term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
+        term.write("update: " .. os.time())
+    end
 end
