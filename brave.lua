@@ -1,5 +1,14 @@
 os.loadAPI("Constants.lua")
 
+-- Can be used to overrule input for logging to a log file.
+-- Due to the large number of posible logs it is not reasonable
+-- to disable all of them at time of release.
+-- When set to nil there is no overrule, function input will 
+-- be used as normal. Log files take up a lot of space.
+-- If set to true, then all log action will be written to log file
+-- if set to false, then nothing will be written to log file.
+local Overrule_log_to_file = nil
+
 -- find the modem on any of the sides. input info needs to be boolean. 
 -- will return side and bool if its wireless or not.
 function Find_modem()
@@ -43,9 +52,9 @@ end
 function Generate_package(info, package_type, targets)
 	local package = {}
 
-	package["Version"] = 2 					    	-- protocal version
-	package["Package_type"] = package_type
-	package["Targets"] = targets
+	package["Version"] = 2 					    	-- protocol version
+	package["Package_type"] = package_type			-- Broadcast, targeted as examples
+	package["Targets"] = targets					-- table with target IDs
 	package["Server_day"] = os.day() 				-- ingame day	
 	package["Server_time"] = os.time() 				-- ingame time	
 	package["Device_id"] = os.getComputerID() 		-- computer ID
@@ -54,7 +63,7 @@ function Generate_package(info, package_type, targets)
 	package["Location_x"] = 0 						-- x-coordinate from GPS
 	package["Location_y"] = 0 						-- y-coordinate from GPS
 	package["Location_z"] = 0 						-- z-coordiante from GPS
-	package["Data"] = info 							-- data
+	package["Data"] = info 							-- data, as table of smart objects
 
 	-- importing given info into the message to send
 	-- given info must be in a table
@@ -70,6 +79,8 @@ function Log(Value, To_file, To_screen)
 	if type(Value) ~= "string" and type(Value) ~= "number" then Value = "Brave: Invalid Value recieved!" end
 	if To_file == nil then To_file = true end
 	if To_screen == nil then To_screen = false end
+
+	if Overrule_log_to_file ~= nil then To_file = Overrule_log_to_file end
 
 	if To_screen == true then
 		term.clear()
