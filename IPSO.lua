@@ -70,6 +70,13 @@ function Execute_restone(Instance, Resource, Value)
         local Level = redstone.getAnalogInput(Side)
         return Level
 
+    elseif Resource == Resource_list.Set_Toggle_output_level then
+        local Side = Constants.Block_sides[Instance]
+        local Current_level = redstone.getOutput(Side)
+        local New_level = not Current_level
+
+        redstone.setOutput(Side, New_level)
+        return nil
     end
 
     return nil
@@ -162,5 +169,7 @@ Resource_list = {
     ["Set_value"]           = 17,
     ["Get_value"]           = 18,
     ["Set_percentage_value"] = 19,
-    ["Set_percentage_value"] = 20
+    ["Set_percentage_value"] = 20,
+    ["Set_Toggle_output_level"] = 21,
+    ["Get_Toggle_output_level"] = 22
 }

@@ -89,5 +89,16 @@ else
 
 			sleep(10)
 		end
+
+	elseif Pc_label == "yk2" or Pc_label == "yk3" or Pc_label == "yk4" then
+		while true do
+			local Input = {os.pullEvent("redstone")}
+			local object2 = IPSO.Generate_object(IPSO.Object_list.Redstone, Constants.Block_side.right, IPSO.Resource_list.Set_Toggle_output_level, 0)
+			local object3 = IPSO.Generate_object(IPSO.Object_list.Device,0, IPSO.Resource_list.Set_sleep, 5.5)
+			local Package = Brave.Generate_package({object2, object3}, Brave.Package_types.Targeted, {7})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+			sleep(3)
+		end
 	end
 end
