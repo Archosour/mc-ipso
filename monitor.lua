@@ -59,17 +59,18 @@ function Generate_message_log(n)
     --Brave.Log("new scroll", true, false)
     --Brave.Log(type(textutils.serialize(Message)), true, false) 
 
-    local Day          = Message.Server_day
-    local Time         = Brave.Round_decimal(Message.Server_time)
-    local Package_type = Message.Package_type
-    local Targets      = Message.Targets
-    local Sender       = Message.Device_id
-    local Value        = Message.Data[1].Value
+    local Day            = Message.Server_day
+    local Time           = Brave.Round_decimal(Message.Server_time)
+    local Package_type   = Message.Package_type
+    local Targets        = Message.Targets
+    local Sender         = Message.Device_id
+    local Value          = Message.Data[1].Value
+    local Num_of_objects = #Message.Data
 
     if Targets[1] == nil then Targets[1] = "BC" end
 
     if Value ~= nil then
-        Log = Day .. ":" .. Time .. ":" .. Sender .. ":" .. Targets[1] .. ":" .. Value
+        Log = Day .. ":" .. Time .. ":" .. Sender .. ":" .. Targets[1] .. ":" .. Num_of_objects .. ":" .. Value
     end
 
     return Log
@@ -79,8 +80,9 @@ function Write_message_log()
     local n = 0
 
     for n = 1, #Recieved_messages, 1 do
+        if n >= 9 then return end
         local Log = Generate_message_log(n)
-        Monitor.setCursorPos(1,16 + n)
+        Monitor.setCursorPos(1,23 + n)
         Monitor.write(Log)
     end
 end
@@ -191,12 +193,36 @@ while true do
             --Brave.Log(textutils.serialize(Input_message), true, false) 
 
             Update_message_table(Input_message)
+
+        elseif Input[1] == "mouse_click" then
+            local X = Input[3]
+            local Y = Input[4]
+
+            if Y == 2 and X > 47 then 
+                Go_Home() 
+            end
+        
+            if Y >= 4 and Y <= 15 then
+                local Option_selection = Y - 3 + Scroll_offset
+                local Selected_option = Displays.Displays.Pocket[Current_display].Options[Option_selection]
+
+                if Selected_option ~= nil and Selected_option.Discoverable == true then
+                    New_display = Displays.Displays.Pocket[Current_display].Options[Option_selection].Name
+                else
+                    New_display = Current_display
+                end
+                
+                Brave.Log("new display; " .. New_display, true, false)
+
+            end
+
+            Current_display = New_display
         end
 
         Handle_display(Current_display)
 
         Write_message_log()
-        term.setCursorPos(Displays.Neutral_pos.Pocket.x, Displays.Neutral_pos.Pocket.y)
+        term.setCursorPos(Displays.Neutral_pos.Advanced_computer.x, Displays.Neutral_pos.Advanced_computer.y)
         term.write("update: " .. os.time())
     end
 end
