@@ -1,3 +1,5 @@
+local Pc_label = os.getComputerLabel()
+
 Neutral_pos = {
     ["Pocket"] = {["x"] = 1, ["y"] = 15}
 }
@@ -92,7 +94,7 @@ Displays = {
     }
 }
 
-function Print_display(Display)
+function Print_display(Display, Peripheral)
 
     Brave.Log("Display type; " .. type(Display), true, false)
     Brave.Log("Display     ; " .. Display, true, false)
@@ -117,6 +119,28 @@ function Print_display(Display)
             local Option_line = Display_options[Line].Name
             term.setCursorPos(1, Line + 3)
             term.write(Option_line)
+        end
+
+    elseif Pc_label == "arch:monitor_0" then
+        local Display_background = Displays.Pocket[Display].Background
+        local Display_options = Displays.Pocket[Display].Options
+        local Line = 0
+
+        Peripheral.clear()
+
+        for Line = 1, #Display_background, 1 do
+            local Display_line = Display_background[Line]
+            Peripheral.setCursorPos(1, Line)
+            Peripheral.write(Display_line)
+        end
+
+        if #Display_options == 0 or Display_options == nil then return end
+
+        Line = 0
+        for Line = 1, #Display_options, 1 do
+            local Option_line = Display_options[Line].Name
+            Peripheral.setCursorPos(1, Line + 3)
+            Peripheral.write(Option_line)
         end
 
     else

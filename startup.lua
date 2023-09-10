@@ -100,5 +100,13 @@ else
 			Brave.Modem.transmit(1,1,Package)
 			sleep(3)
 		end
+
+	elseif Pc_label == "arch:monitor_0" then
+		Tab = multishell.launch({}, "monitor.lua", {"true"})
+	
+		multishell.setTitle(Tab, "Home")
+		multishell.setTitle(Console_tab, "Con")
+		multishell.setFocus(Tab)
 	end
+	
 end

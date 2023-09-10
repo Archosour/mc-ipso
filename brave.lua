@@ -7,10 +7,10 @@ os.loadAPI("Constants.lua")
 -- be used as normal. Log files take up a lot of space.
 -- If set to true, then all log action will be written to log file
 -- if set to false, then nothing will be written to log file.
-local Overrule_log_to_file = nil
+local Overrule_log_to_file = false
 
--- find the modem on any of the sides. input info needs to be boolean. 
--- will return side and bool if its wireless or not.
+-- find the modem on any of the sides.
+-- will return side if its wireless.
 function Find_modem()
 	local sides = Constants.Block_sides
 	local n = 0
@@ -18,6 +18,23 @@ function Find_modem()
 		if peripheral.getType(sides[n]) == "modem" then
 			modem = peripheral.wrap(sides[n])
 			if modem.isWireless() == true then
+				return sides[n]
+			end
+			return nil
+		end
+	end
+	return 
+end
+
+-- find the monitor on any of the sides.
+-- will return side if its of type Color.
+function Find_monitor()
+	local sides = Constants.Block_sides
+	local n = 0
+	for n = 1, #sides, 1 do
+		if peripheral.getType(sides[n]) == "monitor" then
+			modem = peripheral.wrap(sides[n])
+			if modem.isColor() == true then
 				return sides[n]
 			end
 			return nil

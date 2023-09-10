@@ -21,3 +21,6 @@ shell.run("pastebin get 10EEUcwz startup")
 
 shell.run("rm Pocket.lua")
 shell.run("pastebin get fnebXBYN Pocket.lua")
+
+shell.run("rm Monitor.lua")
+shell.run("pastebin get dVy6SzYK Monitor.lua")
