@@ -80,7 +80,7 @@ function Write_message_log()
     local n = 0
 
     for n = 1, #Recieved_messages, 1 do
-        if n >= 9 then return end
+        if n >= 11 then return end
         local Log = Generate_message_log(n)
         Monitor.setCursorPos(1,23 + n)
         Monitor.write(Log)
@@ -97,10 +97,7 @@ function Handle_display(Window)
     if Window == "Energy" then
         local n = 0
         local Number_of_messages = Brave.Get_table_length(Recieved_energy_messages)
-        --Brave.Log("Energy windows found", true, false) 
-        --Brave.Log(Number_of_messages, true, false) 
-        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
-
+ 
         for id, Message in pairs(Recieved_energy_messages) do
             --local Message = Recieved_energy_messages[n]
             local Smart_objects = Message.Data
@@ -112,19 +109,9 @@ function Handle_display(Window)
                 local Capacity  = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_capacity , 0, IPSO.Resource_list.Set_value)
                 local Percent   = Brave.Get_percentage(Stress, Capacity)
 
-                --Brave.Log("Energy display handle", true, false)
-                --Brave.Log(type(textutils.serialize(Message)), true, false) 
-                --Brave.Log(Name, true, false)
-                --Brave.Log(Stress, true, false)
-                --Brave.Log(Speed, true, false)
-                --Brave.Log(Direction, true, false)
-                --Brave.Log(Capacity, true, false)
-                --Brave.Log(Percent, true, false)
+                local Line = string.format("%-16s :%-9d:%-10d:%-5s:%-4d", Name, Stress, Capacity, Percent, Speed)
 
-                local Line = string.format("%s :%d:%d:%s", Name, Stress, Speed, Percent)
-                --Brave.Log(Line, true, false)
-
-                Monitor.setCursorPos(1, n + 4)
+                Monitor.setCursorPos(1, n + 8)
                 Monitor.write(Line)
 
                 n = n + 1
@@ -143,10 +130,10 @@ function Handle_display(Window)
 
                     if Value ~= nil then
 
-                        local Line = string.format("%s :%s:%s", Name, key, Value)
+                        local Line = string.format("%-18s :%-20s:%s", Name, key, Value)
                         --Brave.Log(Line, true, false)
 
-                        Monitor.setCursorPos(1, n + 4)
+                        Monitor.setCursorPos(1, n + 8)
                         Monitor.write(Line)
                         n = n + 1
                     end

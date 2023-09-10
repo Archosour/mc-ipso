@@ -1,3 +1,5 @@
+local Input = {...}
+
 shell.run("rm Brave.lua")
 shell.run("pastebin get mrfng4xW Brave.lua")
  
@@ -24,3 +26,6 @@ shell.run("pastebin get fnebXBYN Pocket.lua")
 
 shell.run("rm Monitor.lua")
 shell.run("pastebin get dVy6SzYK Monitor.lua")
+
+if Input[1] == "true" then shell.run("rm Eeprom") end
+shell.run("mkdir Eeprom")
