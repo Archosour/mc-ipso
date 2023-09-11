@@ -12,7 +12,7 @@ local System_pause = false
 
 local Recieved_messages = {{},{},{}}
 local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}}
-local Recieved_fluid_messages = {[5] = {}}
+local Recieved_fluid_messages = {[5] = {}, [16] = {}, [17] = {}}
 
 -- Moves all revieved messages one position in the Table
 -- Newest iteration (1) will get the input message insterted
@@ -31,17 +31,17 @@ function Update_message_table(Input_message)
     Brave.Log("object recieved from device: " .. Device_id, true, false) 
 
     --Brave.Log("Potential energy message", true, false)
-    --Brave.Log(textutils.serialise(Input_message), true, false) 
-    --Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false) 
+    --Brave.Log(textutils.serialise(Input_message), true, false)
+    --Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false)
     if Recieved_energy_messages[Device_id] ~= nil then
         Recieved_energy_messages[Device_id] = Input_message
-        Brave.Log("added object to energy for device: " .. Device_id, true, false) 
+        Brave.Log("added object to energy for device: " .. Device_id, true, false)
     end
 
     if Recieved_fluid_messages[Device_id] ~= nil then
         Recieved_fluid_messages[Device_id] = Input_message
-        Brave.Log("added object to fluid for device: " .. Device_id, true, false) 
-        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
+        Brave.Log("added object to fluid for device: " .. Device_id, true, false)
+        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false)
     end
 
 end
@@ -117,7 +117,7 @@ function Handle_display(Window)
                 --Brave.Log(Capacity, true, false)
                 --Brave.Log(Percent, true, false)
 
-                local Line = string.format("%s :%d:%d:%s", Name, Stress, Speed, Percent)
+                local Line = string.format("%s:%d:%d:%s", Name, Stress, Speed, Percent)
                 --Brave.Log(Line, true, false)
 
                 term.setCursorPos(1, n + 4)
@@ -133,20 +133,14 @@ function Handle_display(Window)
             local Smart_objects = Message.Data
             if Message.Device_name ~= nil then
                 local Name = string.match(Message.Device_name, ":(.*)")
-                for key, value in pairs(Constants.Fluid_type) do
+                local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Volume, -1, IPSO.Resource_list.Set_percentage_value)
+                local Fluid_type = Constants.Fluid_types[Smart_objects[1].Instance]
 
-                    local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Volume, value, IPSO.Resource_list.Set_percentage_value)
+                local Line = string.format("%s:%s:%s", Name, Fluid_type, Value)
 
-                    if Value ~= nil then
-
-                        local Line = string.format("%s :%s:%s", Name, key, Value)
-                        --Brave.Log(Line, true, false)
-
-                        term.setCursorPos(1, n + 4)
-                        term.write(Line)
-                        n = n + 1
-                    end
-                end
+                term.setCursorPos(1, n + 4)
+                term.write(Line)
+                n = n + 1
             end
         end
     end

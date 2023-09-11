@@ -72,18 +72,45 @@ else
 			end
 		end
 
-	elseif Pc_label == "arch:fluid_tank_1" then
+	elseif Pc_label == "arch:boiler_1_fuel" then
 		while true do
 			local Max_value = 15
 			local Input_lava  = redstone.getAnalogInput("left")
 			local Value_lava  = tostring(math.floor((Input_lava / Max_value) * 100)) .. "%"
-			local Input_water = redstone.getAnalogInput("right")
+
+			local Lava_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava,  IPSO.Resource_list.Set_percentage_value, Value_lava)
+		
+			local Package = Brave.Generate_package({Lava_object}, Brave.Package_types.Broadcast, {})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+
+			sleep(10)
+		end
+	
+	elseif Pc_label == "arch:boiler_1_cool" then
+		while true do
+			local Max_value = 15
+			local Input_water = redstone.getAnalogInput("left")
 			local Value_water = tostring(math.floor((Input_water / Max_value) * 100)) .. "%"
 		
 			local Water_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.water, IPSO.Resource_list.Set_percentage_value, Value_water)
-			local Lava_object  = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava,  IPSO.Resource_list.Set_percentage_value, Value_lava)
 		
-			local Package = Brave.Generate_package({Water_object, Lava_object}, Brave.Package_types.Broadcast, {})
+			local Package = Brave.Generate_package({Water_object}, Brave.Package_types.Broadcast, {})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+
+			sleep(10)
+		end
+
+	elseif Pc_label == "arch:spare_tank" then
+		while true do
+			local Max_value = 15
+			local Input_water = redstone.getAnalogInput("left")
+			local Value_water = tostring(math.floor((Input_water / Max_value) * 100)) .. "%"
+		
+			local EXP_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.EXP, IPSO.Resource_list.Set_percentage_value, Value_water)
+		
+			local Package = Brave.Generate_package({EXP_object}, Brave.Package_types.Broadcast, {})
 			Brave.Log(textutils.serialise(Package), true)
 			Brave.Modem.transmit(1,1,Package)
 

@@ -125,6 +125,17 @@ function Retrieve_value(Smart_objects, object, instance, resource)
         end
     end
 
+    -- if instance is not important, insert -1 as instance. 
+    -- it will only search the first object
+    if instance == -1 then
+        local Object = Smart_objects[1]
+        local Object_match = (Object.Object == object)
+        local Resource_match = (Object.Resource == resource)
+        if Object_match == true and Resource_match == true then
+            return Object.Value
+        end
+    end
+
     Brave.Log("Smart object not found in message. Retrieve Value function in Brave", true, false)
     return "nil"
 end
