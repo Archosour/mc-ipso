@@ -43,6 +43,49 @@ function Find_monitor()
 	return 
 end
 
+-- find the chest on any of the sides.
+-- will return side if its found.
+function Find_chest()
+	local sides = Constants.Block_sides
+	local n = 0
+	for n = 1, #sides, 1 do
+		if peripheral.getType(sides[n]) == "quark:variant_chest" then
+			return sides[n]
+		end
+	end
+	return 
+end
+
+function Get_chest_inventory(Peripheral, Only_first_item)
+	local Size = Peripheral.size()
+	local Slot = 0
+	local Total = 0
+	local Max = 0
+	local Info = {
+		["Size"] = Size,
+		["Max_count"] = 0,
+		["Count"] = 0,
+		["Slot_info"] = {},
+		["Filled_percentage"] = ""
+	}
+
+	for Slot = 1, Size, 1 do
+		local Slot_detail = Peripheral.getItemDetail(Slot)
+		if Slot_detail ~= nil then
+			Info[Slot] = Slot_detail
+			Info.Max_count 		   = Info.Max_count + Slot_detail.maxCount
+			Info.Count 	   		   = Info.Count     + Slot_detail.count
+			Info.Filled_percentage = tostring(math.floor((Info.Count / Info.Max_count) * 100)) .. "%"
+		end
+
+		if Only_first_item == true and Slot == 1 then
+			return Info
+		end
+	end
+
+	return Info
+end
+
 -- returns type of device, think of normal/advanced and turtle/computer/pocket as well.
 function Get_device_type()
 	if term.isColor() then

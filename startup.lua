@@ -45,7 +45,7 @@ else
 	Tab = multishell.launch({}, "run_ipso.lua", {"false"})
 	multishell.setTitle(Tab, "Ipso")
 
-	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" or Pc_label == "arch:Boiler_prod1" then
+	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" or Pc_label == "arch:Boiler_prod1" or Pc_label == "arch:ore_processing" then
 		local Update_timer = os.startTimer(1)
 		local Last_timer = 0
 		local Count = 0
@@ -123,9 +123,9 @@ else
 			local Input_water = redstone.getAnalogInput("left")
 			local Value_water = tostring(math.floor((Input_water / Max_value) * 100)) .. "%"
 		
-			local EXP_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava, IPSO.Resource_list.Set_percentage_value, Value_water)
+			local Lava_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava, IPSO.Resource_list.Set_percentage_value, Value_water)
 		
-			local Package = Brave.Generate_package({EXP_object}, Brave.Package_types.Broadcast, {})
+			local Package = Brave.Generate_package({Lava_object}, Brave.Package_types.Broadcast, {})
 			Brave.Log(textutils.serialise(Package), true)
 			Brave.Modem.transmit(1,1,Package)
 
@@ -149,6 +149,15 @@ else
 		multishell.setTitle(Tab, "Home")
 		multishell.setTitle(Console_tab, "Con")
 		multishell.setFocus(Tab)
+
+	elseif Pc_label == "arch:test-2" then
+		local Chest_side = Brave.Find_chest()
+		local Chest = peripheral.wrap(Chest_side)
+		while true do
+			local Info = Brave.Get_chest_inventory(Chest)
+			Brave.Log(textutils.serialize(Info), true)
+			sleep(10)
+		end
 	end
 	
 end

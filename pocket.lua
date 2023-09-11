@@ -11,7 +11,7 @@ local Scroll_offset = 0
 local System_pause = false
 
 local Recieved_messages = {{},{},{}}
-local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}}
+local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}, [20] = {}}
 local Recieved_fluid_messages = {[5] = {}, [16] = {}, [17] = {}, [18] = {}, [19] = {}}
 
 -- Moves all revieved messages one position in the Table
@@ -30,9 +30,6 @@ function Update_message_table(Input_message)
 
     Brave.Log("object recieved from device: " .. Device_id, true, false) 
 
-    --Brave.Log("Potential energy message", true, false)
-    --Brave.Log(textutils.serialise(Input_message), true, false)
-    --Brave.Log(tostring(Recieved_energy_messages[Device_id] ~= nil), true, false)
     if Recieved_energy_messages[Device_id] ~= nil then
         Recieved_energy_messages[Device_id] = Input_message
         Brave.Log("added object to energy for device: " .. Device_id, true, false)
@@ -41,7 +38,6 @@ function Update_message_table(Input_message)
     if Recieved_fluid_messages[Device_id] ~= nil then
         Recieved_fluid_messages[Device_id] = Input_message
         Brave.Log("added object to fluid for device: " .. Device_id, true, false)
-        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false)
     end
 
 end
@@ -52,8 +48,6 @@ function Generate_message_log(n)
 
     if Message == nil      then return Log end
     if Message.Data == nil then return Log end
-    --Brave.Log("new scroll", true, false)
-    --Brave.Log(type(textutils.serialize(Message)), true, false) 
 
     local Day          = Message.Server_day
     local Time         = Brave.Round_decimal(Message.Server_time)
@@ -86,19 +80,11 @@ end
 function Handle_display(Window)
     Displays.Print_display(Window)
 
-    --Brave.Log("Display handle", true, false)
-    --Brave.Log(Window, true, false) 
-    --Brave.Log(tostring(Window == "Energy"), true, false) 
-
     if Window == "Energy" then
         local n = 0
         local Number_of_messages = Brave.Get_table_length(Recieved_energy_messages)
-        --Brave.Log("Energy windows found", true, false) 
-        --Brave.Log(Number_of_messages, true, false) 
-        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false) 
 
         for id, Message in pairs(Recieved_energy_messages) do
-            --local Message = Recieved_energy_messages[n]
             local Smart_objects = Message.Data
             if Message.Device_name ~= nil then
                 local Name = string.match(Message.Device_name, ":(.*)")
@@ -108,17 +94,7 @@ function Handle_display(Window)
                 local Capacity  = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Kinetic_capacity , 0, IPSO.Resource_list.Set_value)
                 local Percent   = Brave.Get_percentage(Stress, Capacity)
 
-                --Brave.Log("Energy display handle", true, false)
-                --Brave.Log(type(textutils.serialize(Message)), true, false) 
-                --Brave.Log(Name, true, false)
-                --Brave.Log(Stress, true, false)
-                --Brave.Log(Speed, true, false)
-                --Brave.Log(Direction, true, false)
-                --Brave.Log(Capacity, true, false)
-                --Brave.Log(Percent, true, false)
-
                 local Line = string.format("%s:%d:%d:%s", Name, Stress, Speed, Percent)
-                --Brave.Log(Line, true, false)
 
                 term.setCursorPos(1, n + 4)
                 term.write(Line)
@@ -178,9 +154,7 @@ while true do
             -- Recieved data is stored in field 5
             Input_message = textutils.unserialize(Input[5])
 
-            -- can do used to debug incomming messages in Log file
-            --Brave.Log("new message", true, false)
-            --Brave.Log(textutils.serialize(Input_message), true, false) 
+            -- can do used to debug incomming messages in Log file 
 
             Update_message_table(Input_message)
 
