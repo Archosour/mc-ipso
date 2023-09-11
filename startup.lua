@@ -154,8 +154,25 @@ else
 		local Chest_side = Brave.Find_chest()
 		local Chest = peripheral.wrap(Chest_side)
 		while true do
-			local Info = Brave.Get_chest_inventory(Chest)
+			local Info = Brave.Get_chest_inventory(Chest, false)
+			local Slot = 1
+
 			Brave.Log(textutils.serialize(Info), true)
+			local Slot_info = Info.Slot_info[Slot]
+			
+			if Slot_info ~= nil then
+				local Item_name = Slot_info.displayName
+
+				local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
+				local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
+				local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
+				local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+
+				local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object}, Brave.Package_types.Broadcast, {})
+				Brave.Log(textutils.serialise(Package), true)
+				Brave.Modem.transmit(1,1,Package)
+			end
+			
 			sleep(10)
 		end
 	end

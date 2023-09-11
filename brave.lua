@@ -72,7 +72,7 @@ function Get_chest_inventory(Peripheral, Only_first_item)
 	for Slot = 1, Size, 1 do
 		local Slot_detail = Peripheral.getItemDetail(Slot)
 		if Slot_detail ~= nil then
-			Info[Slot] = Slot_detail
+			Info.Slot_info[Slot]   = Slot_detail
 			Info.Max_count 		   = Info.Max_count + Slot_detail.maxCount
 			Info.Count 	   		   = Info.Count     + Slot_detail.count
 			Info.Filled_percentage = tostring(math.floor((Info.Count / Info.Max_count) * 100)) .. "%"
