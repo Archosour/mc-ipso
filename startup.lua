@@ -117,6 +117,21 @@ else
 			sleep(10)
 		end
 
+	elseif Pc_label == "arch:obsidian_tank" or Pc_label == "arch:netherrack_tank" then
+		while true do
+			local Max_value = 15
+			local Input_water = redstone.getAnalogInput("left")
+			local Value_water = tostring(math.floor((Input_water / Max_value) * 100)) .. "%"
+		
+			local EXP_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava, IPSO.Resource_list.Set_percentage_value, Value_water)
+		
+			local Package = Brave.Generate_package({EXP_object}, Brave.Package_types.Broadcast, {})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+
+			sleep(10)
+		end
+
 	elseif Pc_label == "yk2" or Pc_label == "yk3" or Pc_label == "yk4" then
 		while true do
 			local Input = {os.pullEvent("redstone")}

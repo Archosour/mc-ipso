@@ -16,7 +16,7 @@ local System_pause = false
 
 local Recieved_messages = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}}
 local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}}
-local Recieved_fluid_messages = {[5] = {}}
+local Recieved_fluid_messages = {[5] = {}, [16] = {}, [17] = {}, [18] = {}, [19] = {}}
 
 -- Moves all revieved messages one position in the Table
 -- Newest iteration (1) will get the input message insterted
@@ -124,20 +124,14 @@ function Handle_display(Window)
             local Smart_objects = Message.Data
             if Message.Device_name ~= nil then
                 local Name = string.match(Message.Device_name, ":(.*)")
-                for key, value in pairs(Constants.Fluid_type) do
+                local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Volume, -1, IPSO.Resource_list.Set_percentage_value)
+                local Fluid_type = Constants.Fluid_types[Smart_objects[1].Instance]
 
-                    local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Volume, value, IPSO.Resource_list.Set_percentage_value)
+                local Line = string.format("%-18s:%-20s:%s", Name, Fluid_type, Value)
 
-                    if Value ~= nil then
-
-                        local Line = string.format("%-18s :%-20s:%s", Name, key, Value)
-                        --Brave.Log(Line, true, false)
-
-                        Monitor.setCursorPos(1, n + 8)
-                        Monitor.write(Line)
-                        n = n + 1
-                    end
-                end
+                Monitor.setCursorPos(1, n + 8)
+                Monitor.write(Line)
+                n = n + 1
             end
         end
     end
