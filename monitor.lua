@@ -15,7 +15,7 @@ local Scroll_offset = 0
 local System_pause = false
 
 local Recieved_messages = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}}
-local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}}
+local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}, [20] = {}}
 local Recieved_fluid_messages = {[5] = {}, [16] = {}, [17] = {}, [18] = {}, [19] = {}}
 
 -- Moves all revieved messages one position in the Table
@@ -122,9 +122,11 @@ function Handle_display(Window)
         local n = 0
         for id, Message in pairs(Recieved_fluid_messages) do
             local Smart_objects = Message.Data
+            --Brave.Log("Package data: " .. textutils.serialize(Smart_objects), true, false)
             if Message.Device_name ~= nil then
                 local Name = string.match(Message.Device_name, ":(.*)")
                 local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Volume, -1, IPSO.Resource_list.Set_percentage_value)
+                --Brave.Log("retrieve value: " .. Value, true, false)
                 local Fluid_type = Constants.Fluid_types[Smart_objects[1].Instance]
 
                 local Line = string.format("%-18s:%-20s:%s", Name, Fluid_type, Value)

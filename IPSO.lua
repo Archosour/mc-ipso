@@ -127,8 +127,11 @@ function Retrieve_value(Smart_objects, object, instance, resource)
 
     -- if instance is not important, insert -1 as instance. 
     -- it will only search the first object
-    if instance == -1 then
-        local Object = Smart_objects[1]
+    if instance < 0 then
+        local Instance = math.abs(instance)
+        local Object = Smart_objects[Instance]
+        --Brave.Log("object " .. tostring(object) .. " ==? " .. tostring(Object.Object), true, false)
+        --Brave.Log("resource " .. tostring(resource) .. " ==? " .. tostring(Object.Resource), true, false)
         local Object_match = (Object.Object == object)
         local Resource_match = (Object.Resource == resource)
         if Object_match == true and Resource_match == true then
