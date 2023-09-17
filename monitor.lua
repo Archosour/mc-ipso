@@ -17,6 +17,7 @@ local System_pause = false
 local Recieved_messages = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}}
 local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}, [20] = {}}
 local Recieved_fluid_messages = {[5] = {}, [16] = {}, [17] = {}, [18] = {}, [19] = {}}
+local Recieved_item_messages = {[21] = {}, [4] = {}}
 
 -- Moves all revieved messages one position in the Table
 -- Newest iteration (1) will get the input message insterted
@@ -45,6 +46,12 @@ function Update_message_table(Input_message)
     if Recieved_fluid_messages[Device_id] ~= nil then
         Recieved_fluid_messages[Device_id] = Input_message
         Brave.Log("added object to fluid for device: " .. Device_id, true, false) 
+        --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false)
+    end
+
+    if Recieved_item_messages[Device_id] ~= nil then
+        Recieved_item_messages[Device_id] = Input_message
+        Brave.Log("added object to item for device: " .. Device_id, true, false) 
         --Brave.Log(textutils.serialise(Recieved_energy_messages), true, false)
     end
 
@@ -136,6 +143,25 @@ function Handle_display(Window)
                 n = n + 1
             end
         end
+    elseif Window == "Items" then
+        local n = 0
+        for id, Message in pairs(Recieved_item_messages) do
+            local Smart_objects = Message.Data
+            --Brave.Log("Package data: " .. textutils.serialize(Smart_objects), true, false)
+            if Message.Device_name ~= nil then
+                local Name = string.match(Message.Device_name, ":(.*)")
+                local Item = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Inventory_chest, 1, IPSO.Resource_list.Set_Item_name)
+                local Value = IPSO.Retrieve_value(Smart_objects, IPSO.Object_list.Inventory_chest, 1, IPSO.Resource_list.Set_percentage_value)
+                --Brave.Log("retrieve value: " .. Value, true, false)
+                local Fluid_type = Constants.Fluid_types[Smart_objects[1].Instance]
+
+                local Line = string.format("%-18s:%-20s:%s", Name, Item, Value)
+
+                Monitor.setCursorPos(1, n + 8)
+                Monitor.write(Line)
+                n = n + 1
+            end
+        end
     end
 end
 
@@ -187,10 +213,10 @@ while true do
         
             if Y >= 4 and Y <= 15 then
                 local Option_selection = Y - 3 + Scroll_offset
-                local Selected_option = Displays.Displays.Pocket[Current_display].Options[Option_selection]
+                local Selected_option = Displays.Displays.Advanced_computer[Current_display].Options[Option_selection]
 
                 if Selected_option ~= nil and Selected_option.Discoverable == true then
-                    New_display = Displays.Displays.Pocket[Current_display].Options[Option_selection].Name
+                    New_display = Displays.Displays.Advanced_computer[Current_display].Options[Option_selection].Name
                 else
                     New_display = Current_display
                 end

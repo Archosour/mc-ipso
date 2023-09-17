@@ -193,4 +193,6 @@ Resource_list = {
     ["Get_Stack_count"]         = 26,
     ["Set_Stack_max_count"]     = 27,
     ["Get_Stack_max_count"]     = 28,
+    ["Set_Size"]                = 29,
+    ["Get_Size"]                = 30
 }

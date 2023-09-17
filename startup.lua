@@ -150,7 +150,7 @@ else
 		multishell.setTitle(Console_tab, "Con")
 		multishell.setFocus(Tab)
 
-	elseif Pc_label == "arch:test-2" then
+	elseif Pc_label == "arch:test-2" or Pc_label == "arch:boiler_1_solid" then
 		local Chest_side = Brave.Find_chest()
 		local Chest = peripheral.wrap(Chest_side)
 		while true do
@@ -160,18 +160,19 @@ else
 			Brave.Log(textutils.serialize(Info), true)
 			local Slot_info = Info.Slot_info[Slot]
 			
-			if Slot_info ~= nil then
-				local Item_name = Slot_info.displayName
+			--if Slot_info ~= nil then
+				local Item_name = Info.First_item_name
 
 				local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
 				local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
 				local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
 				local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+				local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
 
-				local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object}, Brave.Package_types.Broadcast, {})
+				local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object}, Brave.Package_types.Broadcast, {})
 				Brave.Log(textutils.serialise(Package), true)
 				Brave.Modem.transmit(1,1,Package)
-			end
+			--end
 			
 			sleep(10)
 		end

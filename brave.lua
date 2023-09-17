@@ -7,7 +7,7 @@ os.loadAPI("Constants.lua")
 -- be used as normal. Log files take up a lot of space.
 -- If set to true, then all log action will be written to log file
 -- if set to false, then nothing will be written to log file.
-local Overrule_log_to_file = false
+local Overrule_log_to_file = true
 
 -- find the modem on any of the sides.
 -- will return side if its wireless.
@@ -61,22 +61,33 @@ function Get_chest_inventory(Peripheral, Only_first_item)
 	local Slot = 0
 	local Total = 0
 	local Max = 0
+	local First_found = false
 	local Info = {
 		["Size"] = Size,
 		["Max_count"] = 0,
 		["Count"] = 0,
 		["Slot_info"] = {},
-		["Filled_percentage"] = ""
+		["Filled_percentage"] = "",
+		["First_item_name"] = ""
 	}
 
 	for Slot = 1, Size, 1 do
 		local Slot_detail = Peripheral.getItemDetail(Slot)
 		if Slot_detail ~= nil then
+
+			if First_found == false and Slot_detail.displayName ~= nil then
+				Info.First_item_name = Slot_detail.displayName
+				First_found = true
+			end
+
 			Info.Slot_info[Slot]   = Slot_detail
 			Info.Max_count 		   = Info.Max_count + Slot_detail.maxCount
 			Info.Count 	   		   = Info.Count     + Slot_detail.count
-			Info.Filled_percentage = tostring(math.floor((Info.Count / Info.Max_count) * 100)) .. "%"
+		else 
+			Info.Max_count 	   	   = Info.Max_count + 64 --max stack size for most items is 64
 		end
+
+		Info.Filled_percentage = tostring(math.floor((Info.Count / Info.Max_count) * 100)) .. "%"
 
 		if Only_first_item == true and Slot == 1 then
 			return Info
