@@ -17,7 +17,7 @@ local System_pause = false
 local Recieved_messages = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}}
 local Recieved_energy_messages = {[2] = {}, [3] = {}, [6] = {}, [20] = {}}
 local Recieved_fluid_messages = {[5] = {}, [16] = {}, [17] = {}, [18] = {}, [19] = {}}
-local Recieved_item_messages = {[21] = {}, [4] = {}}
+local Recieved_item_messages = {[21] = {}, [22] = {}, [4] = {}}
 
 -- Moves all revieved messages one position in the Table
 -- Newest iteration (1) will get the input message insterted

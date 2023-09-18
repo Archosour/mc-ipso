@@ -7,7 +7,7 @@ os.loadAPI("Constants.lua")
 -- be used as normal. Log files take up a lot of space.
 -- If set to true, then all log action will be written to log file
 -- if set to false, then nothing will be written to log file.
-local Overrule_log_to_file = true
+local Overrule_log_to_file = false
 
 -- find the modem on any of the sides.
 -- will return side if its wireless.

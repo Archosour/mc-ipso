@@ -150,7 +150,7 @@ else
 		multishell.setTitle(Console_tab, "Con")
 		multishell.setFocus(Tab)
 
-	elseif Pc_label == "arch:test-2" or Pc_label == "arch:boiler_1_solid" then
+	elseif Pc_label == "arch:test-2" or Pc_label == "arch:boiler_1_solid" or Pc_label == "arch:boiler_1_sugar" then
 		local Chest_side = Brave.Find_chest()
 		local Chest = peripheral.wrap(Chest_side)
 		while true do
