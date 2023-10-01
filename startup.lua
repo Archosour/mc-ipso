@@ -1,14 +1,9 @@
 local Console_tab = multishell.getCurrent()
 local Tab = 0
 
-multishell.setTitle(Tab, "Home")
-multishell.setTitle(Console_tab, "Con")
-multishell.setFocus(Tab)
-
 os.loadAPI("Brave.lua")
 os.loadAPI("IPSO.lua")
 
-local Console_tab = multishell.getCurrent()
 local Pc_label = os.getComputerLabel()
 
 function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side)
@@ -33,7 +28,7 @@ function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side)
 end
 
 if pocket then
-	Tab = multishell.launch({}, "pocket.lua", {"true"})
+	Tab = multishell.launch({}, "Pocket.lua", {"true"})
 	
 	multishell.setTitle(Tab, "Home")
 	multishell.setTitle(Console_tab, "Con")
@@ -42,7 +37,7 @@ if pocket then
 else
 	Brave.Modem.open(1)
 
-	Tab = multishell.launch({}, "run_ipso.lua", {"false"})
+	Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
 	multishell.setTitle(Tab, "Ipso")
 
 	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" or Pc_label == "arch:Boiler_prod1" or Pc_label == "arch:ore_processing" then
@@ -144,7 +139,7 @@ else
 		end
 
 	elseif Pc_label == "arch:monitor_0" then
-		Tab = multishell.launch({}, "monitor.lua", {"true"})
+		Tab = multishell.launch({}, "Monitor.lua", {"true"})
 	
 		multishell.setTitle(Tab, "Home")
 		multishell.setTitle(Console_tab, "Con")
