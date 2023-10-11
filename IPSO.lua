@@ -164,7 +164,8 @@ Object_list = {
     ["Kinetic_direction"] = 6,
     ["Kinetic_stress"]    = 7,
     ["Volume"]            = 8,
-    ["Inventory_chest"]   = 9
+    ["Inventory_chest"]   = 9,
+    ["Time"]              = 10
 }
 
 Resource_list = {
@@ -194,5 +195,9 @@ Resource_list = {
     ["Set_Stack_max_count"]     = 27,
     ["Get_Stack_max_count"]     = 28,
     ["Set_Size"]                = 29,
-    ["Get_Size"]                = 30
+    ["Get_Size"]                = 30,
+    ["Set_Season"]              = 31,
+    ["Get_Season"]              = 32,
+    ["Set_Season_day"]          = 33,
+    ["Get_Season_day"]          = 34
 }

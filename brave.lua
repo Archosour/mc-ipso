@@ -1,4 +1,5 @@
 os.loadAPI("Constants.lua")
+os.loadAPI("Config.lua")
 
 -- Can be used to overrule input for logging to a log file.
 -- Due to the large number of posible logs it is not reasonable
@@ -8,6 +9,8 @@ os.loadAPI("Constants.lua")
 -- If set to true, then all log action will be written to log file
 -- if set to false, then nothing will be written to log file.
 local Overrule_log_to_file = false
+
+local Device_type = ""
 
 -- find the modem on any of the sides.
 -- will return side if its wireless.
@@ -123,14 +126,15 @@ end
 function Generate_package(info, package_type, targets)
 	local package = {}
 
-	package["Version"] = 2 					    	-- protocol version
+	package["Version"] = 3 					    	-- protocol version
 	package["Package_type"] = package_type			-- Broadcast, targeted as examples
 	package["Targets"] = targets					-- table with target IDs
-	package["Server_day"] = os.day() 				-- ingame day	
-	package["Server_time"] = os.time() 				-- ingame time	
+	package["Server_day"] = os.day() 				-- ingame day
+	package["Server_time"] = os.time() 				-- ingame time
 	package["Device_id"] = os.getComputerID() 		-- computer ID
-	package["Device_type"] = Get_device_type()		-- deviceType
-	package["Device_name"] = os.getComputerLabel()  -- machineType	
+	package["Device_type"] = Device_type			-- Device type / function
+	package["Device_name"] = os.getComputerLabel()  -- machineType
+	package["Hardware_type"] = Get_device_type()	-- HardwareType pocket, turtle, pc, advanced
 	package["Location_x"] = 0 						-- x-coordinate from GPS
 	package["Location_y"] = 0 						-- y-coordinate from GPS
 	package["Location_z"] = 0 						-- z-coordiante from GPS
@@ -221,6 +225,12 @@ if (Modem_side ~= nil) then
 	Modem = peripheral.wrap(Modem_side)
 else 
 	term.blit("no modem found", "black", "red")
+end
+
+if Config.Device_type ~= nil then
+	Device_type = Config.Device_type
+else 
+	Device_type = "Undefined"
 end
 
 -- End of setup --

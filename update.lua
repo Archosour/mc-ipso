@@ -29,3 +29,5 @@ shell.run("pastebin get dVy6SzYK Monitor.lua")
 
 if Input[1] == "true" then shell.run("rm Eeprom") end
 shell.run("mkdir Eeprom")
+
+shell.run("pastebin get 3N26L84y Config.lua")

@@ -171,6 +171,68 @@ else
 			
 			sleep(10)
 		end
+
+	elseif Pc_label == "arch:season_clock" then
+		local Spring_side = "front"
+		local Summer_side = "left"
+		local Fall_side   = "back"
+		local Winter_side = "right"
+
+		while true do
+			local Spring_day = redstone.getAnalogInput(Spring_side)
+			local Summer_day = redstone.getAnalogInput(Summer_side)
+			local Fall_day   = redstone.getAnalogInput(Fall_side)
+			local Winter_day = redstone.getAnalogInput(Winter_side)
+
+			local Season = 0
+			local Season_day = 0
+			local Season_object = {}
+			local Season_day_object = {}
+
+			if Spring_day > 0 then
+				Season = Constants.Seasons.Spring
+				Season_day = (Spring_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season_day, Season_day)
+			
+			elseif Summer_day > 0 then
+				Season = Constants.Seasons.Summer
+				Season_day = (Summer_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season_day, Season_day)
+			
+			elseif Fall_day > 0 then
+				Season = Constants.Seasons.Fall
+				Season_day = (Fall_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season_day, Season_day)
+			
+			elseif Winter_day > 0 then
+				Season = Constants.Seasons.Winter
+				Season_day = (Winter_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season_day, Season_day)
+			
+			else
+				Season = Constants.Seasons.Undefined
+				Season_day = 0
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Season_day, Season_day)
+			end
+
+			local Package = Brave.Generate_package({Season_object, Season_day_object}, Brave.Package_types.Broadcast, {})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+
+			print(Constants.Season[Season] .. " : " .. tostring(Season_day))
+
+			sleep(10)
+		end
 	end
 	
 end
