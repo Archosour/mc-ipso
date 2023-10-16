@@ -3,7 +3,9 @@ local Tab = 0
 
 os.loadAPI("Brave.lua")
 os.loadAPI("IPSO.lua")
+os.loadAPI("Config.lua")
 
+local Device_type = Config.Device_type
 local Pc_label = os.getComputerLabel()
 
 function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side)
@@ -232,6 +234,18 @@ else
 			print(Constants.Season[Season] .. " : " .. tostring(Season_day))
 
 			sleep(10)
+		end
+	end
+
+	if Device_type == "Network:Internet_gateway" then
+		while true do
+			Input = {os.pullEvent("modem_message")}
+		
+			-- Recieved data is stored in field 5
+			Input_message = textutils.unserialize(Input[5])
+			Data_JSON = textutils.serialiseJSON(Input_message)
+
+			http.post("http://213.152.162.69:18614/Minecraft_server",'{ "Data" : ' .. Data_JSON .. ', "Gateway_id" : ' .. os.getComputerID() .. ' }',{ ["Content-Type"] = "application/json"})
 		end
 	end
 	

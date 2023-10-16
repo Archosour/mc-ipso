@@ -165,7 +165,8 @@ Object_list = {
     ["Kinetic_stress"]    = 7,
     ["Volume"]            = 8,
     ["Inventory_chest"]   = 9,
-    ["Time"]              = 10
+    ["Time"]              = 10,
+    ["Protocol"]          = 11
 }
 
 Resource_list = {
@@ -199,5 +200,7 @@ Resource_list = {
     ["Set_Season"]              = 31,
     ["Get_Season"]              = 32,
     ["Set_Season_day"]          = 33,
-    ["Get_Season_day"]          = 34
+    ["Get_Season_day"]          = 34,
+    ["Set_data_string"]         = 35,
+    ["Get_data_string"]         = 36
 }
