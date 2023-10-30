@@ -1,11 +1,11 @@
-local Console_tab = multishell.getCurrent()
-local Tab = 0
-
 os.loadAPI("Brave.lua")
 os.loadAPI("IPSO.lua")
 os.loadAPI("Config.lua")
 
-local Device_type = Config.Device_type
+local Device_type = ""
+local Tab = 0
+
+local Console_tab = multishell.getCurrent()
 local Pc_label = os.getComputerLabel()
 
 function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side)
@@ -27,6 +27,52 @@ function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side)
 	--Brave.Log(textutils.serialise(Package), true)
 	Brave.Modem.transmit(1,1,Package)
 
+end
+
+function Startup()
+	if Config == nil then
+		print("No config.lua file found. run 'Update true' to add config file")
+		while true do end
+	end
+
+	if Config.Device_type == nil then
+		print("No device type found in Config")
+		while true do end
+	end
+	Device_type = Config.Device_type
+end
+
+function main()
+	Startup()
+
+	if Device_type == "Network:Internet_gateway" then
+		local URL = Config.Gateway_IPv4
+		local Route = Config.Gateway_route
+		while true do
+			Input = {os.pullEvent("modem_message")}
+		
+			-- Recieved data is stored in field 5
+			Input_message = textutils.unserialize(Input[5])
+			Data_JSON = textutils.serialiseJSON(Input_message)
+	
+			http.post(URL .. Route,'{ "Data" : ' .. Data_JSON .. ', "Gateway_id" : ' .. os.getComputerID() .. ' }',{ ["Content-Type"] = "application/json"})
+		end
+
+	elseif Device_type == "Fluid:Tank" then
+		while true do
+			local Tank = peripheral.wrap(Config.Tank_side)
+			local Input_fluid  = redstone.getAnalogInput(Config.Tank_redstone_side)
+			local Value_fluid  = tostring(math.floor((Input_lava / Max_value) * 100)) .. "%"
+
+			local Lava_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava,  IPSO.Resource_list.Set_percentage_value, Value_lava)
+		
+			local Package = Brave.Generate_package({Lava_object}, Brave.Package_types.Broadcast, {})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+
+			sleep(Config.Main_timer)
+		end
+	end
 end
 
 if pocket then
