@@ -72,6 +72,46 @@ function main()
 
 			sleep(Config.Main_timer)
 		end
+
+	elseif Device_type == "Item:Vault_overflow" then
+		local Chest_side = Brave.Find_chest()
+		local Chest = peripheral.wrap(Chest_side)
+		local Redstone_level = true
+		redstone.setOutput(Config.Overflow_redstone_side, Redstone_level)
+		
+		while true do
+			local Info = Brave.Get_chest_inventory(Chest, false)
+			
+			local Items_stored = Info.Count
+			local Items_capacity = Info.Max_count
+			local First_item_stores = Info.First_item_name
+			local Number_of_slots = Info.Size
+			local Filled_percentage = Items_stored / Items_capacity
+			local Item_name = Info.First_item_name
+			local Slot = 1
+			
+			if Filled_percentage > 0.8 then
+				Redstone_level = false
+			end	
+
+			if Filled_percentage < 0.6 then
+				Redstone_level = true
+			end
+
+			local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
+			local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
+			local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
+			local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
+			local Output_object    = IPSO.Generate_object(IPSO.Object_list.Redstone, Constants.Block_side.front, IPSO.Resource_list.Set_Output_level, Redstone_level)
+
+			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Output_object}, Brave.Package_types.Broadcast, {})
+			Brave.Log(textutils.serialise(Package), true)
+			Brave.Modem.transmit(1,1,Package)
+		
+			redstone.setOutput(Config.Overflow_redstone_side, Redstone_level)
+			sleep(Config.Main_timer * 6)
+		end
 	end
 end
 
