@@ -202,5 +202,7 @@ Resource_list = {
     ["Set_Season_day"]          = 33,
     ["Get_Season_day"]          = 34,
     ["Set_data_string"]         = 35,
-    ["Get_data_string"]         = 36
+    ["Get_data_string"]         = 36,
+    ["Set_Filled_ratio"]        = 37,
+    ["Get_Filled_ratio"]        = 38
 }

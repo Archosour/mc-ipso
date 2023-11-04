@@ -71,6 +71,7 @@ function Get_chest_inventory(Peripheral, Only_first_item)
 		["Count"] = 0,
 		["Slot_info"] = {},
 		["Filled_percentage"] = "",
+		["Filled_ratio"] = 0,
 		["First_item_name"] = ""
 	}
 
@@ -90,7 +91,9 @@ function Get_chest_inventory(Peripheral, Only_first_item)
 			Info.Max_count 	   	   = Info.Max_count + 64 --max stack size for most items is 64
 		end
 
-		Info.Filled_percentage = tostring(math.floor((Info.Count / Info.Max_count) * 100)) .. "%"
+		local Filled_ratio = Info.Count / Info.Max_count
+		Info.Filled_percentage = tostring(math.floor(Filled_ratio * 100)) .. "%"
+		Info.Filled_ratio = Filled_ratio
 
 		if Only_first_item == true and Slot == 1 then
 			return Info
@@ -231,6 +234,10 @@ if Config.Device_type ~= nil then
 	Device_type = Config.Device_type
 else 
 	Device_type = "Undefined"
+end
+
+Modem.Transmit = function Transmit(Channel, Message)
+	Modem.transmit(Channel, Channel, Message)
 end
 
 -- End of setup --
