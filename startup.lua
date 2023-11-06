@@ -39,7 +39,7 @@ function Startup()
 	end
 
 	if Config == nil then
-		print("No config.lua file found. run 'Update true' to add config file")
+		print("No config.lua file found. run 'Update' to add config file")
 		while true do end
 	end
 
@@ -73,15 +73,24 @@ function main()
 
 	elseif Device_type == "Fluid:Tank" then
 		while true do
-			local Tank = peripheral.wrap(Config.Tank_side)
-			local Input_fluid  = redstone.getAnalogInput(Config.Tank_redstone_side)
-			local Value_fluid  = tostring(math.floor((Input_lava / Max_value) * 100)) .. "%"
+			local Tank = peripheral.wrap(Config.Tank_side).tanks()
+			--local Input_fluid  = redstone.getAnalogInput(Config.Tank_redstone_side)
+			local Tank_slot = 1
+			local Tank_volume = Tank[Tank_slot]
+			local Fluid_name = Tank_volume.name
+			local Fluid_level = Tank_volume.amount
+			local Fluid_max_value = Config.Tank_max_level
+			local Fluid_fill_ratio = Fluid_level / Fluid_max_value
+			local Fluid_fill_percent  = tostring(math.ceil(Fluid_fill_ratio * 100)) .. "%"
 
-			local Lava_object = IPSO.Generate_object(IPSO.Object_list.Volume, Constants.Fluid_type.lava,  IPSO.Resource_list.Set_percentage_value, Value_lava)
-		
-			local Package = Brave.Generate_package({Lava_object}, Brave.Package_types.Broadcast, {})
-			Brave.Log(textutils.serialise(Package), true)
-			Brave.Modem.transmit(Config.Channel_network,Config.Channel_network,Package)
+			local Name_object  = IPSO.Generate_object(IPSO.Object_list.Volume, Tank_slot, IPSO.Resource_list.Set_Item_name, Fluid_name)
+			local Level_object = IPSO.Generate_object(IPSO.Object_list.Volume, Tank_slot, IPSO.Resource_list.Set_value, Fluid_level)
+			local Max_level_object = IPSO.Generate_object(IPSO.Object_list.Volume, Tank_slot, IPSO.Resource_list.Set_max_value, Fluid_max_value)
+			local Fill_ratio_object = IPSO.Generate_object(IPSO.Object_list.Volume, Tank_slot, IPSO.Resource_list.Set_Filled_ratio, Fluid_fill_ratio)
+			local Percent_object = IPSO.Generate_object(IPSO.Object_list.Volume, Tank_slot, IPSO.Resource_list.Set_percentage_value, Fluid_fill_percent)
+
+			local Package = Brave.Generate_package({Name_object, Level_object, Max_level_object, Fill_ratio_object, Percent_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.Transmit(Config.Channel_network, Package)
 
 			sleep(Config.Main_timer)
 		end
@@ -119,11 +128,38 @@ function main()
 			local Output_object    = IPSO.Generate_object(IPSO.Object_list.Redstone, Constants.Block_side.front, IPSO.Resource_list.Set_Output_level, Redstone_level)
 
 			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Output_object}, Brave.Package_types.Broadcast, {})
-			Brave.Log(textutils.serialise(Package), true)
-			Brave.Modem.transmit(Config.Channel_network,Config.Channel_network,Package)
+			Brave.Modem.Transmit(Config.Channel_network, Package)
 		
 			redstone.setOutput(Config.Overflow_redstone_side, Redstone_level)
 
+			sleep(Config.Main_timer)
+		end
+
+	elseif Device_type == "Item:Vault_storage" then
+		local Chest = peripheral.wrap(Config.Vault_side)
+		
+		while true do
+			print("loop")
+			local Info = Brave.Get_chest_inventory(Chest, false)
+			
+			local Items_stored = Info.Count
+			local Items_capacity = Info.Max_count
+			local First_item_stores = Info.First_item_name
+			local Number_of_slots = Info.Size
+			local Filled_ratio = Items_stored / Items_capacity
+			local Item_name = Info.First_item_name
+			local Slot = 1
+
+			local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
+			local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
+			local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
+			local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
+			local Ratio_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Filled_ratio, Filled_ratio)
+
+			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Ratio_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.Transmit(Config.Channel_network, Package)
+		
 			sleep(Config.Main_timer)
 		end
 	
@@ -144,7 +180,7 @@ function main()
 			local Capacity_object  = IPSO.Generate_object(IPSO.Object_list.Kinetic_capacity,  0, IPSO.Resource_list.Set_value, Capacity)
 
 			local Package = Brave.Generate_package({RPM_object, Direction_object,Stress_object,Capacity_object}, Brave.Package_types.Broadcast, {})
-			Brave.Modem.transmit(Config.Channel_network,Config.Channel_network,Package)
+			Brave.Modem.Transmit(Config.Channel_network, Package)
 			
 			sleep(Config.Main_timer)
 		end
@@ -169,7 +205,7 @@ function main()
 			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
 
 			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Ratio_object}, Brave.Package_types.Broadcast, {})
-			Brave.Modem.transmit(Config.Channel_network,Config.Channel_network,Package)
+			Brave.Modem.Transmit(Config.Channel_network, Package)
 			
 			sleep(Config.Main_timer)
 		end

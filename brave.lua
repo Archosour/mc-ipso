@@ -236,7 +236,7 @@ else
 	Device_type = "Undefined"
 end
 
-Modem.Transmit = function Transmit(Channel, Message)
+function Modem.Transmit(Channel, Message)
 	Modem.transmit(Channel, Channel, Message)
 end
 
