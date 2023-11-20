@@ -8,7 +8,7 @@ local Tab = 0
 local Console_tab = multishell.getCurrent()
 local Pc_label = os.getComputerLabel()
 
-function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side)
+function Run_kinetic_info(Peripheral_side, Speed_side, Stress_side) -- obsolete
 	local Interface = peripheral.wrap(Peripheral_side)
 
 	local RPM = math.abs(Interface.getKineticSpeed(Speed_side))
@@ -98,6 +98,56 @@ function main()
 			sleep(Config.Main_timer)
 		end
 
+	elseif Device_type == "Energy:Kinetic_system" then
+		local Interface = peripheral.wrap("bottom")
+
+		while true do
+			local RPM = math.abs(Interface.getKineticSpeed("bottom"))
+			local Direction = true
+			local Stress = Interface.getKineticStress("right")
+			local Capacity = Interface.getKineticCapacity("right")
+
+			if RPM < 0 then Direction = false end
+
+			local RPM_object 	   = IPSO.Generate_object(IPSO.Object_list.Kinetic_speed, 	  0, IPSO.Resource_list.Set_value, RPM)
+			local Direction_object = IPSO.Generate_object(IPSO.Object_list.Kinetic_direction, 0, IPSO.Resource_list.Set_value, Direction)
+			local Stress_object    = IPSO.Generate_object(IPSO.Object_list.Kinetic_stress,    0, IPSO.Resource_list.Set_value, Stress)
+			local Capacity_object  = IPSO.Generate_object(IPSO.Object_list.Kinetic_capacity,  0, IPSO.Resource_list.Set_value, Capacity)
+
+			local Package = Brave.Generate_package({RPM_object, Direction_object,Stress_object,Capacity_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.Transmit(Config.Channel_network, Package)
+			
+			sleep(Config.Main_timer)
+		end
+
+	elseif Device_type == "Item:Vault_storage" then
+		local Chest = peripheral.wrap(Config.Vault_side)
+		
+		while true do
+			print("loop")
+			local Info = Brave.Get_chest_inventory(Chest, false)
+			
+			local Items_stored = Info.Count
+			local Items_capacity = Info.Max_count
+			local First_item_stores = Info.First_item_name
+			local Number_of_slots = Info.Size
+			local Filled_ratio = Items_stored / Items_capacity
+			local Item_name = Info.First_item_name
+			local Slot = 1
+
+			local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
+			local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
+			local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
+			local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
+			local Ratio_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Filled_ratio, Filled_ratio)
+
+			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Ratio_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.Transmit(Config.Channel_network, Package)
+		
+			sleep(Config.Main_timer)
+		end
+
 	elseif Device_type == "Item:Vault_overflow" then
 		local Chest = peripheral.wrap(Config.Vault_side)
 		local Redstone_level = true
@@ -135,56 +185,6 @@ function main()
 		
 			redstone.setOutput(Config.Overflow_redstone_side, Redstone_level)
 
-			sleep(Config.Main_timer)
-		end
-
-	elseif Device_type == "Item:Vault_storage" then
-		local Chest = peripheral.wrap(Config.Vault_side)
-		
-		while true do
-			print("loop")
-			local Info = Brave.Get_chest_inventory(Chest, false)
-			
-			local Items_stored = Info.Count
-			local Items_capacity = Info.Max_count
-			local First_item_stores = Info.First_item_name
-			local Number_of_slots = Info.Size
-			local Filled_ratio = Items_stored / Items_capacity
-			local Item_name = Info.First_item_name
-			local Slot = 1
-
-			local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
-			local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
-			local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
-			local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
-			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
-			local Ratio_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Filled_ratio, Filled_ratio)
-
-			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Ratio_object}, Brave.Package_types.Broadcast, {})
-			Brave.Modem.Transmit(Config.Channel_network, Package)
-		
-			sleep(Config.Main_timer)
-		end
-	
-	elseif Device_type == "Energy:Kinetic_system" then
-		local Interface = peripheral.wrap("bottom")
-
-		while true do
-			local RPM = math.abs(Interface.getKineticSpeed("bottom"))
-			local Direction = true
-			local Stress = Interface.getKineticStress("right")
-			local Capacity = Interface.getKineticCapacity("right")
-
-			if RPM < 0 then Direction = false end
-
-			local RPM_object 	   = IPSO.Generate_object(IPSO.Object_list.Kinetic_speed, 	  0, IPSO.Resource_list.Set_value, RPM)
-			local Direction_object = IPSO.Generate_object(IPSO.Object_list.Kinetic_direction, 0, IPSO.Resource_list.Set_value, Direction)
-			local Stress_object    = IPSO.Generate_object(IPSO.Object_list.Kinetic_stress,    0, IPSO.Resource_list.Set_value, Stress)
-			local Capacity_object  = IPSO.Generate_object(IPSO.Object_list.Kinetic_capacity,  0, IPSO.Resource_list.Set_value, Capacity)
-
-			local Package = Brave.Generate_package({RPM_object, Direction_object,Stress_object,Capacity_object}, Brave.Package_types.Broadcast, {})
-			Brave.Modem.Transmit(Config.Channel_network, Package)
-			
 			sleep(Config.Main_timer)
 		end
 
@@ -289,7 +289,7 @@ else
 	Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
 	multishell.setTitle(Tab, "Ipso")
 
-	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" or Pc_label == "arch:Boiler_prod1" or Pc_label == "arch:ore_processing" then
+	if Pc_label == "arch:Small_boiler" or Pc_label == "arch:Boiler_sup_1" or Pc_label == "arch:Boiler_prod1" or Pc_label == "arch:ore_processing" then-- obsolete
 		local Update_timer = os.startTimer(1)
 		local Last_timer = 0
 		local Count = 0
@@ -316,7 +316,7 @@ else
 			end
 		end
 
-	elseif Pc_label == "arch:boiler_1_fuel" then
+	elseif Pc_label == "arch:boiler_1_fuel" then -- obsolete
 		while true do
 			local Max_value = 15
 			local Input_lava  = redstone.getAnalogInput("left")
@@ -331,7 +331,7 @@ else
 			sleep(10)
 		end
 	
-	elseif Pc_label == "arch:boiler_1_cool" then
+	elseif Pc_label == "arch:boiler_1_cool" then -- obsolete
 		while true do
 			local Max_value = 15
 			local Input_water = redstone.getAnalogInput("left")
@@ -346,7 +346,7 @@ else
 			sleep(10)
 		end
 
-	elseif Pc_label == "arch:spare_tank" then
+	elseif Pc_label == "arch:spare_tank" then-- obsolete
 		while true do
 			local Max_value = 15
 			local Input_water = redstone.getAnalogInput("left")
@@ -361,7 +361,7 @@ else
 			sleep(10)
 		end
 
-	elseif Pc_label == "arch:obsidian_tank" or Pc_label == "arch:netherrack_tank" then
+	elseif Pc_label == "arch:obsidian_tank" or Pc_label == "arch:netherrack_tank" then-- obsolete
 		while true do
 			local Max_value = 15
 			local Input_water = redstone.getAnalogInput("left")
@@ -394,7 +394,7 @@ else
 		multishell.setTitle(Console_tab, "Con")
 		multishell.setFocus(Tab)
 
-	elseif Pc_label == "arch:test-2" or Pc_label == "arch:boiler_1_solid" or Pc_label == "arch:boiler_1_sugar" then
+	elseif Pc_label == "arch:test-2" or Pc_label == "arch:boiler_1_solid" or Pc_label == "arch:boiler_1_sugar" then-- obsolete
 		local Chest_side = Brave.Find_chest()
 		local Chest = peripheral.wrap(Chest_side)
 		while true do
@@ -419,7 +419,7 @@ else
 			sleep(10)
 		end
 
-	elseif Pc_label == "arch:season_clock" then
+	elseif Pc_label == "arch:season_clock" then-- obsolete
 		local Spring_side = "front"
 		local Summer_side = "left"
 		local Fall_side   = "back"
@@ -482,7 +482,7 @@ else
 		end
 	end
 
-	if Device_type == "Network:Internet_gateway" then
+	if Device_type == "Network:Internet_gateway" then-- obsolete
 		while true do
 			Input = {os.pullEvent("modem_message")}
 		
