@@ -38,6 +38,9 @@ function Startup()
 		multishell.setFocus(Tab)
 	end
 
+	print("PC ID: " .. tostring(os.getComputerID()))
+	print("PC label: " .. tostring(os.getComputerLabel()))
+
 	if Config == nil then
 		print("No config.lua file found. run 'Update' to add config file")
 		while true do end
@@ -208,6 +211,65 @@ function main()
 			Brave.Modem.Transmit(Config.Channel_network, Package)
 			
 			sleep(Config.Main_timer)
+		end
+
+	elseif Device_type == "Clock:Season" then
+		local Spring_side = "front"
+		local Summer_side = "left"
+		local Fall_side   = "back"
+		local Winter_side = "right"
+
+		while true do
+			local Spring_day = redstone.getAnalogInput(Spring_side)
+			local Summer_day = redstone.getAnalogInput(Summer_side)
+			local Fall_day   = redstone.getAnalogInput(Fall_side)
+			local Winter_day = redstone.getAnalogInput(Winter_side)
+
+			local Season = 0
+			local Season_day = 0
+			local Season_object = {}
+			local Season_day_object = {}
+
+			if Spring_day > 0 then
+				Season = Constants.Seasons.Spring
+				Season_day = (Spring_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season_day, Season_day)
+			
+			elseif Summer_day > 0 then
+				Season = Constants.Seasons.Summer
+				Season_day = (Summer_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season_day, Season_day)
+			
+			elseif Fall_day > 0 then
+				Season = Constants.Seasons.Fall
+				Season_day = (Fall_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season_day, Season_day)
+			
+			elseif Winter_day > 0 then
+				Season = Constants.Seasons.Winter
+				Season_day = (Winter_day + 1) / 2
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season_day, Season_day)
+			
+			else
+				Season = Constants.Seasons.Undefined
+				Season_day = 0
+
+				Season_object     = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season, Season)
+				Season_day_object = IPSO.Generate_object(IPSO.Object_list.Time, 1, IPSO.Resource_list.Set_Season_day, Season_day)
+			end
+
+			local Package = Brave.Generate_package({Season_object, Season_day_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.transmit(1,1,Package)
+
+			sleep(Config.Main_timer * 6)
 		end
 	end
 end
