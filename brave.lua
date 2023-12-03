@@ -11,7 +11,7 @@ os.loadAPI("Config.lua")
 local Overrule_log_to_file = false
 
 local Device_type = ""
-Protocol_version = 3
+Protocol_version = 4
 
 -- find the modem on any of the sides.
 -- will return side if its wireless.

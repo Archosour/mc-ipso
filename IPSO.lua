@@ -91,10 +91,10 @@ end
 
 function Generate_object(Object, Instance, Resource, Value)
     local Smart_object = {
-        ["Object"]   = Object,
-        ["Instance"] = Instance,
-        ["Resource"] = Resource,
-        ["Value"]    = Value
+        ["Object_id"]   = Object,
+        ["Instance_id"] = Instance,
+        ["Resource_id"] = Resource,
+        ["Value"]       = Value
     }
 
     return Smart_object
