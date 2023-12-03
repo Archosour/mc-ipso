@@ -136,12 +136,6 @@ function Generate_package(info, package_type, targets)
 	package["Server_day"] = os.day() 				-- ingame day
 	package["Server_time"] = os.time() 				-- ingame time
 	package["Device_id"] = os.getComputerID() 		-- computer ID
-	package["Device_type"] = Device_type			-- Device type / function
-	package["Device_name"] = os.getComputerLabel()  -- machineType
-	package["Hardware_type"] = Get_device_type()	-- HardwareType pocket, turtle, pc, advanced
-	package["Location_x"] = 0 						-- x-coordinate from GPS
-	package["Location_y"] = 0 						-- y-coordinate from GPS
-	package["Location_z"] = 0 						-- z-coordiante from GPS
 	package["Data"] = info 							-- data, as table of smart objects
 
 	-- importing given info into the message to send
