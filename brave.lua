@@ -11,6 +11,7 @@ os.loadAPI("Config.lua")
 local Overrule_log_to_file = false
 
 local Device_type = ""
+Protocol_version = 3
 
 -- find the modem on any of the sides.
 -- will return side if its wireless.
@@ -129,7 +130,7 @@ end
 function Generate_package(info, package_type, targets)
 	local package = {}
 
-	package["Version"] = 3 					    	-- protocol version
+	package["Version"] = Protocol_version	    	-- protocol version
 	package["Package_type"] = package_type			-- Broadcast, targeted as examples
 	package["Targets"] = targets					-- table with target IDs
 	package["Server_day"] = os.day() 				-- ingame day

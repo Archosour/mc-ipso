@@ -166,7 +166,10 @@ Object_list = {
     ["Volume"]            = 8,
     ["Inventory_chest"]   = 9,
     ["Time"]              = 10,
-    ["Protocol"]          = 11
+    ["Protocol"]          = 11,
+    ["GPS_x"]             = 12,
+    ["GPS_y"]             = 13,
+    ["GPS_z"]             = 14
 }
 
 Resource_list = {
@@ -204,5 +207,13 @@ Resource_list = {
     ["Set_data_string"]         = 35,
     ["Get_data_string"]         = 36,
     ["Set_Filled_ratio"]        = 37,
-    ["Get_Filled_ratio"]        = 38
+    ["Get_Filled_ratio"]        = 38,
+    ["Set_UUID"]                = 39,
+    ["Get_UUID"]                = 40,
+    ["Set_Label"]               = 41,
+    ["Get_Label"]               = 42,
+    ["Set_Type"]                = 43,
+    ["Get_Type"]                = 44,
+    ["Set_Block_type"]          = 45,
+    ["Get_Block_type"]          = 46
 }
