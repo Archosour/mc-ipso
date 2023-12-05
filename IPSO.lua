@@ -1,4 +1,9 @@
 os.loadAPI("Constants.lua")
+os.loadAPI("IPSO_object_list.lua")
+os.loadAPI("IPSO_resource_list.lua")
+
+Resource_list = IPSO_resource_list
+Object_list = IPSO_object_list
 
 function Execute_object(Smart_object)
     local Object    = Smart_object.Object

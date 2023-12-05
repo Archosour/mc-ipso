@@ -31,3 +31,9 @@ if Input[1] == "true" then shell.run("rm Eeprom") end
 shell.run("mkdir Eeprom")
 
 shell.run("pastebin get 3N26L84y Config.lua")
+
+shell.run("rm IPSO_object_list.lua")
+shell.run("pastebin get m5eep5Py IPSO_object_list.lua")
+
+shell.run("rm IPSO_resource_list.lua")
+shell.run("pastebin get 9YzyEcDF IPSO_resource_list.lua")
