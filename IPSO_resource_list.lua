@@ -1,4 +1,4 @@
-{
+List = {
     ["Set_Output_level"]        = 1,
     ["Get_Output_level"]        = 2,
     ["Set_SW_version"]          = 3,

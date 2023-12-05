@@ -1,4 +1,4 @@
-{
+List = {
     ["Device"]            = 1,
     ["Redstone"]          = 2,
     ["File_system"]       = 3,
