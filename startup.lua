@@ -34,13 +34,20 @@ function Startup()
 
 	Brave.Modem.open(Config.Channel_network)
 
-	Send_alive_message()
+	if Device_type ~= "Network:Internet_gateway" then 
+		-- give the gateways time to startup when area is loaded
+		-- example when player log into the server.
+		sleep(0.5)
+
+		Alive_message =  Generate_alive_message()
+		Brave.Modem.Transmit(Config.Channel_network, Alive_message)
+	end
 
 	Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
 	multishell.setTitle(Tab, "Ipso")
 end
 
-function Send_alive_message()
+function Generate_alive_message()
 	local object1 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_UUID, os.getComputerID())
 	local object2 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_Label, os.getComputerLabel())
 	local object3 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_Block_type, Brave.Get_device_type())
@@ -51,7 +58,7 @@ function Send_alive_message()
 	local object8 = IPSO.Generate_object(IPSO.Object_list.Protocol, 0, IPSO.Resource_list.Set_SW_version, Brave.Protocol_version)
 
 	local Package = Brave.Generate_package({object1, object2, object3, object4, object5, object6, object7, object8}, Brave.Package_types.Broadcast, {})
-	Brave.Modem.Transmit(Config.Channel_network, Package)
+	return Package
 end
 
 function main()
@@ -60,6 +67,13 @@ function main()
 	if Device_type == "Network:Internet_gateway" then
 		local URL = Config.Gateway_IPv4
 		local Route = Config.Gateway_route
+
+		-- The gateway cannot send a alive message during startup
+		-- since the gatway is not open at that time.
+		Alive_message = Generate_alive_message()
+		Alive_JSON = textutils.serialiseJSON(textutils.unserialize(Alive_message))
+		http.post(URL .. Route,'{ "Data" : ' .. Alive_JSON .. ', "Gateway_id" : ' .. os.getComputerID() .. ' }',{ ["Content-Type"] = "application/json"})
+
 		while true do
 			Input = {os.pullEvent("modem_message")}
 		
