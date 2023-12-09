@@ -52,9 +52,9 @@ function Generate_alive_message()
 	local object2 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_Label, os.getComputerLabel())
 	local object3 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_Block_type, Brave.Get_device_type())
 	local object7 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_Type, Device_type)
-	local object4 = IPSO.Generate_object(IPSO.Object_list.GPS_x, 0, IPSO.Resource_list.Set_value, 0)
-	local object5 = IPSO.Generate_object(IPSO.Object_list.GPS_y, 0, IPSO.Resource_list.Set_value, 0)
-	local object6 = IPSO.Generate_object(IPSO.Object_list.GPS_z, 0, IPSO.Resource_list.Set_value, 0)
+	local object4 = IPSO.Generate_object(IPSO.Object_list.GPS_x, 0, IPSO.Resource_list.Set_value, 0) -- GPS not yet implemented
+	local object5 = IPSO.Generate_object(IPSO.Object_list.GPS_y, 0, IPSO.Resource_list.Set_value, 0) -- GPS not yet implemented
+	local object6 = IPSO.Generate_object(IPSO.Object_list.GPS_z, 0, IPSO.Resource_list.Set_value, 0) -- GPS not yet implemented
 	local object8 = IPSO.Generate_object(IPSO.Object_list.Protocol, 0, IPSO.Resource_list.Set_SW_version, Brave.Protocol_version)
 
 	local Package = Brave.Generate_package({object1, object2, object3, object4, object5, object6, object7, object8}, Brave.Package_types.Broadcast, {})
