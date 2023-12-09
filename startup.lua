@@ -281,6 +281,30 @@ function main()
 
 			sleep(Config.Main_timer * 6)
 		end
+
+	elseif Device_type == "Fluid:Valve_control" then
+
+		while true do
+			local Fluid_message = {os.pullEvent("modem_message")}
+		
+			-- Recieved data is stored in field 5
+			Input_message = textutils.unserialize(Fluid_message[5])
+			Client_id = Input_message.Device_id
+
+			if Client_id == Config.Listen_for_client then
+				Data = Input_message.Data
+				print(Data)
+				IPSO.Debug_log_smart_object(Data[1])
+				Value = IPSO.Retrieve_value(Data, IPSO.Object_list.Volume, 1, IPSO.Resource_list.Filled_ratio)
+				print(Value)
+				
+				if Value ~= "nil" then
+					print(Value)
+				end
+
+			end
+			 
+		end
 	end
 end
 

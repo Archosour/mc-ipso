@@ -6,9 +6,9 @@ Resource_list = IPSO_resource_list.List
 Object_list = IPSO_object_list.List
 
 function Execute_object(Smart_object)
-    local Object    = Smart_object.Object
-    local Instance  = Smart_object.Instance
-    local Resource  = Smart_object.Resource
+    local Object    = Smart_object.Object_id
+    local Instance  = Smart_object.Instance_id
+    local Resource  = Smart_object.Resource_id
     local Value     = Smart_object.Value
 
     if Object == Object_list.Device then
@@ -110,9 +110,9 @@ function Retrieve_value(Smart_objects, object, instance, resource)
 
     for n = 1, #Smart_objects, 1 do
         local Object = Smart_objects[n]
-        local Object_match = (Object.Object == object)
-        local Instance_match = (Object.Instance == instance)
-        local Resource_match = (Object.Resource == resource)
+        local Object_match = (Object.Object_id == object)
+        local Instance_match = (Object.Instance_id == instance)
+        local Resource_match = (Object.Resource_id == resource)
 
         --Brave.Log("retrieve value form object", true, false)
         --Brave.Log(textutils.serialise(Object), true, false)
@@ -151,11 +151,11 @@ end
 function Debug_log_smart_object(Smart_object)
     term.clear()
     term.setCursorPos(1,1)
-    term.write("Object   " .. Smart_object.Object)
+    term.write("Object   " .. Smart_object.Object_id)
     term.setCursorPos(1,2)
-    term.write("Instance " .. Smart_object.Instance)
+    term.write("Instance " .. Smart_object.Instance_id)
     term.setCursorPos(1,3)
-    term.write("Resource " .. Smart_object.Resource)
+    term.write("Resource " .. Smart_object.Resource_id)
     term.setCursorPos(1,4)
     term.write("Value    " .. Smart_object.Value)
 end
