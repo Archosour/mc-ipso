@@ -115,7 +115,7 @@ function Get_chest_inventory(Peripheral, Only_first_item)
 	return Info
 end
 
--- returns type of device, think of normal/advanced and turtle/computer/pocket as well.
+---@return string #type of device, think of normal/advanced and turtle/computer/pocket as well.
 function Get_device_type()
 	if term.isColor() then
 		if turtle then
@@ -137,20 +137,31 @@ function Get_device_type()
 	end
 end
 
--- protocol for transmitting data from one pc/turtle/pocket to another machine
+---Protocol for transmitting data from one pc/turtle/pocket to another machine
+---@param info Array #Array of Smart object as defined by IPSO
+---@param package_type string 
+---| '"Broadcast"' # Used when message must be send to all devices on the network
+---| '"Targeted"' # Used when a message has to be send directly to one device on the network
+---@param targets Array # Array of intergets representing device ids
+---@return String # Serialised Lua object containing data package information
+---| '"Version"' # Protocol version number
+---| '"Package_type"' # See Package type param
+---| '"Targets"' # See Targets param
+---| '"Server_day"' # Game server day count
+---| '"Server_time"' # Game server time
+---| '"Device_id"' # Unique device id from where the message is generated/send
+---| '"Data"' # Array off Smart objects, see info param
 function Generate_package(info, package_type, targets)
 	local package = {}
 
-	package["Version"] = Protocol_version	    	-- protocol version
-	package["Package_type"] = package_type			-- Broadcast, targeted as examples
-	package["Targets"] = targets					-- table with target IDs
-	package["Server_day"] = os.day() 				-- ingame day
-	package["Server_time"] = os.time() 				-- ingame time
-	package["Device_id"] = os.getComputerID() 		-- computer ID
-	package["Data"] = info 							-- data, as table of smart objects
+	package["Version"] = Protocol_version
+	package["Package_type"] = package_type
+	package["Targets"] = targets
+	package["Server_day"] = os.day()
+	package["Server_time"] = os.time()
+	package["Device_id"] = os.getComputerID()
+	package["Data"] = info
 
-	-- importing given info into the message to send
-	-- given info must be in a table
 	return textutils.serialize(package)
 end
 
