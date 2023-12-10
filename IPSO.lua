@@ -105,6 +105,12 @@ end
 
 --#endregion
 
+---Generates Smart Object
+---@param Object Number #ID from the Object list
+---@param Instance Number 
+---@param Resource Number #ID from the Resource list
+---@param Value String 
+---@return Object #Smart Object
 function Generate_object(Object, Instance, Resource, Value)
     local Smart_object = {
         ["Object_id"]   = Object,
@@ -116,6 +122,12 @@ function Generate_object(Object, Instance, Resource, Value)
     return Smart_object
 end
 
+---Searches through the array of Smart Objects for a matching Object, instance and Resource.
+---@param Smart_objects Array #Array of Smart Objects as defined by IPSO
+---@param object Number #Object ID
+---@param instance Number #If Instance == -1, then only the first Object in the arrat will be checked.
+---@param resource Number #Resource ID
+---@return String #Value from the matched Smart Object. "nil" when no match found
 function Retrieve_value(Smart_objects, object, instance, resource)
     local n = 0
 
@@ -124,13 +136,6 @@ function Retrieve_value(Smart_objects, object, instance, resource)
         local Object_match = (Object.Object_id == object)
         local Instance_match = (Object.Instance_id == instance)
         local Resource_match = (Object.Resource_id == resource)
-
-        --print(textutils.serialise(Object))
-        --print("Object number: " .. n)
-        --print(tostring(Object_match))
-        --print(tostring(Instance_match))
-        --print(tostring(Resource_match))
-        --print(Object.Object_id .. ":" .. Object.Instance_id .. ":" .. Object.Resource_id)
         
         if Object_match == true and Instance_match == true and Resource_match == true then
             return Object.Value
@@ -142,8 +147,6 @@ function Retrieve_value(Smart_objects, object, instance, resource)
     if instance < 0 then
         local Instance = math.abs(instance)
         local Object = Smart_objects[Instance]
-        --Brave.Log("object " .. tostring(object) .. " ==? " .. tostring(Object.Object), true, false)
-        --Brave.Log("resource " .. tostring(resource) .. " ==? " .. tostring(Object.Resource), true, false)
         local Object_match = (Object.Object_id == object)
         local Resource_match = (Object.Resource_id == resource)
         if Object_match == true and Resource_match == true then
@@ -151,7 +154,6 @@ function Retrieve_value(Smart_objects, object, instance, resource)
         end
     end
 
-    --Brave.Log("Smart object not found in message. Retrieve Value function in Brave", true, false)
     return "nil"
 end
 
