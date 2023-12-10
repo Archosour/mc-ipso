@@ -259,19 +259,25 @@ function Get_table_length(Table)
 	return Count
 end
 
--- Setup --
+--#region Setup
+
+---Side modem is located
 Modem_side = Find_modem()
 Modem = ""
 
-if (Modem_side ~= nil) then
+---Make sure there is always a modem present on boot
+if Modem_side ~= nil then
 	Modem = peripheral.wrap(Modem_side)
-else 
-	term.blit("no modem found", "black", "red")
+end
+if Modem_side == nil then
+	print("no modem found")
 end
 
+---Make sure the Device_type is never nil or null
 if Config.Device_type ~= nil then
 	Device_type = Config.Device_type
-else 
+end
+if Config.Device_type == nil then 
 	Device_type = "Undefined"
 end
 
@@ -284,4 +290,4 @@ function Modem.Transmit(Channel, Message)
 	Modem.transmit(Channel, Channel, Message)
 end
 
--- End of setup --
+--#endregion
