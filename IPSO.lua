@@ -2,9 +2,18 @@ os.loadAPI("Constants.lua")
 os.loadAPI("IPSO_object_list.lua")
 os.loadAPI("IPSO_resource_list.lua")
 
+---List of all defined Resources with their ID
 Resource_list = IPSO_resource_list.List
+
+---List of all defined Objects with thier ID
 Object_list = IPSO_object_list.List
 
+--#region Execution of objects
+
+---Execute the Smart object. Set functions return no value (then nil will be returned).
+---Get functions will return a value as string
+---@param Smart_object Object #Smart object as defined by IPSO
+---@return String|nil 
 function Execute_object(Smart_object)
     local Object    = Smart_object.Object_id
     local Instance  = Smart_object.Instance_id
@@ -93,6 +102,8 @@ function Execute_file_system(Instance, Resource, Value)
         return nil
     end
 end
+
+--#endregion
 
 function Generate_object(Object, Instance, Resource, Value)
     local Smart_object = {
