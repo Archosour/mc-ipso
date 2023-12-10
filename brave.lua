@@ -225,6 +225,10 @@ function Round_decimal(Value, Positions)
 	return "0"
 end
 
+---Calculate percentage based on input. Does also add the percentage sign
+---@param Input1 Number #The part of whole
+---@param Input2 Number #The whole value
+---@return string #Percentage with %-sign
 function Get_percentage(Input1, Input2)
 	if Input1 == nil then return "nil%" end
 	if Input2 == nil then return "nil%" end
