@@ -60,6 +60,17 @@ function Find_chest()
 	return 
 end
 
+---Gather information about the inventory described by the Peripheral
+---@param Peripheral Chest_peripheral Wrapped peripheral of the inventory
+---@param Only_first_item boolean Set to true if only the first has to be checked
+---@return table
+---| '"Size"' # Total slots in the inventory
+---| '"Max_count"' # Total space in all slots combined
+---| '"Count"' # Total items stored in all slots combined
+---| '"Slot_info"' #Table of objects containing information of each slot
+---| '"Filled_percentage"' # Percentage of inventory is filled (value between 0% and 100%)
+---| '"Filled_ratio"' # Ratio of inventory is filled (value between 0 and 1)
+---| '"First_item_name"' # Name of the first item found in the inventory
 function Get_chest_inventory(Peripheral, Only_first_item)
 	local Size = Peripheral.size()
 	local Slot = 0
