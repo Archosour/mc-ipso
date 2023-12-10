@@ -13,8 +13,8 @@ local Overrule_log_to_file = false
 local Device_type = ""
 Protocol_version = 4
 
--- find the modem on any of the sides.
--- will return side if its wireless.
+---Search for wireless modem on the side of the device
+---@return string|nil #side with modem attached, or nil of none found
 function Find_modem()
 	local sides = Constants.Block_sides
 	local n = 0
@@ -27,7 +27,7 @@ function Find_modem()
 			return nil
 		end
 	end
-	return 
+	return nil
 end
 
 -- find the monitor on any of the sides.
