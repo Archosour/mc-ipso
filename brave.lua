@@ -237,6 +237,10 @@ function Get_percentage(Input1, Input2)
 	return tostring(Percent) .. "%"
 end
 
+---Get length of table
+---@deprecated
+---@param Table any
+---@return integer
 function Get_table_length(Table)
 	local Count = 0
 	if Table == nil then 
@@ -271,6 +275,11 @@ else
 	Device_type = "Undefined"
 end
 
+---Override of normal transmit method of the modem class.
+---Normally its send and recieve channel can be set seperatly but in
+---the context of our scrips those are always the same.
+---@param Channel Number #Channel to transmit message over
+---@param Message String #Message to be send
 function Modem.Transmit(Channel, Message)
 	Modem.transmit(Channel, Channel, Message)
 end
