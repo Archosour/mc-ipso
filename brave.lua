@@ -30,8 +30,8 @@ function Find_modem()
 	return nil
 end
 
--- find the monitor on any of the sides.
--- will return side if its of type Color.
+---find the advanced monitor on the side of the block.
+---@return string|nil #side with monitor attached, or nil of none found
 function Find_monitor()
 	local sides = Constants.Block_sides
 	local n = 0
@@ -44,7 +44,7 @@ function Find_monitor()
 			return nil
 		end
 	end
-	return 
+	return nil
 end
 
 -- find the chest on any of the sides.
