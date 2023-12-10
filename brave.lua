@@ -1,13 +1,13 @@
 os.loadAPI("Constants.lua")
 os.loadAPI("Config.lua")
 
--- Can be used to overrule input for logging to a log file.
--- Due to the large number of posible logs it is not reasonable
--- to disable all of them at time of release.
--- When set to nil there is no overrule, function input will 
--- be used as normal. Log files take up a lot of space.
--- If set to true, then all log action will be written to log file
--- if set to false, then nothing will be written to log file.
+---Can be used to overrule input for logging to a log file.
+---Due to the large number of posible logs it is not reasonable
+---to disable all of them at time of release.
+---When set to nil there is no overrule, function input will 
+---be used as normal. Log files take up a lot of space.
+---If set to true, then all log action will be written to log file
+---if set to false, then nothing will be written to log file.
 local Overrule_log_to_file = false
 
 local Device_type = ""
@@ -166,11 +166,19 @@ function Generate_package(info, package_type, targets)
 	return textutils.serialize(package)
 end
 
+---Type of packages
 Package_types = {
 	["Broadcast"] = "Broadcast",
 	["Targeted"]  = "Targeted"
 }
 
+---Function for logging purposes. should not be used anymore
+---Will be replaced with logging to endpoint
+---@deprecated
+---@param Value any
+---@param To_file any
+---@param To_screen any
+---@return boolean
 function Log(Value, To_file, To_screen)
 	if type(Value) ~= "string" and type(Value) ~= "number" then Value = "Brave: Invalid Value recieved!" end
 	if To_file == nil then To_file = true end
@@ -198,18 +206,23 @@ function Log(Value, To_file, To_screen)
 	return true
 end
 
+---@deprecated
 function Log_clear() 
 	local File = fs.open(Constants.Log_file_path,"w")
 	File.flush()
 	File.close()
 end
 
+---Round decimal in string format to number of digits
+---@param Value String #Input float
+---@param Positions Number #Number of positions afther the comma
+---@return string #Formatted float as string
 function Round_decimal(Value, Positions)
 	if Positions == nil or tonumber(Positions) == 1 then
 		return string.format("%2.1f", Value)
 	end
 
-	return 0
+	return "0"
 end
 
 function Get_percentage(Input1, Input2)
