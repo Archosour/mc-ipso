@@ -30,7 +30,7 @@ function Find_modem()
 	return nil
 end
 
----find the advanced monitor on the side of the block.
+---Find the advanced monitor on the side of the block.
 ---@return string|nil #side with monitor attached, or nil of none found
 function Find_monitor()
 	local sides = Constants.Block_sides
@@ -47,8 +47,9 @@ function Find_monitor()
 	return nil
 end
 
--- find the chest on any of the sides.
--- will return side if its found.
+-- 
+---Find the side of the block where the chest is located
+---@return string|nil #side with chest attached, or nil of none found
 function Find_chest()
 	local sides = Constants.Block_sides
 	local n = 0
@@ -57,7 +58,7 @@ function Find_chest()
 			return sides[n]
 		end
 	end
-	return 
+	return nil
 end
 
 ---Gather information about the inventory described by the Peripheral
