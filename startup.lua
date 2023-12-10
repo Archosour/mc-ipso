@@ -284,6 +284,8 @@ function main()
 
 	elseif Device_type == "Fluid:Valve_control" then
 
+		redstone.setOutput(Config.Valve_signal_side, Config.Valve_signal_default)
+
 		while true do
 			local Fluid_message = {os.pullEvent("modem_message")}
 		
@@ -293,13 +295,14 @@ function main()
 
 			if Client_id == Config.Listen_for_client then
 				Data = Input_message.Data
-				print(Data)
-				IPSO.Debug_log_smart_object(Data[1])
-				Value = IPSO.Retrieve_value(Data, IPSO.Object_list.Volume, 1, IPSO.Resource_list.Filled_ratio)
-				print(Value)
-				
+				Value = IPSO.Retrieve_value(Data, IPSO.Object_list.Volume, 1, IPSO.Resource_list.Set_Filled_ratio)
+
 				if Value ~= "nil" then
-					print(Value)
+					if Value > Config.Hysteresis_high then
+						redstone.setOutput(Config.Valve_signal_side, false)
+					elseif Value < Config.Hysteresis_low then
+						redstone.setOutput(Config.Valve_signal_side, true)
+					end
 				end
 
 			end

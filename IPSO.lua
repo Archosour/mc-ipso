@@ -114,16 +114,12 @@ function Retrieve_value(Smart_objects, object, instance, resource)
         local Instance_match = (Object.Instance_id == instance)
         local Resource_match = (Object.Resource_id == resource)
 
-        --Brave.Log("retrieve value form object", true, false)
-        --Brave.Log(textutils.serialise(Object), true, false)
-        --Brave.Log(tostring(Object_match), true, false)
-        --Brave.Log(object, true, false)
-        --Brave.Log(Object.Instance, true, false)
-        --Brave.Log(type(Object.Instance), true, false)
-        --Brave.Log(tostring(Instance_match), true, false)
-        --Brave.Log(instance, true, false)
-        --Brave.Log(tostring(Resource_match), true, false)
-        --Brave.Log(resource, true, false)
+        --print(textutils.serialise(Object))
+        --print("Object number: " .. n)
+        --print(tostring(Object_match))
+        --print(tostring(Instance_match))
+        --print(tostring(Resource_match))
+        --print(Object.Object_id .. ":" .. Object.Instance_id .. ":" .. Object.Resource_id)
         
         if Object_match == true and Instance_match == true and Resource_match == true then
             return Object.Value
@@ -137,14 +133,14 @@ function Retrieve_value(Smart_objects, object, instance, resource)
         local Object = Smart_objects[Instance]
         --Brave.Log("object " .. tostring(object) .. " ==? " .. tostring(Object.Object), true, false)
         --Brave.Log("resource " .. tostring(resource) .. " ==? " .. tostring(Object.Resource), true, false)
-        local Object_match = (Object.Object == object)
-        local Resource_match = (Object.Resource == resource)
+        local Object_match = (Object.Object_id == object)
+        local Resource_match = (Object.Resource_id == resource)
         if Object_match == true and Resource_match == true then
             return Object.Value
         end
     end
 
-    Brave.Log("Smart object not found in message. Retrieve Value function in Brave", true, false)
+    --Brave.Log("Smart object not found in message. Retrieve Value function in Brave", true, false)
     return "nil"
 end
 

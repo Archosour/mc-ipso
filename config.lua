@@ -10,6 +10,9 @@ Tank_side = "back"
 Tank_max_level = 792000
 
 Overflow_redstone_side = "front"
+Valve_signal_side = "bottom"
+Valve_signal_default = true
+Valve_signal_inversion = true
 
 Channel_network = 1
 Channel_gps = 2
