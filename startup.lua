@@ -8,6 +8,8 @@ local Tab = 0
 local Console_tab = multishell.getCurrent()
 local Pc_label = os.getComputerLabel()
 
+---Setup for the main loop.
+---Primarly for checking Config and tasks than only run one time.
 function Startup()
 	if pocket then
 		Tab = multishell.launch({}, "Pocket.lua", {"true"})
@@ -23,7 +25,7 @@ function Startup()
 	if Config == nil then
 		print("No config.lua file found. run 'Update' to add config file")
 		while true do end
-	end
+end
 
 	if Config.Device_type == nil then
 		print("No device type found in Config")
