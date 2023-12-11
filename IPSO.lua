@@ -157,6 +157,9 @@ function Retrieve_value(Smart_objects, object, instance, resource)
     return "nil"
 end
 
+---comment
+---@deprecated
+---@param Smart_object any
 function Debug_log_smart_object(Smart_object)
     term.clear()
     term.setCursorPos(1,1)
