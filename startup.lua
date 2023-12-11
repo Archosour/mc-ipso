@@ -39,6 +39,13 @@ function Startup()
 		-- example when player log into the server.
 		sleep(0.5)
 
+		-- Make sure not all devices start at the same time.
+		-- This spreads the load on the Gateways so thay can 
+		-- handle more data
+		local Random_wait_time = math.random(0, Config.Main_timer)
+		print("Random startup sleep time: " .. Random_wait_time)
+		sleep(Random_wait_time)
+
 		Alive_message =  Generate_alive_message()
 		Brave.Modem.Transmit(Config.Channel_network, Alive_message)
 	end
