@@ -48,7 +48,7 @@ end
 		print("Random startup sleep time: " .. Random_wait_time)
 		sleep(Random_wait_time)
 
-		Alive_message =  Generate_alive_message()
+		Alive_message = Generate_alive_message()
 		Brave.Modem.Transmit(Config.Channel_network, Alive_message)
 	end
 
@@ -56,6 +56,11 @@ end
 	multishell.setTitle(Tab, "Ipso")
 end
 
+---Generate Alive message.
+---This message contains general information about the device.
+---The content can be captured by the backend to show activity.
+---Does not send the message.
+---@return String #Package ready to be send over the network
 function Generate_alive_message()
 	local object1 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_UUID, os.getComputerID())
 	local object2 = IPSO.Generate_object(IPSO.Object_list.Device, 0, IPSO.Resource_list.Set_Label, os.getComputerLabel())
