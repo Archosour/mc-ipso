@@ -40,3 +40,6 @@ shell.run("pastebin get 9YzyEcDF IPSO_resource_list.lua")
 
 shell.run("rm Turtles.lua")
 shell.run("pastebin get uraU0iGq Turtles.lua")
+
+shell.run("rm Arch.lua")
+shell.run("pastebin get uCPDkpXJ Arch.lua")

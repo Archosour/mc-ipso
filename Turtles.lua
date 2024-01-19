@@ -1,6 +1,7 @@
 os.loadAPI("Brave.lua")
 os.loadAPI("IPSO.lua")
 os.loadAPI("Config.lua")
+os.loadAPI("Arch.lua")
 
 local Device_type = ""
 local Tab = 0
@@ -50,6 +51,18 @@ function Generate_alive_message()
 	return Package
 end
 
+function Generate_inventory_message()
+	local Object_table = {}
+
+	for Slot = 1, 16, 1 do
+		turtle.select(Slot)
+		table.insert(Object_table, IPSO.Generate_object(IPSO.Object_list.Inventory_internal, Slot, IPSO.Resource_list.Set_Item_name, Arch.Get_item_name()))
+		table.insert(Object_table, IPSO.Generate_object(IPSO.Object_list.Inventory_internal, Slot, IPSO.Resource_list.Set_Stack_count, turtle.getItemCount()))
+	end
+
+	return Object_table
+end
+
 function main()
 	Startup()
 
@@ -59,6 +72,9 @@ function main()
         term.write("Distance: ")
         local Distance = read()
         print("User input: " .. Distance)
+
+		local Inventory_message = Generate_inventory_message()
+		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
 	end
 end
 
