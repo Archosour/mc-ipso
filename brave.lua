@@ -259,6 +259,14 @@ function Get_table_length(Table)
 	return Count
 end
 
+
+
+---Clears terminal and reset cursor position
+function Clear_term()
+	term.clear()
+	term.setCursorPos(1,1)
+end
+
 --#region Setup
 
 ---Side modem is located

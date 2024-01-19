@@ -37,3 +37,6 @@ shell.run("pastebin get m5eep5Py IPSO_object_list.lua")
 
 shell.run("rm IPSO_resource_list.lua")
 shell.run("pastebin get 9YzyEcDF IPSO_resource_list.lua")
+
+shell.run("rm Turtles.lua")
+shell.run("pastebin get uraU0iGq Turtles.lua")
