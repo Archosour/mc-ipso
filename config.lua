@@ -58,6 +58,34 @@ Valve_signal_default = true
 
 --#endregion
 
+--#region Turtles
+
+---Slot for combustable items to be used as fuel
+Fuel_slot = 16
+
+--#endregion
+
+--#region Mining
+
+---Hight of tunnels mined my the turtle
+Tunnel_hight = 15
+
+---If set to true, the turtle will place a path below itself
+Place_base_block = true
+
+---If set to true, the turtle will place a light block when needed
+Place_light_block = true
+
+---Mode on how a light block has to be placed. Valid options are:
+--- "Torch" - will place light source behind itself
+--- "Glowstone" - will place the light source below itself
+Light_block_type = "Torch"
+
+---Distance between two light source blocks to be placed by turtle
+Light_block_interval = 5
+
+--#endregion
+
 --#region Old configs
 
 hight = 15
