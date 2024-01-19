@@ -60,7 +60,8 @@ function Generate_inventory_message()
 		table.insert(Object_table, IPSO.Generate_object(IPSO.Object_list.Inventory_internal, Slot, IPSO.Resource_list.Set_Stack_count, turtle.getItemCount()))
 	end
 
-	return Object_table
+	local Inventory_message = Brave.Generate_package(Object_table, Brave.Package_types.Broadcast, {})
+	return Inventory_message
 end
 
 function main()
