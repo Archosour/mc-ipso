@@ -71,7 +71,7 @@ function main()
         term.clear()
         term.setCursorPos(1,1)
         term.write("Distance: ")
-        local Distance = read()
+        local Distance = tonumber(read())
         print("User input: " .. Distance)
 
 		local Inventory_message = Generate_inventory_message()
@@ -80,7 +80,16 @@ function main()
 		local Traveled = 0
 
 		for Traveled = 0, Distance, 1 do
-			Arch.Tunnel_slice(Config.Tunnel_hight)
+			turtle.select(12)
+
+			if turtle.getItemCount() > 0 then
+				Arch.Chest_dump()
+			end
+
+			turtle.select(1)
+
+			--offset due to starting on hight 1
+			Arch.Tunnel_slice(Config.Tunnel_hight - 1)
 			
 			print("Traveled: " .. Traveled .. " Distance: " .. Distance)
 			if Traveled ~= Distance then

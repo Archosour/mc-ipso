@@ -76,16 +76,22 @@ Clear_fluids = true
 ---If set to true, the turtle will place a path below itself
 Place_base_block = true
 
----If set to true, the turtle will place a light block when needed
-Place_light_block = true
-
 ---Mode on how a light block has to be placed. Valid options are:
+--- "None" - No light sources will be placed
 --- "Torch" - will place light source behind itself
 --- "Glowstone" - will place the light source below itself
-Light_block_type = "Torch"
+Light_block_type = "None"
 
 ---Distance between two light source blocks to be placed by turtle
 Light_block_interval = 5
+
+---Mode to use chests and which type. Valid option are:
+--- "None"
+--- "Ender chest"
+Chest_dump_type = "Ender chest"
+
+---Slot for chests to store mined items.
+Chest_slot = 15
 
 --#endregion
 

@@ -6,9 +6,13 @@ os.loadAPI("Config.lua")
 function Refuel()
     local Current_slot = turtle.getSelectedSlot()
 
+    print("pre refuel" .. turtle.getFuelLevel())
+
     turtle.select(Config.Fuel_slot)
     local Succes = turtle.refuel(1)
     turtle.select(Current_slot)
+
+    print("post refuel" .. turtle.getFuelLevel())
 
     return Succes
 end
@@ -212,6 +216,42 @@ function Dig(Handle_gravel)
     end
 
     return true
+end
+
+function Chest_dump()
+    local Current_slot = turtle.getSelectedSlot()
+    local Slot = 0
+
+    turtle.digUp()
+    turtle.select(Config.Chest_slot)
+    turtle.placeUp()
+
+    for Slot = 1, 13, 1 do
+        if Slot ~= Config.Fuel_slot then
+            turtle.select(Slot)
+            turtle.dropUp()
+        end
+    end
+    
+    if Config.Light_block_type ~= "None" then
+        turtle.select(14)
+        turtle.dropUp()
+    end
+
+    if Config.Chest_dump_type ~= "None" then
+        turtle.select(15)
+        turtle.dropUp()
+    end
+
+    if Config.Fuel_slot ~= 16 then
+        turtle.select(16)
+        turtle.dropUp()
+    end
+
+    turtle.select(Config.Chest_slot)
+    turtle.digUp()
+    turtle.select(Current_slot)
+
 end
 
 function Tunnel_slice(Hight)
