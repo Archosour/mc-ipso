@@ -85,6 +85,8 @@ Light_block_type = "None"
 ---Distance between two light source blocks to be placed by turtle
 Light_block_interval = 5
 
+Light_slot = 14
+
 ---Mode to use chests and which type. Valid option are:
 --- "None"
 --- "Ender chest"

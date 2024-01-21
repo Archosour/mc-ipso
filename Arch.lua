@@ -222,36 +222,82 @@ function Chest_dump()
     local Current_slot = turtle.getSelectedSlot()
     local Slot = 0
 
-    turtle.digUp()
-    turtle.select(Config.Chest_slot)
-    turtle.placeUp()
+    Chest_dump_place()
 
-    for Slot = 1, 13, 1 do
-        if Slot ~= Config.Fuel_slot then
-            turtle.select(Slot)
-            turtle.dropUp()
+    for Slot = 1, 16, 1 do
+        if (Slot ~= Config.Fuel_slot) && (Slot ~= Config.Chest_slot) && (Slot ~= Config.Light_slot) then
+            Chest_dump_drop(Slot)
         end
     end
     
     if Config.Light_block_type ~= "None" then
-        turtle.select(14)
-        turtle.dropUp()
+        Chest_dump_drop(Config.Light_slot)
     end
 
     if Config.Chest_dump_type ~= "None" then
-        turtle.select(15)
-        turtle.dropUp()
+        Chest_dump_drop(Config.Chest_slot)
     end
 
     if Config.Fuel_slot ~= 16 then
-        turtle.select(16)
-        turtle.dropUp()
+        Chest_dump_drop(Config.Fuel_slot)
     end
 
-    turtle.select(Config.Chest_slot)
-    turtle.digUp()
+    Chest_dump_pick()
     turtle.select(Current_slot)
 
+end
+
+function Chest_dump_drop(Slot)
+    if Slot == nil then Slot = 1 end
+
+    turtle.select(Slot)
+
+    if Config.Chest_dump_type == "Ender chest" then
+        return turtle.dropUp()
+    end
+
+    if Config.Chest_dump_type == "Normal" then
+        return turtle.drop()
+    end
+
+    ---If Config is set to 'None' or all else
+    return false
+end
+
+function Chest_dump_place()
+    turtle.select(Config.Chest_slot)
+
+    if Config.Chest_dump_type == "Ender chest" then
+        turtle.digUp()
+        turtle.placeUp()
+    end
+
+    if Config.Chest_dump_type == "Normal" then
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.dig()
+        turtle.place()
+    end
+
+    ---If Config is set to 'None' or all else
+    return
+end
+
+function Chest_dump_pick()
+    turtle.select(Config.Chest_slot)
+
+    if Config.Chest_dump_type == "Ender chest" then
+        turtle.digUp()
+    end
+
+    if Config.Chest_dump_type == "Normal" then
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.dig()
+    end
+
+    ---If Config is set to 'None' or all else
+    return
 end
 
 function Tunnel_slice(Hight)
