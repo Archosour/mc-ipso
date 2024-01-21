@@ -1,5 +1,17 @@
 os.loadAPI("Config.lua")
 
+function Attack()
+    return turtle.attack()
+end
+
+function Attack_up()
+    return turtle.attackUp()
+end
+
+function Attack_down()
+    return turtle.attackDown()
+end
+
 ---Try to refuel fron the fuel slot. This slot is let
 ---in the config file
 ---@return boolean Succes true if succesfull
@@ -161,7 +173,7 @@ function Down()
             
         end
 
-        Attack_Down()
+        Attack_down()
     end
 
     return false
@@ -184,23 +196,15 @@ function Move_down(Distance)
     return Traveled
 end
 
-function Attack()
-    return turtle.attack()
-end
-
-function Attack_up()
-    return turtle.attackUp()
-end
-
-function Attack_down()
-    return turtle.attackDown()
-end
-
+---Dig in front of the turtle. 
+---@param Handle_gravel boolean Set to true if gravel is to be expected
+---@return boolean Succes True if minging was succesfull
 function Dig(Handle_gravel)
     local Current_slot = turtle.getSelectedSlot()
 
     if Handle_gravel == nil then Handle_gravel = false end
 
+    --Placing a block will remove the fluid source block
     if Config.Clear_fluids == true then
         turtle.select(1)
         turtle.place()
@@ -218,10 +222,13 @@ function Dig(Handle_gravel)
     return true
 end
 
+---Dumps all items in a chest for collection. Special slots will be
+---ignored like: fuel, chest and light. Nomater they are in use of not.
 function Chest_dump()
     local Current_slot = turtle.getSelectedSlot()
     local Slot = 0
 
+    --Place chest according to configurations
     Chest_dump_place()
 
     for Slot = 1, 16, 1 do
@@ -247,6 +254,9 @@ function Chest_dump()
 
 end
 
+---Drop items into chest according the configurations
+---@param Slot number Inventory slot
+---@return boolean Succes true if items were send into the chest
 function Chest_dump_drop(Slot)
     if Slot == nil then Slot = 1 end
 
@@ -264,6 +274,7 @@ function Chest_dump_drop(Slot)
     return false
 end
 
+---Places chest according to the configurations
 function Chest_dump_place()
     turtle.select(Config.Chest_slot)
 
@@ -275,7 +286,7 @@ function Chest_dump_place()
     if Config.Chest_dump_type == "Normal" then
         turtle.turnLeft()
         turtle.turnLeft()
-        turtle.dig()
+        Dig()
         turtle.place()
     end
 
@@ -283,6 +294,7 @@ function Chest_dump_place()
     return
 end
 
+---Pick up the chest according to the configurations
 function Chest_dump_pick()
     turtle.select(Config.Chest_slot)
 
@@ -293,21 +305,28 @@ function Chest_dump_pick()
     if Config.Chest_dump_type == "Normal" then
         turtle.turnLeft()
         turtle.turnLeft()
-        turtle.dig()
+        Dig()
     end
 
     ---If Config is set to 'None' or all else
     return
 end
 
-function Tunnel_slice(Hight)
-    local Required_fuel = (Hight - 1) * 2
+---Mine out a tunnel slice with a width of 3 blocks
+---Turtle does not move into the wall at the start of the slice
+---@param Input number Hight of the tunnel slice
+function Tunnel_slice(Input)
+    --Hight requires an offset since it starts already on level 1
+    local Hight = Input - 1
+
+    --Required fuel to perform the whole tunnel slice
+    local Required_fuel = Hight * 2
     local Traveled = 0
 
     Refuel_upto(Required_fuel)
 
     turtle.turnLeft()
-    for Traveled = 0, Hight - 1, 1 do
+    for Traveled = 0, Hight, 1 do
         Dig(true)
         Up()
     end
@@ -317,7 +336,7 @@ function Tunnel_slice(Hight)
     turtle.turnRight()
     Dig(true)
 
-    for Traveled = 0, Hight - 1, 1 do
+    for Traveled = 0, Hight, 1 do
         Down()
         Dig()
     end
@@ -325,9 +344,8 @@ function Tunnel_slice(Hight)
     Dig()
     turtle.turnLeft()
 
-    --Cleanup of posible gravel
+    --Cleanup of posible gravel of the left side
     turtle.turnLeft()
     Dig(true)
     turtle.turnRight()
-
 end
