@@ -36,6 +36,17 @@ function Is_fuel()
     return turtle.refuel(0)
 end
 
+---Checks if there is still enough fuel stored
+---@param Required number Required fuel
+---@return boolean 
+function Fuel_check(Required)
+    local Fuel_level = turtle.getFuelLevel()
+
+    if Required < Fuel_level then return true end
+
+    return false
+end
+
 ---Return name of item in current slot.
 ---returns "no item" if slot is empty
 ---@return string
@@ -138,7 +149,7 @@ function Down()
     
     for Try = 1, 3, 1 do
         for Attempt = 1, 3, 1 do
-            if turtle.Down() == true then
+            if turtle.down() == true then
                 return true
             end
 
@@ -179,4 +190,50 @@ end
 
 function Attack_down()
     return turtle.attackDown()
+end
+
+function Dig(Handle_gravel)
+    local Current_slot = turtle.getSelectedSlot()
+
+    if Handle_gravel == nil then Handle_gravel = false end
+
+    if Config.Clear_fluids == true then
+        turtle.select(1)
+        turtle.place()
+        turtle.select(Current_slot)
+    end
+
+    if Handle_gravel == false then
+        return turtle.dig()
+    end
+
+    while turtle.dig() == true do
+        sleep(0.2)
+    end
+
+    return true
+end
+
+function Tunnel_slice(Hight)
+    local Required_fuel = Hight * 2
+    local Traveled = 0
+
+    turtle.turnLeft()
+    for Traveled = 0, Hight - 1, 1 do
+        Dig(true)
+        Up()
+    end
+
+    Dig(true)
+    turtle.turnRight()
+    turtle.turnRight()
+
+    for Traveled = 0, Hight - 1, 1 do
+        Down()
+        Dig()
+    end
+
+    Dig(true)
+    turtle.turnLeft()
+
 end

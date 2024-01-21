@@ -76,6 +76,19 @@ function main()
 
 		local Inventory_message = Generate_inventory_message()
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
+
+		local Traveled = 0
+
+		for Traveled = 0, Distance, 1 do
+			Arch.Tunnel_slice(Config.Tunnel_hight)
+			
+			print("Traveled: " .. Traveled .. " Distance: " .. Distance)
+			if Traveled ~= Distance then
+				Arch.Forward()
+			end
+			
+		end
+
 	end
 end
 

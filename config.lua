@@ -68,7 +68,10 @@ Fuel_slot = 16
 --#region Mining
 
 ---Hight of tunnels mined my the turtle
-Tunnel_hight = 15
+Tunnel_hight = 5
+
+---Turtle will attempt to clear fluids during operation
+Clear_fluids = true
 
 ---If set to true, the turtle will place a path below itself
 Place_base_block = true
