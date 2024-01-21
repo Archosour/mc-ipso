@@ -215,8 +215,10 @@ function Dig(Handle_gravel)
 end
 
 function Tunnel_slice(Hight)
-    local Required_fuel = Hight * 2
+    local Required_fuel = (Hight - 1) * 2
     local Traveled = 0
+
+    Refuel_upto(Required_fuel)
 
     turtle.turnLeft()
     for Traveled = 0, Hight - 1, 1 do
@@ -224,16 +226,22 @@ function Tunnel_slice(Hight)
         Up()
     end
 
+    Dig()
+    turtle.turnRight()
+    turtle.turnRight()
     Dig(true)
-    turtle.turnRight()
-    turtle.turnRight()
 
     for Traveled = 0, Hight - 1, 1 do
         Down()
         Dig()
     end
 
-    Dig(true)
+    Dig()
     turtle.turnLeft()
+
+    --Cleanup of posible gravel
+    turtle.turnLeft()
+    Dig(true)
+    turtle.turnRight()
 
 end
