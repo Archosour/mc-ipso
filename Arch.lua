@@ -259,6 +259,7 @@ end
 ---@return boolean Succes true if items were send into the chest
 function Chest_dump_drop(Slot)
     if Slot == nil then Slot = 1 end
+    if Config.Chest_dump_type == "None" then return true end
 
     turtle.select(Slot)
 
@@ -276,11 +277,13 @@ end
 
 ---Places chest according to the configurations
 function Chest_dump_place()
+    if Config.Chest_dump_type == "None" then return end
     turtle.select(Config.Chest_slot)
 
     if Config.Chest_dump_type == "Ender chest" then
         turtle.digUp()
         turtle.placeUp()
+        return
     end
 
     if Config.Chest_dump_type == "Normal" then
@@ -288,6 +291,7 @@ function Chest_dump_place()
         turtle.turnLeft()
         Dig()
         turtle.place()
+        return
     end
 
     ---If Config is set to 'None' or all else
@@ -296,16 +300,19 @@ end
 
 ---Pick up the chest according to the configurations
 function Chest_dump_pick()
+    if Config.Chest_dump_type == "None" then return end
     turtle.select(Config.Chest_slot)
 
     if Config.Chest_dump_type == "Ender chest" then
         turtle.digUp()
+        return
     end
 
     if Config.Chest_dump_type == "Normal" then
         turtle.turnLeft()
         turtle.turnLeft()
         Dig()
+        return
     end
 
     ---If Config is set to 'None' or all else
@@ -349,3 +356,38 @@ function Tunnel_slice(Input)
     Dig(true)
     turtle.turnRight()
 end
+
+---Checks if light source has to be placed
+---@param Distance number number horizontal of blocks traveled from start position
+---@return boolean succes True if at the set interval by configuration file
+function Light_check_distance(Distance)
+    if Distance <= 1 then return false end
+
+    if math.fmod(Distance, Config.Light_block_interval) == 0 then
+        return true
+    end
+
+    return false
+end
+
+---Place light source according to the config file
+function Light_place_block()
+    if Config.Light_block_type == "None" then return end
+
+    turtle.select(Config.Chest_slot)
+
+    if Config.Light_block_type == "Torch" then
+        turtle.turnLeft()
+        turtle.place()
+        turtle.turnLeft()
+        return
+    end
+
+    if Config.Light_block_type == "Glowstone" then
+        turtle.digDown()
+        turtle.placeDown()
+        return
+    end
+
+    return
+end 
