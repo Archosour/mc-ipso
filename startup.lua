@@ -124,13 +124,14 @@ function main()
 		end
 
 	elseif Device_type == "Energy:Kinetic_system" then
-		local Interface = peripheral.wrap("bottom")
+		local StressOmeter = peripheral.wrap("left")
+		local SpeedOmeter = peripheral.wrap("bottom")
 
 		while true do
-			local RPM = math.abs(Interface.getKineticSpeed("bottom"))
+			local RPM = math.abs(SpeedOmeter.getSpeed())
 			local Direction = true
-			local Stress = Interface.getKineticStress("right")
-			local Capacity = Interface.getKineticCapacity("right")
+			local Stress = StressOmeter.getStress()
+			local Capacity = StressOmeter.getStressCapacity()
 
 			if RPM < 0 then Direction = false end
 

@@ -1,3 +1,8 @@
+-------------------{ Turtle API }-------------------
+---  API for controlling a conputercraft turtle  ---
+---  For normal operation it is depending on the ---
+---  config.lua file for settings
+
 os.loadAPI("Config.lua")
 
 function Attack()
@@ -232,7 +237,7 @@ function Chest_dump()
     Chest_dump_place()
 
     for Slot = 1, 16, 1 do
-        if (Slot ~= Config.Fuel_slot) && (Slot ~= Config.Chest_slot) && (Slot ~= Config.Light_slot) then
+        if (Slot ~= Config.Fuel_slot) and (Slot ~= Config.Chest_slot) and (Slot ~= Config.Light_slot) then
             Chest_dump_drop(Slot)
         end
     end
