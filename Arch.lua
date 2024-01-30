@@ -332,7 +332,8 @@ function Tunnel_slice(Input)
     local Hight = Input - 1
 
     --Required fuel to perform the whole tunnel slice
-    local Required_fuel = Hight * 2
+    --Additional 2 for movement forward
+    local Required_fuel = Hight * 2 + 2
     local Traveled = 0
 
     Refuel_upto(Required_fuel)

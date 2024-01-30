@@ -189,11 +189,11 @@ function main()
 			local Item_name = Info.First_item_name
 			local Slot = 1
 
-			if Filled_percentage > 0.8 then
+			if Filled_percentage > Config.Hysteresis_high then
 				Redstone_level = false
 			end	
 
-			if Filled_percentage < 0.6 then
+			if Filled_percentage < Config.Hysteresis_low then
 				Redstone_level = true
 			end
 
