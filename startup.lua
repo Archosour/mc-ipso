@@ -101,13 +101,11 @@ function main()
 
 	elseif Device_type == "Fluid:Tank" then
 		while true do
-			local Tank = peripheral.wrap(Config.Tank_side).tanks()
-			--local Input_fluid  = redstone.getAnalogInput(Config.Tank_redstone_side)
+			local Tank = peripheral.wrap(Config.Tank_side).getInfo()
 			local Tank_slot = 1
-			local Tank_volume = Tank[Tank_slot]
-			local Fluid_name = Tank_volume.name
-			local Fluid_level = Tank_volume.amount
-			local Fluid_max_value = Config.Tank_max_level
+			local Fluid_name = Tank.fluid
+			local Fluid_level = Tank.amount
+			local Fluid_max_value = Tank.capacity
 			local Fluid_fill_ratio = Fluid_level / Fluid_max_value
 			local Fluid_fill_percent  = tostring(math.ceil(Fluid_fill_ratio * 100)) .. "%"
 
