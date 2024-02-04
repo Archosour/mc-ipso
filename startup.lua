@@ -322,7 +322,7 @@ function main()
 			end
 			
 		end
-	elseif Device_type == "Turtle:Mining" then
+	elseif Device_type == "Turtle:Mining" or Device_type == "Turtle:Latex" then
 		shell.run("./Turtles.lua")
 	end
 end

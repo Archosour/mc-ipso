@@ -97,8 +97,39 @@ function main()
 			end
 			
 		end
+	elseif Device_type == "Turtle:Latex" then
+		local Chest = peripheral.wrap(Config.Vault_side)
 
+		while true do
+			print("loop")
+			Latex_farm(Chest)
+
+			sleep(Config.Main_timer)
+		end
 	end
 end
+
+function Latex_farm(Chest)
+	local Size = Chest.size()
+
+	if turtle.detectDown() == true then return end
+
+	print("nothing found below")
+
+	for Slot = 1, Size, 1 do
+		local Slot_detail = Chest.getItemDetail(Slot)
+		
+		if Slot_detail ~= nil then
+			if Slot_detail.displayName == "Oak Log" then
+				print("oak log found")
+				turtle.select(1)
+				turtle.suck(1)
+				turtle.placeDown()
+				return
+			end
+		end
+	end
+end
+
 
 main()
