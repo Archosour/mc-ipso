@@ -34,6 +34,9 @@ Listen_for_client = 29
 ---Side where a vault is located
 Vault_side = "back"
 
+---Side where a speedcontroller is located
+Speedcontroller_side = "front"
+
 ---Side to output a signal for when a vault has reached its high level
 Overflow_redstone_side = "front"
 

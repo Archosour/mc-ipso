@@ -212,6 +212,41 @@ function main()
 			sleep(Config.Main_timer)
 		end
 
+	elseif Device_type == "Item:Vault_compress" then
+		local Chest = peripheral.wrap(Config.Vault_side)
+		local Speed_controller = peripheral.wrap(Config.Speedcontroller_side)
+
+		local Speed = 1
+		
+		while true do
+			print("loop")
+			local Info = Brave.Get_chest_inventory(Chest, false)
+			
+			local Items_stored = Info.Count
+			local Items_capacity = Info.Max_count
+			local First_item_stores = Info.First_item_name
+			local Number_of_slots = Info.Size
+			local Filled_percentage = Items_stored / Items_capacity
+			local Item_name = Info.First_item_name
+			local Slot = 1
+
+			Speed = math.floor(255 * Filled_percentage)
+			
+			Speed_controller.setTargetSpeed(Speed)
+
+			local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
+			local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
+			local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
+			local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
+			local Speed_object     = IPSO.Generate_object(IPSO.Object_list.Kinetic_speed,   Slot, IPSO.Resource_list.Set_value, Speed)
+
+			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Speed_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.Transmit(Config.Channel_network, Package)
+
+			sleep(Config.Main_timer)
+		end
+
 	elseif Device_type == "Item:Storage" then
 		local Chest_side = Brave.Find_chest()
 		local Chest = peripheral.wrap(Chest_side)
