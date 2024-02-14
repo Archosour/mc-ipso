@@ -55,6 +55,9 @@ Fuel_slot = 16
 ---Hight of tunnels mined my the turtle
 Tunnel_hight = 5
 
+---Width of the tunnel, currently supported: 3 and 4
+Tunnel_width = 4
+
 ---Turtle will attempt to clear fluids during operation
 Clear_fluids = true
 

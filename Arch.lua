@@ -349,6 +349,11 @@ function Tunnel_slice(Input)
     turtle.turnRight()
     Dig(true)
 
+    if Config.Tunnel_width == 4 then
+        Forward()
+        Dig(true)
+    end
+
     for Traveled = 0, Hight, 1 do
         Down()
         Dig()
@@ -360,6 +365,13 @@ function Tunnel_slice(Input)
     --Cleanup of posible gravel of the left side
     turtle.turnLeft()
     Dig(true)
+
+    if Config.Tunnel_width == 4 then
+        Forward()
+        Dig(true)
+    end
+
+    --Reset orientation for new slice
     turtle.turnRight()
 end
 
