@@ -4,8 +4,6 @@ Device_type = "Clock:Season"
 ---Timer setting (in seconds) for time in between loop iterations
 Main_timer = 10 -- seconds
 
---#region Networking IRL
-
 ---IPv4 address of the endpoint receiving data.
 ---This endpoint will route all packages to their
 ---location and/or database
@@ -13,10 +11,6 @@ Gateway_IPv4 = ""
 
 ---Default route for current Minecraft server
 Gateway_route = "/Minecraft_server"
-
---#endregion
-
---#region Networking in server
 
 ---Channel for the main communication between deviced
 Channel_network = 1
@@ -26,10 +20,6 @@ Channel_gps = 2
 
 ---Listen for a client to analyse its data thats been broadcasted
 Listen_for_client = 29
-
---#endregion
-
---#region External inventories
 
 ---Side where a vault is located
 Vault_side = "back"
@@ -59,16 +49,8 @@ Valve_signal_side = "bottom"
 ---Default output level on startup
 Valve_signal_default = true
 
---#endregion
-
---#region Turtles
-
 ---Slot for combustable items to be used as fuel
 Fuel_slot = 16
-
---#endregion
-
---#region Mining
 
 ---Hight of tunnels mined my the turtle
 Tunnel_hight = 5
@@ -97,13 +79,3 @@ Chest_dump_type = "Ender chest"
 
 ---Slot for chests to store mined items.
 Chest_slot = 15
-
---#endregion
-
---#region Old configs
-
-hight = 15
-useChests = true
-chestSlot = 15
-
---#endregion
