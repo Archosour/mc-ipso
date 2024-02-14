@@ -231,6 +231,13 @@ function main()
 			local Slot = 1
 
 			Speed = math.floor(255 * Filled_percentage)
+
+			---Items could be leftover on the compressor
+			---This ensures that those items are evenntually
+			---processed.
+			if (Items_stored < 9) then
+				Speed = 1
+			end
 			
 			Speed_controller.setTargetSpeed(Speed)
 
