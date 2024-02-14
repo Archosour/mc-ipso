@@ -1,5 +1,5 @@
 ---Variable to set function of the device
-Device_type = "Clock:Season"
+Device_type = "Turtle:Mining"
 
 ---Timer setting (in seconds) for time in between loop iterations
 Main_timer = 10 -- seconds
@@ -53,7 +53,7 @@ Valve_signal_default = true
 Fuel_slot = 16
 
 ---Hight of tunnels mined my the turtle
-Tunnel_hight = 5
+Tunnel_hight = 28
 
 ---Width of the tunnel, currently supported: 3 and 4
 Tunnel_width = 4
