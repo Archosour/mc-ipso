@@ -337,20 +337,26 @@ end
 ---@param Input number Hight of the tunnel slice
 function Tunnel_slice(Input)
     --Hight requires an offset since it starts already on level 1
-    local Hight = Input - 1
+    local Expected_hight = Input - 1
+    local Hight = 0
 
     --Required fuel to perform the whole tunnel slice
     --Additional 2 for movement forward
-    local Required_fuel = Hight * 2 + 2
+    local Required_fuel = Expected_hight * 2 + 2
     local Traveled = 0
 
     Refuel_upto(Required_fuel)
 
     turtle.turnLeft()
-    for Traveled = 0, Hight, 1 do
-        Dig(true)
+    for Traveled = 0, Expected_hight, 1 do
+        if Dig(true) == false then
+            break
+        end
+
         Up()
     end
+
+    Hight = Traveled
 
     Dig()
     turtle.turnRight()
@@ -363,7 +369,13 @@ function Tunnel_slice(Input)
     end
 
     for Traveled = 0, Hight, 1 do
-        Down()
+
+        -- This needs to get a nicer handling
+        if Down() == false then
+            print("Block could not be mined, terminate program...")
+            error("Block could not be mined, terminate program...")
+        end
+
         Dig()
     end
 
