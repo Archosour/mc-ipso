@@ -7,3 +7,8 @@ Fluid_type  = {["water"] = 1, ["lava"] = 2, ["oil"] = 3, ["fuel"] = 4, ["EXP"] =
 Keyboard_keys = {["Pause_break"] = 197, ["Home"] = 199}
 Seasons = {["Undefined"] = 0, ["Spring"] = 1, ["Summer"] = 2, ["Fall"] = 3, ["Winter"] = 4}
 Season  = {[0] = "Undefined", [1] = "Spring", [2] = "Summer", [3] = "Fall", [4] = "Winter"}
+
+Device_types = {
+    ["Turtle:Mining"] = "Turtle:Mining", 
+    ["Unknown"] = "Unknown"
+}

@@ -1,3 +1,6 @@
+os.loadAPI("Constants.lua")
+os.loadAPI("Config.lua")
+
 local Pc_label = os.getComputerLabel()
 
 Neutral_pos = {
@@ -474,14 +477,10 @@ function Print_display(Display)
             term.write(Display_line)
         end
 
-        if #Display_options == 0 or Display_options == nil then return end
-
-        Line = 0
-        for Line = 1, #Display_options, 1 do
-            local Option_line = Display_options[Line].Name
-            term.setCursorPos(1, Line + 3)
-            term.write(Option_line)
-        end
+        term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Neutral_pos["Turtle"]["y"])
+        term.write("Label: " .. os.getComputerLabel())
+        term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Neutral_pos["Turtle"]["y"] + 1)
+        term.write("ID:    " .. Config.Device_type)
 
     else
         term.clear()
