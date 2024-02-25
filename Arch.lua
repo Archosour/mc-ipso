@@ -346,13 +346,10 @@ function Tunnel_slice(Input)
     local Traveled = 0
     local Save_traveled = 0
 
-    print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
-
     Refuel_upto(Required_fuel)
 
     turtle.turnLeft()
     for Traveled = 0, Expected_hight, 1 do
-        print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
         Dig(true)
 
         if Up() == false then
@@ -362,12 +359,7 @@ function Tunnel_slice(Input)
         Save_traveled = Traveled
     end
 
-    print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
-
     Hight = Traveled
-
-    print("new hight: " .. Save_traveled)
-    print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
 
     Dig()
     turtle.turnRight()
@@ -380,7 +372,6 @@ function Tunnel_slice(Input)
     end
 
     for Traveled = 0, Save_traveled, 1 do
-        print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
         
         -- This needs to get a nicer handling
         if Down() == false then

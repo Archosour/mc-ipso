@@ -3,7 +3,8 @@ local Pc_label = os.getComputerLabel()
 Neutral_pos = {
     ["Pocket"] = {["x"] = 1, ["y"] = 15},
     ["Monitor"] = {["x"] = 1, ["y"] = 15},
-    ["Advanced_computer"] = {["x"] = 1, ["y"] = 13}
+    ["Advanced_computer"] = {["x"] = 1, ["y"] = 13},
+    ["Turtle"] = {["x"] = 1, ["y"] = 1}
 }
 
 Displays = {
@@ -398,7 +399,7 @@ Displays = {
                 "                                 / /| |",
                 "                                / ___ |",
                 "                               /_/  |_/",
-                "---------------------------------------",
+                "                              ---------",
                 "                                       ",
                 "                                       ",
                 "                                       ",
