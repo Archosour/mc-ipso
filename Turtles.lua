@@ -2,6 +2,7 @@ os.loadAPI("Brave.lua")
 os.loadAPI("IPSO.lua")
 os.loadAPI("Config.lua")
 os.loadAPI("Arch.lua")
+os.loadAPI("Displays.lua")
 
 local Device_type = ""
 local Tab = 0
@@ -74,6 +75,8 @@ function main()
         local Distance = tonumber(read())
         print("User input: " .. Distance)
 
+		Displays.Print_display("Home")
+
 		local Inventory_message = Generate_inventory_message()
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
 
@@ -82,7 +85,7 @@ function main()
 		--Start with a clean inventory
 		Arch.Chest_dump()
 
-		for Traveled = 0, Distance, 1 do
+		for Traveled = 1, Distance, 1 do
 			turtle.select(12)
 
 			if turtle.getItemCount() > 0 then

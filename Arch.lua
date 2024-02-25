@@ -344,19 +344,30 @@ function Tunnel_slice(Input)
     --Additional 2 for movement forward
     local Required_fuel = Expected_hight * 2 + 2
     local Traveled = 0
+    local Save_traveled = 0
+
+    print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
 
     Refuel_upto(Required_fuel)
 
     turtle.turnLeft()
     for Traveled = 0, Expected_hight, 1 do
-        if Dig(true) == false then
+        print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
+        Dig(true)
+
+        if Up() == false then
             break
         end
 
-        Up()
+        Save_traveled = Traveled
     end
 
+    print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
+
     Hight = Traveled
+
+    print("new hight: " .. Save_traveled)
+    print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
 
     Dig()
     turtle.turnRight()
@@ -368,8 +379,9 @@ function Tunnel_slice(Input)
         Dig(true)
     end
 
-    for Traveled = 0, Hight, 1 do
-
+    for Traveled = 0, Save_traveled, 1 do
+        print("hight: " .. Hight .. " Traveled: " .. Traveled .. " Expected: " .. Expected_hight)
+        
         -- This needs to get a nicer handling
         if Down() == false then
             print("Block could not be mined, terminate program...")

@@ -393,11 +393,11 @@ Displays = {
     ["Turtle"] = {
         ["Home"] = {
             ["Background"] = {
-                "                 ___              __   ",
-                "                /   |  __________/ /_  ",
-                "               / /| | / ___/ ___/ __ \\",
-                "              / ___ |/ /  / /__/ / / / ",
-                "             /_/  |_/_/   \\___/_/ /_/ ",
+                "                                   ___ ",
+                "                                  /   |",
+                "                                 / /| |",
+                "                                / ___ |",
+                "                               /_/  |_/",
                 "---------------------------------------",
                 "                                       ",
                 "                                       ",
@@ -436,10 +436,7 @@ function Print_terminal(Display)
     end
 end
 
-function Print_display(Display, Peripheral)
-
-    Brave.Log("Display type; " .. type(Display), true, false)
-    Brave.Log("Display     ; " .. Display, true, false)
+function Print_display(Display)
 
     if pocket then
         local Display_background = Displays.Pocket[Display].Background
@@ -463,20 +460,27 @@ function Print_display(Display, Peripheral)
             term.write(Option_line)
         end
 
-    elseif Pc_label == "arch:monitor_0" then
-        local Display_background = Displays.Monitor[Display].Background
-        local Display_options    = Displays.Monitor[Display].Options
+    elseif turtle then
+        local Display_background = Displays.Turtle[Display].Background
+        local Display_options    = Displays.Turtle[Display].Options
         local Line = 0
 
-        Peripheral.clear()
+        term.clear()
 
         for Line = 1, #Display_background, 1 do
             local Display_line = Display_background[Line]
-            Peripheral.setCursorPos(1, Line)
-            Peripheral.write(Display_line)
+            term.setCursorPos(1, Line)
+            term.write(Display_line)
         end
 
-        Print_terminal(Display)
+        if #Display_options == 0 or Display_options == nil then return end
+
+        Line = 0
+        for Line = 1, #Display_options, 1 do
+            local Option_line = Display_options[Line].Name
+            term.setCursorPos(1, Line + 3)
+            term.write(Option_line)
+        end
 
     else
         term.clear()
