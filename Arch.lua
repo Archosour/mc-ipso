@@ -240,6 +240,14 @@ function Chest_dump()
         if (Slot ~= Config.Fuel_slot) and (Slot ~= Config.Chest_slot) and (Slot ~= Config.Light_slot) then
             Chest_dump_drop(Slot)
         end
+
+        -- To make sure of chest slot is empty before picking up 
+        -- the ender chest at a later stage. Could result unto
+        -- losing its chest and dumping everything on the floor
+        -- next time it drops off items
+        if (Slot == Config.Chest_slot and Config.Chest_dump_type == "Ender chest") then
+            Chest_dump_drop(Slot)
+        end
     end
     
     if Config.Light_block_type ~= "None" then
