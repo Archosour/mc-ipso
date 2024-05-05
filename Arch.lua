@@ -238,6 +238,7 @@ function Chest_dump()
 
     for Slot = 1, 16, 1 do
         if (Slot ~= Config.Fuel_slot) and (Slot ~= Config.Chest_slot) and (Slot ~= Config.Light_slot) then
+            print("slot: " .. Slot)
             Chest_dump_drop(Slot)
         end
 

@@ -1,6 +1,8 @@
 ---Variable to set function of the device
 Device_type = "Turtle:Mining"
 
+Disable_modem = true
+
 ---Timer setting (in seconds) for time in between loop iterations
 Main_timer = 10 -- seconds
 

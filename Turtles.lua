@@ -7,7 +7,11 @@ os.loadAPI("Displays.lua")
 local Device_type = ""
 local Tab = 0
 
-local Console_tab = multishell.getCurrent()
+local Console_tab = ""
+
+if term.isColor == true then
+	Console_tab = multishell.getCurrent()
+end 
 local Pc_label = os.getComputerLabel()
 
 ---Setup for the main loop.

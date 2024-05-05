@@ -18,6 +18,9 @@ Protocol_version = 4
 function Find_modem()
 	local sides = Constants.Block_sides
 	local n = 0
+
+	if Config.Disable_modem == true then return nil end
+
 	for n = 1, #sides, 1 do
 		if peripheral.getType(sides[n]) == "modem" then
 			modem = peripheral.wrap(sides[n])
@@ -295,7 +298,10 @@ end
 ---@param Channel Number #Channel to transmit message over
 ---@param Message String #Message to be send
 function Modem.Transmit(Channel, Message)
-	Modem.transmit(Channel, Channel, Message)
+	if Config.Disable_modem == true then return end
+	if Modem ~= "" then
+		Modem.transmit(Channel, Channel, Message)
+	end
 end
 
 --#endregion

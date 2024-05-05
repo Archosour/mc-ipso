@@ -5,7 +5,11 @@ os.loadAPI("Config.lua")
 local Device_type = ""
 local Tab = 0
 
-local Console_tab = multishell.getCurrent()
+local Console_tab = ""
+
+if term.isColor == true then
+	Console_tab = multishell.getCurrent()
+end 
 local Pc_label = os.getComputerLabel()
 
 ---Setup for the main loop.
@@ -13,11 +17,13 @@ local Pc_label = os.getComputerLabel()
 function Startup()
 	Brave.Clear_term()
 	if pocket then
-		Tab = multishell.launch({}, "Pocket.lua", {"true"})
-		
-		multishell.setTitle(Tab, "Home")
-		multishell.setTitle(Console_tab, "Con")
-		multishell.setFocus(Tab)
+		if term.isColor == true then
+			Tab = multishell.launch({}, "Pocket.lua", {"true"})
+			
+			multishell.setTitle(Tab, "Home")
+			multishell.setTitle(Console_tab, "Con")
+			multishell.setFocus(Tab)
+		end
 	end
 
 	print("PC ID: " .. tostring(os.getComputerID()))
@@ -53,8 +59,10 @@ function Startup()
 		Brave.Modem.Transmit(Config.Channel_network, Alive_message)
 	end
 
-	Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
-	multishell.setTitle(Tab, "Ipso")
+	if term.isColor == true then
+		Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
+		multishell.setTitle(Tab, "Ipso")
+	end
 end
 
 ---Generate Alive message.
