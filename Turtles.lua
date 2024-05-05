@@ -104,7 +104,6 @@ function main()
 			--offset due to starting on hight 1
 			Arch.Tunnel_slice(Config.Tunnel_hight - 1)
 			
-			print("Traveled: " .. Traveled .. " Distance: " .. Distance)
 			if Traveled ~= Distance then
 				Arch.Forward()
 			end

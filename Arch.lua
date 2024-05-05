@@ -23,13 +23,9 @@ end
 function Refuel()
     local Current_slot = turtle.getSelectedSlot()
 
-    print("pre refuel" .. turtle.getFuelLevel())
-
     turtle.select(Config.Fuel_slot)
     local Succes = turtle.refuel(1)
     turtle.select(Current_slot)
-
-    print("post refuel" .. turtle.getFuelLevel())
 
     return Succes
 end
@@ -238,7 +234,6 @@ function Chest_dump()
 
     for Slot = 1, 16, 1 do
         if (Slot ~= Config.Fuel_slot) and (Slot ~= Config.Chest_slot) and (Slot ~= Config.Light_slot) then
-            print("slot: " .. Slot)
             Chest_dump_drop(Slot)
         end
 
