@@ -255,7 +255,7 @@ function Chest_dump()
         Chest_dump_drop(Config.Light_slot)
     end
 
-    if Config.Chest_dump_type ~= "None" then
+    if Config.Chest_dump_type == "None" then
         Chest_dump_drop(Config.Chest_slot)
     end
 
