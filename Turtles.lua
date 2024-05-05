@@ -87,7 +87,10 @@ function main()
 		local Traveled = 0
 
 		--Start with a clean inventory
-		Arch.Chest_dump()
+		if Config.Chest_type_dump == "Ender chest" then
+			Arch.Chest_dump()
+		end
+		
 
 		for Traveled = 1, Distance, 1 do
 			turtle.select(12)
