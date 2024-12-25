@@ -86,7 +86,7 @@ function Forward()
     local Attempt = 0
 
     for Try = 1, 3, 1 do
-        for Attempt = 1, 3, 1 do
+        for Attempt = 1, 255, 1 do
             if turtle.forward() == true then
                 return true
             end
