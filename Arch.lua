@@ -290,7 +290,10 @@ function Chest_dump_place()
     turtle.select(Config.Chest_slot)
 
     if Config.Chest_dump_type == "Ender chest" then
-        turtle.digUp()
+        while turtle.placeUp() == false do
+            turtle.digUp()
+        end
+        
         turtle.placeUp()
         return
     end
