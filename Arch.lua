@@ -97,6 +97,7 @@ function Forward()
         Attack()
     end
 
+    print("Turtle could not move forward due to unknown reason")
     return false
 end
 
@@ -366,7 +367,10 @@ function Tunnel_slice(Input)
     Dig(true)
 
     if Config.Tunnel_width == 4 then
-        Forward()
+        if Forward() == false then
+            print("Turtle failed to move forward in tunnel slice")
+            print("Fuel level: " .. turtle.getFuelLevel())
+        end
         Dig(true)
     end
 
