@@ -91,9 +91,8 @@ function main()
 			Arch.Chest_dump()
 		end
 		
-
 		for Traveled = 1, Distance, 1 do
-			turtle.select(12)
+			turtle.select(Get_minimal_slot())
 
 			if turtle.getItemCount() > 0 then
 				Arch.Chest_dump()
@@ -144,5 +143,10 @@ function Latex_farm(Chest)
 	end
 end
 
+function Get_minimal_slot()
+	if (Config.Tunnel_hight <= 15) return 12 end
+	if (Config.Tunnel_hight < 20)  return 11 end
+	if (Config.Tunnel_hight >= 20) return 10 end
+end
 
 main()

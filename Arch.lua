@@ -129,6 +129,8 @@ function Up()
     
     for Try = 1, 3, 1 do
         for  Attempt = 1, 3, 1 do
+            turtle.suckUp()
+
             if turtle.up() == true then
                 return true
             end
