@@ -105,6 +105,7 @@ function main()
 			Arch.Tunnel_slice(Config.Tunnel_hight - 1)
 			
 			if Traveled ~= Distance then
+				Arch.Refuel_upto(10)
 				Arch.Forward()
 			end
 			
