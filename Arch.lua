@@ -91,13 +91,14 @@ function Forward()
                 return true
             end
 
+            Refuel()
             turtle.dig()
         end
 
         Attack()
     end
 
-    print("100 Turtle could not move forward due to unknown reason")
+    print("101 Turtle could not move forward due to unknown reason")
     print("Fuel level: " .. turtle.getFuelLevel())
     return false
 end
@@ -136,6 +137,7 @@ function Up()
             
         end
 
+        Refuel()
         Attack_up()
     end
 
@@ -176,6 +178,7 @@ function Down()
             
         end
 
+        Refuel()
         Attack_down()
     end
 
@@ -369,7 +372,7 @@ function Tunnel_slice(Input)
 
     if Config.Tunnel_width == 4 then
         if Forward() == false then
-            print("372 Turtle failed to move forward in tunnel slice")
+            print("375 Turtle failed to move forward in tunnel slice")
             print("Fuel level: " .. turtle.getFuelLevel())
         end
         Dig(true)
@@ -395,7 +398,7 @@ function Tunnel_slice(Input)
 
     if Config.Tunnel_width == 4 then
         if Forward() == false then
-            print("398 Turtle failed to move forward in tunnel slice")
+            print("401 Turtle failed to move forward in tunnel slice")
             print("Fuel level: " .. turtle.getFuelLevel())
         end
         Dig(true)
