@@ -144,9 +144,9 @@ function Latex_farm(Chest)
 end
 
 function Get_minimal_slot()
-	if (Config.Tunnel_hight <= 15) return 12 end
-	if (Config.Tunnel_hight < 20)  return 11 end
-	if (Config.Tunnel_hight >= 20) return 10 end
+	if (Config.Tunnel_hight <= 15) then return 12 end
+	if (Config.Tunnel_hight < 20)  then return 11 end
+	if (Config.Tunnel_hight >= 20) then return 10 end
 end
 
 main()
