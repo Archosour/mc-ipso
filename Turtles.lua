@@ -92,6 +92,7 @@ function main()
 		end
 		
 		for Traveled = 1, Distance, 1 do
+			Displays.Print_display("Home", {"Distance: " .. Distance, "Tunnel slice: " .. Traveled - 1})
 			turtle.select(Get_minimal_slot())
 
 			if turtle.getItemCount() > 0 then
