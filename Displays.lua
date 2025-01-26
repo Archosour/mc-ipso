@@ -440,7 +440,7 @@ function Print_terminal(Display)
     end
 end
 
-function Print_display(Display)
+function Print_display(Display, Aditional_info)
 
     if pocket then
         local Display_background = Displays.Pocket[Display].Background
@@ -497,6 +497,15 @@ function Print_display(Display)
             term.write("Tunnel hight: " .. Config.Tunnel_hight)
             term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 4)
             term.write("Tunnel width: " .. Config.Tunnel_width)
+        end
+
+        local Turtle_adition_row = Turtle_specialty_row + 6
+
+        if (#Aditional_info > 0) then
+            for Line = 1, #Aditional_info, 1 do
+                term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_adition_row + Line - 1)
+                term.write(Aditional_info[Line])
+            end
         end
 
     else
