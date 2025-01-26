@@ -477,25 +477,25 @@ function Print_display(Display)
             term.write(Display_line)
         end
 
-        term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Neutral_pos["Turtle"]["y"])
+        term.setCursorPos(Neutral_pos["Turtle"]["x"], Neutral_pos["Turtle"]["y"])
         term.write("Label: " .. os.getComputerLabel())
-        term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Neutral_pos["Turtle"]["y"] + 1)
+        term.setCursorPos(Neutral_pos["Turtle"]["x"], Neutral_pos["Turtle"]["y"] + 1)
         term.write("ID   : " .. Config.Device_type)
-        term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Neutral_pos["Turtle"]["y"] + 2)
+        term.setCursorPos(Neutral_pos["Turtle"]["x"], Neutral_pos["Turtle"]["y"] + 2)
         term.write("PC ID: " .. os.getComputerID())
 
         local Turtle_specialty_row = Neutral_pos["Turtle"]["y"] + 4
 
         if Config.Device_type == "Turtle:Mining" then
-            term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Turtle_specialty_row)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row)
             term.write("Fuel slot:    " .. Config.Fuel_slot)
-            term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Turtle_specialty_row + 1)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 1)
             term.write("Chest type:   " .. Config.Chest_dump_type)
-            term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Turtle_specialty_row + 2)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 2)
             term.write("Chest slot:   " .. Config.Chest_slot)
-            term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Turtle_specialty_row + 3)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 3)
             term.write("Tunnel hight: " .. Config.Tunnel_hight)
-            term.setCursorPos(Neutral_pos["Turtle"]["x"] + 1, Turtle_specialty_row + 4)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 4)
             term.write("Tunnel width: " .. Config.Tunnel_width)
         end
 
