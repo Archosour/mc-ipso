@@ -12,6 +12,7 @@ local Overrule_log_to_file = false
 
 local Device_type = ""
 Protocol_version = 4
+Path_to_flash = "Flash"
 
 ---Search for wireless modem on the side of the device
 ---@return string|nil #side with modem attached, or nil of none found
@@ -262,12 +263,23 @@ function Get_table_length(Table)
 	return Count
 end
 
-
-
 ---Clears terminal and reset cursor position
 function Clear_term()
 	term.clear()
 	term.setCursorPos(1,1)
+end
+
+function Flash_update(File_name, Value, Reset) 
+	local File_path = Path_to_flash .. "/" .. File_name
+
+	if (Reset == true) then
+		local File = fs.open(File_path, "w")
+		File.write(Value)
+		return
+	end
+	
+	local File = fs.open(File_path, "")
+
 end
 
 --#region Setup
