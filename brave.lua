@@ -269,17 +269,52 @@ function Clear_term()
 	term.setCursorPos(1,1)
 end
 
-function Flash_update(File_name, Value, Reset) 
-	local File_path = Path_to_flash .. "/" .. File_name
+
+
+
+
+function Flash_update(File_name, Value, Reset, Value_type_input) 
+	local Value_type = "nil"
+
+	if Value_type == nil then Value_type = "number" end
 
 	if (Reset == true) then
-		local File = fs.open(File_path, "w")
-		File.write(Value)
+		Flash_set(File_name, Value)
 		return
 	end
 	
-	local File = fs.open(File_path, "")
+	local Current_value = Flash_get(File_name)
 
+	if Value_type == "number" then 
+		local New_value = tonumber(Current_value) + tonumber(Value)
+		Flash_set(File_name, New_value)
+	else
+		print("Value type unknown: " .. Value_type)
+	end
+
+end
+
+function Flash_set(File_name, Value)
+	local File_path = Path_to_flash .. "/" .. File_name
+
+	local File = fs.open(File_path, "w")
+	File.write(Value)
+
+	File.close()
+end
+
+function Flash_get(File_name)
+	local File_path = Path_to_flash .. "/" .. File_name
+
+	local File = fs.open(File_path, "r")
+	local Values = File.readLines()
+
+	File.close()
+
+	if Values == nil then return 0 end
+	if #Values < 1 then return 0 end
+
+	return values[1]
 end
 
 --#region Setup
