@@ -79,7 +79,7 @@ function main()
         local Distance = tonumber(read())
         --print("User input: " .. Distance)
 
-		Displays.Print_display("Home", ["Distance: " .. Distance])
+		Displays.Print_display("Home", {"Distance: " .. Distance})
 
 		local Inventory_message = Generate_inventory_message()
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
@@ -114,7 +114,7 @@ function main()
 		if Config.Chest_type_dump == "Ender chest" or Config.Chest_type_dump == "Ender" then
 			Arch.Chest_dump()
 		end
-		
+
 	elseif Device_type == "Turtle:Latex" then
 		local Chest = peripheral.wrap(Config.Vault_side)
 
