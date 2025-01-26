@@ -87,7 +87,7 @@ function main()
 		local Traveled = 0
 
 		--Start with a clean inventory
-		if Config.Chest_type_dump == "Ender chest" or Config.Chest_type_dump == "Ender" then
+		if Config.Chest_dump_type == "Ender chest" or Config.Chest_dump_type == "Ender" then
 			Arch.Chest_dump()
 		end
 		
@@ -112,7 +112,7 @@ function main()
 		end
 
 		--End with a clean inventory
-		if Config.Chest_type_dump == "Ender chest" or Config.Chest_type_dump == "Ender" then
+		if Config.Chest_dump_type == "Ender chest" or Config.Chest_dump_type == "Ender" then
 			Arch.Chest_dump()
 		end
 
