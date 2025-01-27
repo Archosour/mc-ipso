@@ -81,7 +81,7 @@ function main()
 
 		Displays.Print_display("Home", {"Distance: " .. Distance})
 
-		Brave.Flash_update(Session_blocks_mined, 0, true)
+		Brave.Flash_update("Session_blocks_mined", 0, true)
 
 		local Inventory_message = Generate_inventory_message()
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
@@ -121,7 +121,7 @@ function main()
 			Arch.Chest_dump()
 		end
 
-		Brave.Flash_update(Total_blocks_mined, Blocks_mined)
+		Brave.Flash_update("Total_blocks_mined", Blocks_mined)
 
 	elseif Device_type == "Turtle:Latex" then
 		local Chest = peripheral.wrap(Config.Vault_side)

@@ -305,21 +305,34 @@ end
 
 function Flash_get(File_name)
 	local File_path = Path_to_flash .. "/" .. File_name
+	
+	term.clear()
+	term.setCursorPos(1,1)
+
+	print(File_name)
+	print(File_path)
 
 	if fs.exists(File_path) == false then
+		print("File not found")
 		Flash_set(File_name, 0)
+		print("return 0")
 		return 0
 	end
-	
+
 	local File = fs.open(File_path, "r")
-	local Values = File.readLines()
+	print("File opened")
+	local Value = File.readLine()
+
+	print(Value)
 
 	File.close()
 
-	if Values == nil then return 0 end
-	if #Values < 1 then return 0 end
+	print("File closed")
 
-	return values[1]
+	if Value == nil then return 0 end
+
+	print(Value)
+	return Value
 end
 
 --#region Setup
