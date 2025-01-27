@@ -295,6 +295,11 @@ function Flash_update(File_name, Value, Reset, Value_type_input)
 end
 
 function Flash_set(File_name, Value)
+	if File_name == nil then
+		print("Filename in Flash set was nil")
+		return
+	end
+
 	local File_path = Path_to_flash .. "/" .. File_name
 
 	local File = fs.open(File_path, "w")
@@ -304,34 +309,27 @@ function Flash_set(File_name, Value)
 end
 
 function Flash_get(File_name)
+	if File_name == nil then
+		print("Filename in Flash get was nil, return 0")
+		return 0
+	end
+
 	local File_path = Path_to_flash .. "/" .. File_name
 	
 	term.clear()
 	term.setCursorPos(1,1)
 
-	print(File_name)
-	print(File_path)
-
 	if fs.exists(File_path) == false then
-		print("File not found")
 		Flash_set(File_name, 0)
-		print("return 0")
 		return 0
 	end
 
 	local File = fs.open(File_path, "r")
-	print("File opened")
 	local Value = File.readLine()
-
-	print(Value)
 
 	File.close()
 
-	print("File closed")
-
 	if Value == nil then return 0 end
-
-	print(Value)
 	return Value
 end
 
