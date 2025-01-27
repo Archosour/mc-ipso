@@ -306,6 +306,11 @@ end
 function Flash_get(File_name)
 	local File_path = Path_to_flash .. "/" .. File_name
 
+	if fs.exists(File_path) == false then
+		Flash_set(File_name, 0)
+		return 0
+	end
+	
 	local File = fs.open(File_path, "r")
 	local Values = File.readLines()
 
