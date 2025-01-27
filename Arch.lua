@@ -4,6 +4,7 @@
 ---  config.lua file for settings
 
 os.loadAPI("Config.lua")
+os.loadAPI("Brave.lua")
 
 function Attack()
     return turtle.attack()
@@ -220,10 +221,12 @@ function Dig(Handle_gravel)
     end
 
     if Handle_gravel == false then
+        Brave.Flash_update("Session_blocks_mined", 1)
         return turtle.dig()
     end
 
     while turtle.dig() == true do
+        Brave.Flash_update("Session_blocks_mined", 1)
         sleep(0.2)
     end
 
