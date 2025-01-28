@@ -5,6 +5,7 @@
 
 os.loadAPI("Config.lua")
 os.loadAPI("Brave.lua")
+os.loadAPI("Flash.lua")
 
 function Attack()
     return turtle.attack()
@@ -93,7 +94,9 @@ function Forward()
             end
 
             Refuel()
-            turtle.dig()
+            if turtle.dig() == true then
+                Flash.Update("Session_blocks_mined", 1)
+            end
         end
 
         Attack()
@@ -136,7 +139,9 @@ function Up()
                 return true
             end
 
-            turtle.digUp()
+            if turtle.digUp() == true then
+                Flash.Update("Session_blocks_mined", 1)
+            end
             
         end
 
@@ -221,12 +226,12 @@ function Dig(Handle_gravel)
     end
 
     if Handle_gravel == false then
-        Brave.Flash_update("Session_blocks_mined", 1)
+        Flash.Update("Session_blocks_mined", 1)
         return turtle.dig()
     end
 
     while turtle.dig() == true do
-        Brave.Flash_update("Session_blocks_mined", 1)
+        Flash.Update("Session_blocks_mined", 1)
         sleep(0.2)
     end
 
