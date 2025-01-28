@@ -1,3 +1,5 @@
+Path_to_flash = "Flash"
+
 ---Update the value in flash (file located in the flash directory).
 ---@param File_name string
 ---@param Value any
@@ -9,15 +11,15 @@ function Update(File_name, Value, Reset, Value_type_input)
 	if Value_type == nil then Value_type = "number" end
 
 	if (Reset == true) then
-		Flash_set(File_name, Value)
+		Set(File_name, Value)
 		return
 	end
 	
-	local Current_value = Flash_get(File_name)
+	local Current_value = Get(File_name)
 
 	if Value_type == "number" then 
 		local New_value = tonumber(Current_value) + tonumber(Value)
-		Flash_set(File_name, New_value)
+		Set(File_name, New_value)
 	else
 		print("Value type unknown: " .. Value_type)
 	end
@@ -57,7 +59,7 @@ function Get(File_name)
 	term.setCursorPos(1,1)
 
 	if fs.exists(File_path) == false then
-		Flash_set(File_name, 0)
+		Get(File_name, 0)
 		return 0
 	end
 

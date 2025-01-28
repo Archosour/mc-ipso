@@ -95,7 +95,7 @@ function Forward()
 
             Refuel()
             if turtle.dig() == true then
-                Flash.Update("Session_blocks_mined", 1)
+                Flash_api.Update("Session_blocks_mined", 1)
             end
         end
 
@@ -140,7 +140,7 @@ function Up()
             end
 
             if turtle.digUp() == true then
-                Flash.Update("Session_blocks_mined", 1)
+                Flash_api.Update("Session_blocks_mined", 1)
             end
             
         end
@@ -226,12 +226,12 @@ function Dig(Handle_gravel)
     end
 
     if Handle_gravel == false then
-        Flash.Update("Session_blocks_mined", 1)
+        Flash_api.Update("Session_blocks_mined", 1)
         return turtle.dig()
     end
 
     while turtle.dig() == true do
-        Flash.Update("Session_blocks_mined", 1)
+        Flash_api.Update("Session_blocks_mined", 1)
         sleep(0.2)
     end
 
