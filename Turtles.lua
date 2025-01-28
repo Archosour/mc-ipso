@@ -3,7 +3,7 @@ os.loadAPI("IPSO.lua")
 os.loadAPI("Config.lua")
 os.loadAPI("Arch.lua")
 os.loadAPI("Displays.lua")
-os.loadAPI("Flash.lua")
+os.loadAPI("Flash_api.lua")
 
 local Device_type = ""
 local Tab = 0

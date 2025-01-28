@@ -5,7 +5,7 @@
 
 os.loadAPI("Config.lua")
 os.loadAPI("Brave.lua")
-os.loadAPI("Flash.lua")
+os.loadAPI("Flash_api.lua")
 
 function Attack()
     return turtle.attack()
