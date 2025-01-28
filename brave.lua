@@ -274,6 +274,7 @@ end
 
 
 function Flash_update(File_name, Value, Reset, Value_type_input) 
+	print("Deprecated update")
 	local Value_type = "nil"
 
 	if Value_type == nil then Value_type = "number" end
@@ -295,6 +296,7 @@ function Flash_update(File_name, Value, Reset, Value_type_input)
 end
 
 function Flash_set(File_name, Value)
+	print("Deprecated set")
 	if File_name == nil then
 		print("Filename in Flash set was nil")
 		return
@@ -309,6 +311,7 @@ function Flash_set(File_name, Value)
 end
 
 function Flash_get(File_name)
+	print("Deprecated get")
 	if File_name == nil then
 		print("Filename in Flash get was nil, return 0")
 		return 0

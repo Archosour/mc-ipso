@@ -3,6 +3,7 @@ os.loadAPI("IPSO.lua")
 os.loadAPI("Config.lua")
 os.loadAPI("Arch.lua")
 os.loadAPI("Displays.lua")
+os.loadAPI("Flash.lua")
 
 local Device_type = ""
 local Tab = 0
@@ -77,11 +78,10 @@ function main()
         term.setCursorPos(1,1)
         term.write("Distance: ")
         local Distance = tonumber(read())
-        --print("User input: " .. Distance)
 
 		Displays.Print_display("Home", {"Distance: " .. Distance})
 
-		Brave.Flash_update("Session_blocks_mined", 0, true)
+		Flash.Update("Session_blocks_mined", 0, true)
 
 		local Inventory_message = Generate_inventory_message()
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
@@ -95,7 +95,7 @@ function main()
 		end
 		
 		for Traveled = 1, Distance, 1 do
-			Blocks_mined = Brave.Flash_get("Session_blocks_mined")
+			Blocks_mined = Flash.Get("Session_blocks_mined")
 
 			Displays.Print_display("Home", {"Distance: " .. Distance, "Tunnel slice: " .. Traveled - 1, "Blocks mined: " .. Blocks_mined})
 			turtle.select(Get_minimal_slot())
@@ -121,7 +121,7 @@ function main()
 			Arch.Chest_dump()
 		end
 
-		Brave.Flash_update("Total_blocks_mined", Blocks_mined)
+		Flash.Update("Total_blocks_mined", Blocks_mined)
 
 	elseif Device_type == "Turtle:Latex" then
 		local Chest = peripheral.wrap(Config.Vault_side)
