@@ -1,3 +1,4 @@
+---Path to flash storage space (directory)
 Path_to_flash = "Flash"
 
 ---Update the value in flash (file located in the flash directory).

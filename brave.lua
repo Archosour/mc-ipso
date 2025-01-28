@@ -11,8 +11,9 @@ os.loadAPI("Config.lua")
 local Overrule_log_to_file = false
 
 local Device_type = ""
+
+---Currently used verion of the communication protocol.
 Protocol_version = 4
-Path_to_flash = "Flash"
 
 ---Search for wireless modem on the side of the device
 ---@return string|nil #side with modem attached, or nil of none found
@@ -267,73 +268,6 @@ end
 function Clear_term()
 	term.clear()
 	term.setCursorPos(1,1)
-end
-
-
-
-
-
-function Flash_update(File_name, Value, Reset, Value_type_input) 
-	print("Deprecated update")
-	local Value_type = "nil"
-
-	if Value_type == nil then Value_type = "number" end
-
-	if (Reset == true) then
-		Flash_set(File_name, Value)
-		return
-	end
-	
-	local Current_value = Flash_get(File_name)
-
-	if Value_type == "number" then 
-		local New_value = tonumber(Current_value) + tonumber(Value)
-		Flash_set(File_name, New_value)
-	else
-		print("Value type unknown: " .. Value_type)
-	end
-
-end
-
-function Flash_set(File_name, Value)
-	print("Deprecated set")
-	if File_name == nil then
-		print("Filename in Flash set was nil")
-		return
-	end
-
-	local File_path = Path_to_flash .. "/" .. File_name
-
-	local File = fs.open(File_path, "w")
-	File.write(Value)
-
-	File.close()
-end
-
-function Flash_get(File_name)
-	print("Deprecated get")
-	if File_name == nil then
-		print("Filename in Flash get was nil, return 0")
-		return 0
-	end
-
-	local File_path = Path_to_flash .. "/" .. File_name
-	
-	term.clear()
-	term.setCursorPos(1,1)
-
-	if fs.exists(File_path) == false then
-		Flash_set(File_name, 0)
-		return 0
-	end
-
-	local File = fs.open(File_path, "r")
-	local Value = File.readLine()
-
-	File.close()
-
-	if Value == nil then return 0 end
-	return Value
 end
 
 --#region Setup

@@ -82,18 +82,22 @@ function main()
 		Displays.Print_display("Home", {"Distance: " .. Distance})
 
 		Flash_api.Update("Session_blocks_mined", 0, true)
-
+		
 		local Inventory_message = Generate_inventory_message()
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
 
 		local Traveled = 0
 		local Blocks_mined = 0
 
-		--Start with a clean inventory
-		if Config.Chest_dump_type == "Ender chest" or Config.Chest_dump_type == "Ender" then
-			Arch.Chest_dump()
+		if Flash_api.Get("Last_session_completed") == "0" then
+			--Start with a clean inventory
+			if Config.Chest_dump_type == "Ender chest" or Config.Chest_dump_type == "Ender" then
+				Arch.Chest_dump()
+			end
 		end
 		
+		Flash_api.Update("Last_session_completed", 0, true)
+
 		for Traveled = 1, Distance, 1 do
 			Blocks_mined = Flash_api.Get("Session_blocks_mined")
 
@@ -122,6 +126,7 @@ function main()
 		end
 
 		Flash_api.Update("Total_blocks_mined", Blocks_mined)
+		Flash_api.Update("Last_session_completed", 1, true)
 
 	elseif Device_type == "Turtle:Latex" then
 		local Chest = peripheral.wrap(Config.Vault_side)
