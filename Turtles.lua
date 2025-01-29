@@ -94,9 +94,11 @@ function main()
 			if Config.Chest_dump_type == "Ender chest" or Config.Chest_dump_type == "Ender" then
 				Arch.Chest_dump()
 			end
+
+			Return_home()
 		end
 		
-		Flash_api.Update("Last_session_completed", 0, true)
+		Clear_flash()
 
 		for Traveled = 1, Distance, 1 do
 			Blocks_mined = Flash_api.Get("Session_blocks_mined")
@@ -166,6 +168,15 @@ function Get_minimal_slot()
 	if (Config.Tunnel_hight <= 15) then return 12 end
 	if (Config.Tunnel_hight < 20)  then return 11 end
 	if (Config.Tunnel_hight >= 20) then return 10 end
+end
+
+function Clear_flash()
+	Flash_api.Update("Last_session_completed", 0, true)
+end
+
+function Return_home()
+-- Basic idea is to do a best effort to return to a place where
+-- the turtle can resume its normal operation.
 end
 
 main()
