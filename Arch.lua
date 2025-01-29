@@ -19,6 +19,31 @@ function Attack_down()
     return turtle.attackDown()
 end
 
+function Turn_left()
+    turtle.turnLeft()
+    local Rotation = Flash_api.Get("Turtle_position_rotation")
+    Rotation - 1
+
+    if Rotation <= -4 then
+        Rotation = Rotation + 4
+    end
+
+    Flash_api.Set("Turtle_position_rotation", Rotation)
+end
+
+function Turn_right()
+    turtle.turnRight()
+    local Rotation = Flash_api.Get("Turtle_position_rotation")
+    Rotation + 1
+
+    if Rotation >= 4 then
+        Rotation = Rotation - 4
+    end
+
+    Flash_api.Set("Turtle_position_rotation", Rotation)
+end
+
+
 ---Try to refuel fron the fuel slot. This slot is let
 ---in the config file
 ---@return boolean Succes true if succesfull
@@ -314,8 +339,8 @@ function Chest_dump_place()
     end
 
     if Config.Chest_dump_type == "Normal" then
-        turtle.turnLeft()
-        turtle.turnLeft()
+        Turn_left() --turtle.turnLeft()
+        Turn_left() --turtle.turnLeft()
         Dig()
         turtle.place()
         return
@@ -336,8 +361,8 @@ function Chest_dump_pick()
     end
 
     if Config.Chest_dump_type == "Normal" then
-        turtle.turnLeft()
-        turtle.turnLeft()
+        Turn_left() --turtle.turnLeft()
+        Turn_left() --turtle.turnLeft()
         Dig()
         return
     end
@@ -362,7 +387,7 @@ function Tunnel_slice(Input)
 
     Refuel_upto(Required_fuel)
 
-    turtle.turnLeft()
+    Turn_left() --turtle.turnLeft()
     for Traveled = 0, Expected_hight, 1 do
         Dig(true)
 
@@ -400,10 +425,10 @@ function Tunnel_slice(Input)
     end
 
     Dig()
-    turtle.turnLeft()
+    Turn_left() --turtle.turnLeft()
 
     --Cleanup of posible gravel of the left side
-    turtle.turnLeft()
+    Turn_left() --turtle.turnLeft()
     Dig(true)
 
     if Config.Tunnel_width == 4 then
@@ -438,9 +463,9 @@ function Light_place_block()
     turtle.select(Config.Chest_slot)
 
     if Config.Light_block_type == "Torch" then
-        turtle.turnLeft()
+        Turn_left() --turtle.turnLeft()
         turtle.place()
-        turtle.turnLeft()
+        Turn_left() --turtle.turnLeft()
         return
     end
 
