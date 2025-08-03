@@ -84,6 +84,7 @@ function main()
 		Flash_api.Update("Session_blocks_mined", 0, true)
 		
 		local Inventory_message = Generate_inventory_message()
+
 		Brave.Modem.Transmit(Config.Channel_network, Inventory_message)
 
 		local Traveled = 0
@@ -97,7 +98,7 @@ function main()
 
 			Return_home()
 		end
-		
+
 		Clear_flash()
 
 		for Traveled = 1, Distance, 1 do

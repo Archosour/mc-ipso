@@ -22,7 +22,7 @@ end
 function Turn_left()
     turtle.turnLeft()
     local Rotation = Flash_api.Get("Turtle_position_rotation")
-    Rotation - 1
+    Rotation = Rotation - 1
 
     if Rotation <= -4 then
         Rotation = Rotation + 4
@@ -34,7 +34,7 @@ end
 function Turn_right()
     turtle.turnRight()
     local Rotation = Flash_api.Get("Turtle_position_rotation")
-    Rotation + 1
+    Rotation = Rotation + 1
 
     if Rotation >= 4 then
         Rotation = Rotation - 4

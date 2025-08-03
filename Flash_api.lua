@@ -55,12 +55,10 @@ function Get(File_name)
 	end
 
 	local File_path = Path_to_flash .. "/" .. File_name
-	
-	term.clear()
-	term.setCursorPos(1,1)
+
+	print("FilePath: " .. File_path)
 
 	if fs.exists(File_path) == false then
-		Get(File_name, 0)
 		return 0
 	end
 
