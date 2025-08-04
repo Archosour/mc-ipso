@@ -38,25 +38,6 @@ function Startup()
 	Brave.Modem.open(Config.Channel_network)
 end
 
----Generate Alive message.
----This message contains general information about the device.
----The content can be captured by the backend to show activity.
----Does not send the message.
----@return String #Package ready to be send over the network
-function Generate_alive_message()
-	local Id_object 		= IPSO.Generate_object(IPSO.Object_list.Device,   0, IPSO.Resource_list.Set_UUID, os.getComputerID())
-	local Label_object 		= IPSO.Generate_object(IPSO.Object_list.Device,   0, IPSO.Resource_list.Set_Label, os.getComputerLabel())
-	local Block_type_object = IPSO.Generate_object(IPSO.Object_list.Device,   0, IPSO.Resource_list.Set_Block_type, Brave.Get_device_type())
-	local Dev_type_object 	= IPSO.Generate_object(IPSO.Object_list.Device,   0, IPSO.Resource_list.Set_Type, Device_type)
-	local GPSX_object 		= IPSO.Generate_object(IPSO.Object_list.GPS_x,    0, IPSO.Resource_list.Set_value, 0) -- GPS not yet implemented
-	local GPSY_object 		= IPSO.Generate_object(IPSO.Object_list.GPS_y,    0, IPSO.Resource_list.Set_value, 0) -- GPS not yet implemented
-	local GPSZ_object 		= IPSO.Generate_object(IPSO.Object_list.GPS_z,    0, IPSO.Resource_list.Set_value, 0) -- GPS not yet implemented
-	local Protocol_object 	= IPSO.Generate_object(IPSO.Object_list.Protocol, 0, IPSO.Resource_list.Set_SW_version, Brave.Protocol_version)
-
-	local Package = Brave.Generate_package({Id_object, Label_object, Block_type_object, Dev_type_object, GPSX_object, GPSY_object, GPSZ_object, Protocol_object}, Brave.Package_types.Broadcast, {})
-	return Package
-end
-
 function Generate_inventory_message()
 	local Object_table = {}
 

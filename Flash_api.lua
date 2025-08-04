@@ -9,7 +9,7 @@ Path_to_flash = "Flash"
 function Update(File_name, Value, Reset, Value_type_input) 
 	local Value_type = "nil"
 
-	if Value_type == nil then Value_type = "number" end
+	if Value_type_input == nil then Value_type = "number" end
 
 	if (Reset == true) then
 		Set(File_name, Value)
