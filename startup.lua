@@ -5,18 +5,25 @@ os.loadAPI("Config.lua")
 local Device_type = ""
 local Tab = 0
 
-local Console_tab = multishell.getCurrent()
+local Console_tab = ""
+
+if term.isColor == true then
+	Console_tab = multishell.getCurrent()
+end 
 local Pc_label = os.getComputerLabel()
 
 ---Setup for the main loop.
 ---Primarly for checking Config and tasks than only run one time.
 function Startup()
+	Brave.Clear_term()
 	if pocket then
-		Tab = multishell.launch({}, "Pocket.lua", {"true"})
-		
-		multishell.setTitle(Tab, "Home")
-		multishell.setTitle(Console_tab, "Con")
-		multishell.setFocus(Tab)
+		if term.isColor == true then
+			Tab = multishell.launch({}, "Pocket.lua", {"true"})
+			
+			multishell.setTitle(Tab, "Home")
+			multishell.setTitle(Console_tab, "Con")
+			multishell.setFocus(Tab)
+		end
 	end
 
 	print("PC ID: " .. tostring(os.getComputerID()))
@@ -25,7 +32,7 @@ function Startup()
 	if Config == nil then
 		print("No config.lua file found. run 'Update' to add config file")
 		while true do end
-end
+	end
 
 	if Config.Device_type == nil then
 		print("No device type found in Config")
@@ -36,24 +43,26 @@ end
 
 	Brave.Modem.open(Config.Channel_network)
 
-	if Device_type ~= "Network:Internet_gateway" then 
-		-- give the gateways time to startup when area is loaded
-		-- example when player log into the server.
-		sleep(0.5)
+--	if Device_type ~= "Network:Internet_gateway" then 
+--		-- give the gateways time to startup when area is loaded
+--		-- example when player log into the server.
+--		sleep(0.5)
+--
+--		-- Make sure not all devices start at the same time.
+--		-- This spreads the load on the Gateways so thay can 
+--		-- handle more data
+--		local Random_wait_time = math.random(0, Config.Main_timer)
+--		print("Random startup sleep time: " .. Random_wait_time)
+--		sleep(Random_wait_time)
+--
+--		Alive_message = Generate_alive_message()
+--		Brave.Modem.Transmit(Config.Channel_network, Alive_message)
+--	end
 
-		-- Make sure not all devices start at the same time.
-		-- This spreads the load on the Gateways so thay can 
-		-- handle more data
-		local Random_wait_time = math.random(0, Config.Main_timer)
-		print("Random startup sleep time: " .. Random_wait_time)
-		sleep(Random_wait_time)
-
-		Alive_message = Generate_alive_message()
-		Brave.Modem.Transmit(Config.Channel_network, Alive_message)
+	if term.isColor == true then
+		Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
+		multishell.setTitle(Tab, "Ipso")
 	end
-
-	Tab = multishell.launch({}, "Run_ipso.lua", {"false"})
-	multishell.setTitle(Tab, "Ipso")
 end
 
 ---Generate Alive message.
@@ -100,13 +109,11 @@ function main()
 
 	elseif Device_type == "Fluid:Tank" then
 		while true do
-			local Tank = peripheral.wrap(Config.Tank_side).tanks()
-			--local Input_fluid  = redstone.getAnalogInput(Config.Tank_redstone_side)
+			local Tank = peripheral.wrap(Config.Tank_side).getInfo()
 			local Tank_slot = 1
-			local Tank_volume = Tank[Tank_slot]
-			local Fluid_name = Tank_volume.name
-			local Fluid_level = Tank_volume.amount
-			local Fluid_max_value = Config.Tank_max_level
+			local Fluid_name = Tank.fluid
+			local Fluid_level = Tank.amount
+			local Fluid_max_value = Tank.capacity
 			local Fluid_fill_ratio = Fluid_level / Fluid_max_value
 			local Fluid_fill_percent  = tostring(math.ceil(Fluid_fill_ratio * 100)) .. "%"
 
@@ -123,13 +130,14 @@ function main()
 		end
 
 	elseif Device_type == "Energy:Kinetic_system" then
-		local Interface = peripheral.wrap("bottom")
+		local StressOmeter = peripheral.wrap("left")
+		local SpeedOmeter = peripheral.wrap("bottom")
 
 		while true do
-			local RPM = math.abs(Interface.getKineticSpeed("bottom"))
+			local RPM = math.abs(SpeedOmeter.getSpeed())
 			local Direction = true
-			local Stress = Interface.getKineticStress("right")
-			local Capacity = Interface.getKineticCapacity("right")
+			local Stress = StressOmeter.getStress()
+			local Capacity = StressOmeter.getStressCapacity()
 
 			if RPM < 0 then Direction = false end
 
@@ -189,11 +197,11 @@ function main()
 			local Item_name = Info.First_item_name
 			local Slot = 1
 
-			if Filled_percentage > 0.8 then
+			if Filled_percentage > Config.Hysteresis_high then
 				Redstone_level = false
 			end	
 
-			if Filled_percentage < 0.6 then
+			if Filled_percentage < Config.Hysteresis_low then
 				Redstone_level = true
 			end
 
@@ -208,6 +216,48 @@ function main()
 			Brave.Modem.Transmit(Config.Channel_network, Package)
 		
 			redstone.setOutput(Config.Overflow_redstone_side, Redstone_level)
+
+			sleep(Config.Main_timer)
+		end
+
+	elseif Device_type == "Item:Vault_compress" then
+		local Chest = peripheral.wrap(Config.Vault_side)
+		local Speed_controller = peripheral.wrap(Config.Speedcontroller_side)
+
+		local Speed = 1
+		
+		while true do
+			print("loop")
+			local Info = Brave.Get_chest_inventory(Chest, false)
+			
+			local Items_stored = Info.Count
+			local Items_capacity = Info.Max_count
+			local First_item_stores = Info.First_item_name
+			local Number_of_slots = Info.Size
+			local Filled_percentage = Items_stored / Items_capacity
+			local Item_name = Info.First_item_name
+			local Slot = 1
+
+			Speed = math.floor(255 * Filled_percentage)
+
+			---Items could be leftover on the compressor
+			---This ensures that those items are evenntually
+			---processed.
+			if (Items_stored < 9) then
+				Speed = 1
+			end
+			
+			Speed_controller.setTargetSpeed(Speed)
+
+			local Name_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Item_name, Item_name)
+			local Count_object     = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_count, Info.Count)
+			local Max_count_object = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Stack_max_count, Info.Max_count)
+			local Percent_object   = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_percentage_value, Info.Filled_percentage)
+			local Size_object      = IPSO.Generate_object(IPSO.Object_list.Inventory_chest, Slot, IPSO.Resource_list.Set_Size, Info.Size)
+			local Speed_object     = IPSO.Generate_object(IPSO.Object_list.Kinetic_speed,   Slot, IPSO.Resource_list.Set_value, Speed)
+
+			local Package = Brave.Generate_package({Name_object, Count_object, Max_count_object, Percent_object, Size_object, Speed_object}, Brave.Package_types.Broadcast, {})
+			Brave.Modem.Transmit(Config.Channel_network, Package)
 
 			sleep(Config.Main_timer)
 		end
@@ -322,6 +372,8 @@ function main()
 			end
 			
 		end
+	elseif Device_type == "Turtle:Mining" or Device_type == "Turtle:Latex" then
+		shell.run("./Turtles.lua")
 	end
 end
 

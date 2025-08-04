@@ -41,5 +41,7 @@ List = {
     ["Set_Type"]                = 43,
     ["Get_Type"]                = 44,
     ["Set_Block_type"]          = 45,
-    ["Get_Block_type"]          = 46
+    ["Get_Block_type"]          = 46,
+    ["Set_Is_fuel"]             = 45,
+    ["Get_Is_fuel"]             = 46
 }

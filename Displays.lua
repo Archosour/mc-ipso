@@ -1,9 +1,13 @@
+os.loadAPI("Constants.lua")
+os.loadAPI("Config.lua")
+
 local Pc_label = os.getComputerLabel()
 
 Neutral_pos = {
     ["Pocket"] = {["x"] = 1, ["y"] = 15},
     ["Monitor"] = {["x"] = 1, ["y"] = 15},
-    ["Advanced_computer"] = {["x"] = 1, ["y"] = 13}
+    ["Advanced_computer"] = {["x"] = 1, ["y"] = 13},
+    ["Turtle"] = {["x"] = 1, ["y"] = 1}
 }
 
 Displays = {
@@ -388,6 +392,28 @@ Displays = {
             ["Options"] = {
             }
         }
+    },
+
+    ["Turtle"] = {
+        ["Home"] = {
+            ["Background"] = {
+                "                                   ___ ",
+                "                                  /   |",
+                "                                 / /| |",
+                "                                / ___ |",
+                "                               /_/  |_/",
+                "                              ---------",
+                "                                       ",
+                "                                       ",
+                "                                       ",
+                "                                       ",
+                "                                       ",
+                "                                       ",
+                "                                       "
+            },
+            ["Options"] = {
+            }
+        }
     }
 }
 
@@ -414,10 +440,7 @@ function Print_terminal(Display)
     end
 end
 
-function Print_display(Display, Peripheral)
-
-    Brave.Log("Display type; " .. type(Display), true, false)
-    Brave.Log("Display     ; " .. Display, true, false)
+function Print_display(Display, Aditional_info)
 
     if pocket then
         local Display_background = Displays.Pocket[Display].Background
@@ -441,20 +464,49 @@ function Print_display(Display, Peripheral)
             term.write(Option_line)
         end
 
-    elseif Pc_label == "arch:monitor_0" then
-        local Display_background = Displays.Monitor[Display].Background
-        local Display_options    = Displays.Monitor[Display].Options
+    elseif turtle then
+        local Display_background = Displays.Turtle[Display].Background
+        local Display_options    = Displays.Turtle[Display].Options
         local Line = 0
 
-        Peripheral.clear()
+        term.clear()
 
         for Line = 1, #Display_background, 1 do
             local Display_line = Display_background[Line]
-            Peripheral.setCursorPos(1, Line)
-            Peripheral.write(Display_line)
+            term.setCursorPos(1, Line)
+            term.write(Display_line)
         end
 
-        Print_terminal(Display)
+        term.setCursorPos(Neutral_pos["Turtle"]["x"], Neutral_pos["Turtle"]["y"])
+        term.write("Label: " .. os.getComputerLabel())
+        term.setCursorPos(Neutral_pos["Turtle"]["x"], Neutral_pos["Turtle"]["y"] + 1)
+        term.write("ID   : " .. Config.Device_type)
+        term.setCursorPos(Neutral_pos["Turtle"]["x"], Neutral_pos["Turtle"]["y"] + 2)
+        term.write("PC ID: " .. os.getComputerID())
+
+        local Turtle_specialty_row = Neutral_pos["Turtle"]["y"] + 4
+
+        if Config.Device_type == "Turtle:Mining" then
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row)
+            term.write("Fuel slot:    " .. Config.Fuel_slot)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 1)
+            term.write("Chest type:   " .. Config.Chest_dump_type)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 2)
+            term.write("Chest slot:   " .. Config.Chest_slot)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 3)
+            term.write("Tunnel hight: " .. Config.Tunnel_hight)
+            term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_specialty_row + 4)
+            term.write("Tunnel width: " .. Config.Tunnel_width)
+        end
+
+        local Turtle_adition_row = Turtle_specialty_row + 6
+
+        if (#Aditional_info > 0) then
+            for Line = 1, #Aditional_info, 1 do
+                term.setCursorPos(Neutral_pos["Turtle"]["x"], Turtle_adition_row + Line - 1)
+                term.write(Aditional_info[Line])
+            end
+        end
 
     else
         term.clear()

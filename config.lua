@@ -1,10 +1,11 @@
 ---Variable to set function of the device
-Device_type = "Clock:Season"
+Device_type = "Turtle:Mining"
+
+--Currently not working
+Disable_modem = false
 
 ---Timer setting (in seconds) for time in between loop iterations
 Main_timer = 10 -- seconds
-
---#region Networking IRL
 
 ---IPv4 address of the endpoint receiving data.
 ---This endpoint will route all packages to their
@@ -13,10 +14,6 @@ Gateway_IPv4 = ""
 
 ---Default route for current Minecraft server
 Gateway_route = "/Minecraft_server"
-
---#endregion
-
---#region Networking in server
 
 ---Channel for the main communication between deviced
 Channel_network = 1
@@ -27,12 +24,11 @@ Channel_gps = 2
 ---Listen for a client to analyse its data thats been broadcasted
 Listen_for_client = 29
 
---#endregion
-
---#region External inventories
-
 ---Side where a vault is located
 Vault_side = "back"
+
+---Side where a speedcontroller is located
+Speedcontroller_side = "front"
 
 ---Side to output a signal for when a vault has reached its high level
 Overflow_redstone_side = "front"
@@ -56,12 +52,36 @@ Valve_signal_side = "bottom"
 ---Default output level on startup
 Valve_signal_default = true
 
---#endregion
+---Slot for combustable items to be used as fuel
+Fuel_slot = 16
 
---#region Old configs
+---Hight of tunnels mined my the turtle
+Tunnel_hight = 28
 
-hight = 15
-useChests = true
-chestSlot = 15
+---Width of the tunnel, currently supported: 3 and 4
+Tunnel_width = 4
 
---#endregion
+---Turtle will attempt to clear fluids during operation
+Clear_fluids = true
+
+---If set to true, the turtle will place a path below itself
+Place_base_block = true
+
+---Mode on how a light block has to be placed. Valid options are:
+--- "None" - No light sources will be placed
+--- "Torch" - will place light source behind itself
+--- "Glowstone" - will place the light source below itself
+Light_block_type = "None"
+
+---Distance between two light source blocks to be placed by turtle
+Light_block_interval = 5
+
+Light_slot = 14
+
+---Mode to use chests and which type. Valid option are:
+--- "None"
+--- "Ender chest"
+Chest_dump_type = "Ender chest"
+
+---Slot for chests to store mined items.
+Chest_slot = 15

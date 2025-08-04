@@ -11,6 +11,8 @@ os.loadAPI("Config.lua")
 local Overrule_log_to_file = false
 
 local Device_type = ""
+
+---Currently used verion of the communication protocol.
 Protocol_version = 4
 
 ---Search for wireless modem on the side of the device
@@ -18,6 +20,9 @@ Protocol_version = 4
 function Find_modem()
 	local sides = Constants.Block_sides
 	local n = 0
+
+	if Config.Disable_modem == true then return nil end
+
 	for n = 1, #sides, 1 do
 		if peripheral.getType(sides[n]) == "modem" then
 			modem = peripheral.wrap(sides[n])
@@ -259,6 +264,12 @@ function Get_table_length(Table)
 	return Count
 end
 
+---Clears terminal and reset cursor position
+function Clear_term()
+	term.clear()
+	term.setCursorPos(1,1)
+end
+
 --#region Setup
 
 ---Side modem is located
@@ -287,7 +298,10 @@ end
 ---@param Channel Number #Channel to transmit message over
 ---@param Message String #Message to be send
 function Modem.Transmit(Channel, Message)
-	Modem.transmit(Channel, Channel, Message)
+	if Config.Disable_modem == true then return end
+	if Modem ~= "" then
+		Modem.transmit(Channel, Channel, Message)
+	end
 end
 
 --#endregion
