@@ -6,6 +6,7 @@
 os.loadAPI("Config.lua")
 os.loadAPI("Brave.lua")
 os.loadAPI("Flash_api.lua")
+os.loadAPI("Base.lua")
 
 function Attack()
     return turtle.attack()
@@ -114,7 +115,7 @@ function Forward()
 
     for Try = 1, 3, 1 do
         for Attempt = 1, 255, 1 do
-            if turtle.forward() == true then
+            if Base.Turtle.Forward() == true then
                 return true
             end
 

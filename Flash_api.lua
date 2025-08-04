@@ -56,8 +56,6 @@ function Get(File_name)
 
 	local File_path = Path_to_flash .. "/" .. File_name
 
-	print("FilePath: " .. File_path)
-
 	if fs.exists(File_path) == false then
 		return 0
 	end
