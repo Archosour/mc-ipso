@@ -247,16 +247,16 @@ function Dig(Handle_gravel)
     --Placing a block will remove the fluid source block
     if Config.Clear_fluids == true then
         turtle.select(1)
-        turtle.place()
+        Base.Turtle.Place()
         turtle.select(Current_slot)
     end
 
     if Handle_gravel == false then
         Flash_api.Update("Session_blocks_mined", 1)
-        return turtle.dig()
+        return Base.Turtle.Dig()
     end
 
-    while turtle.dig() == true do
+    while Base.Turtle.Dig() == true do
         Flash_api.Update("Session_blocks_mined", 1)
         sleep(0.2)
     end
