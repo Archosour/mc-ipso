@@ -3,9 +3,9 @@ Turtle = {
 
     Forward = (
     ---Move the turtle forward one block.
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function()
             local Result, Status = turtle.forward()
 
@@ -19,9 +19,9 @@ Turtle = {
 
     Back = (
     ---Move the turtle backwards one block.
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function()
             local Result, Status = turtle.back()
 
@@ -35,9 +35,9 @@ Turtle = {
 
     Up = (
     ---Move the turtle up one block.
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function()
             local Result, Status = turtle.up()
 
@@ -51,9 +51,9 @@ Turtle = {
 
     Down = (
     ---Move the turtle down one block.
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function()
             local Result, Status = turtle.down()
 
@@ -67,9 +67,9 @@ Turtle = {
 
     Turn_left = (
     ---Rotate the turtle 90 degrees to the left.
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function()
             local Result, Status = turtle.turnLeft()
 
@@ -83,9 +83,9 @@ Turtle = {
 
     Turn_right = (
     ---Rotate the turtle 90 degrees to the right.
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status  
         function()
             local Result, Status = turtle.turnLeft()
 
@@ -103,11 +103,11 @@ Turtle = {
     ---Diamond pickaxes (mining turtles) can break any vanilla block, 
     ---but other tools (such as axes) are more limited.
     ---@param Side string Optional to which specific tool to use. Should be "left" or "right".
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Side)
-            if Side != "left" && Side != "right" && Side != nil then
+            if Side ~= "left" and Side ~= "right" and Side ~= nil then
                 return false, "Invalid side input"
             end
 
@@ -127,11 +127,11 @@ Turtle = {
     ---Diamond pickaxes (mining turtles) can break any vanilla block, 
     ---but other tools (such as axes) are more limited.
     ---@param Side string Optional to which specific tool to use. Should be "left" or "right".
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Side)
-            if Side != "left" && Side != "right" && Side != nil then
+            if Side ~= "left" and Side ~= "right" and Side ~= nil then
                 return false, "Invalid side input"
             end
 
@@ -151,15 +151,75 @@ Turtle = {
     ---Diamond pickaxes (mining turtles) can break any vanilla block, 
     ---but other tools (such as axes) are more limited.
     ---@param Side string Optional to which specific tool to use. Should be "left" or "right".
-    ---@return boolean true if successfull
-    ---@return boolean false if unsuccessfull
-    ---@return string status 
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Side)
-            if Side != "left" && Side != "right" && Side != nil then
+            if Side ~= "left" and Side ~= "right" and Side ~= nil then
                 return false, "Invalid side input"
             end
 
             local Result, Status = turtle.dig(Side)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Place = (
+    ---Place a block or item into the world in front of the turtle.
+    ---"Placing" an item allows it to interact with blocks and entities in front of the turtle. 
+    ---For instance, buckets can pick up and place down fluids, and wheat can be used to breed cows. 
+    ---However, you cannot use place to perform arbitrary block interactions, such as clicking buttons or flipping levers.
+    ---@param Text string When placing a sign, set its contents to this text.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
+        function(Text)
+            local Result, Status = turtle.place(Text)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Place_up = (
+    ---Place a block or item into the world above the turtle.
+    ---"Placing" an item allows it to interact with blocks and entities above the turtle. 
+    ---For instance, buckets can pick up and place down fluids, and wheat can be used to breed cows. 
+    ---However, you cannot use place to perform arbitrary block interactions, such as clicking buttons or flipping levers.
+    ---@param Text string When placing a sign, set its contents to this text.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
+        function(Text)
+            local Result, Status = turtle.placeUp(Text)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Place_down = (
+    ---Place a block or item into the world below the turtle.
+    ---"Placing" an item allows it to interact with blocks and entities below the turtle. 
+    ---For instance, buckets can pick up and place down fluids, and wheat can be used to breed cows. 
+    ---However, you cannot use place to perform arbitrary block interactions, such as clicking buttons or flipping levers.
+    ---@param Text string When placing a sign, set its contents to this text.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
+        function(Text)
+            local Result, Status = turtle.placeDown(Text)
 
             if Result == true then
                 return true, ""
