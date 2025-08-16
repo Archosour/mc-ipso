@@ -1,5 +1,8 @@
 ---Base implementation of default turtle API functions.
 Turtle = {
+    ---@type number
+    ---Total number of slots available in a turtles inventory.
+    Inventory_size = 16,
 
     Forward = (
     ---Move the turtle forward one block.
@@ -226,6 +229,100 @@ Turtle = {
             else
                 return false, Status
             end
+        end
+    ),
+
+    Drop = (
+        function(Count)
+            local Result, Status = turtl.drop(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Drop_up = (
+        function(Count)
+            local Result, Status = turtle.dropUp(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Drop_down = (
+        function(Count)
+            local Result, Status = turtle.dropDown(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Select = (
+        function(Slot)
+            if Slot > Inventory_size then
+                return false, "Slot out of range"
+            end
+
+            local Result = turtle.select(Slot)
+
+            return Result, ""
+        end
+    ),
+
+    Get_item_count = (
+        function(Slot)
+            if Slot > Inventory_size then
+                return false, "Slot out of range"
+            end
+            local Result = turtle.getItemCount(Slot)
+
+            return Result, ""
+        end
+    ),
+
+    Get_item_space = (
+        function(Slot)
+            if Slot > Inventory_size then
+                return false, "Slot out of range"
+            end
+            local Result = turtle.getItemSpace(Slot)
+
+            return Result, ""
+        end
+    ),
+
+    Detect = (
+        function()
+            local Result = turtle.detect()
+
+            return Result
+        end
+    ),
+
+    Detect_up = (
+        function()
+            local Result = turtle.detectUp()
+
+            return Result
+        end
+    ),
+
+    Detect_down = (
+        function()
+            local Result = turtle.detectDown()
+
+            return Result
         end
     )
 }
