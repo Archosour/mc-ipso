@@ -133,7 +133,7 @@ function Forward()
                 return true
             end
 
-            Refuel()
+            Refuel_upto(10)
             if turtle.dig() == true then
                 Flash_api.Update("Session_blocks_mined", 1)
             end
@@ -185,7 +185,7 @@ function Up()
             
         end
 
-        Refuel()
+        Refuel_upto(10)
         Attack_up()
     end
 
