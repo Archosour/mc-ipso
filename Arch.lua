@@ -45,7 +45,7 @@ function Turn_right()
 end
 
 
----Try to refuel fron the fuel slot. This slot is let
+---Try to refuel fron the fuel slot. This slot is set
 ---in the config file
 ---@return boolean Succes true if succesfull
 function Refuel()
@@ -64,14 +64,28 @@ end
 ---@return integer Count Number of consumed items to reach target
 function Refuel_upto(Target_level)
     local Count = 0
-    while turtle.getFuelLevel() <= Target_level do
+    print()
+    print(turtle.getFuelLevel() .. " : " .. Target_level)
+
+    if turtle.getFuelLevel() > Target_level then
+        print("Refuel not needed")
+        return true, Count
+    end
+
+    print("between loop")
+
+    while turtle.getFuelLevel() < Target_level do
         if Refuel() == false then
+            print("refuel succesfull")
+            sleep(1)
             return false, Count
         end
 
         Count = Count + 1
     end
 
+    print("end of function")
+    sleep(1)
     return true, Count
 end
 
@@ -119,7 +133,7 @@ function Forward()
                 return true
             end
 
-            Refuel()
+            Refuel_upto(10)
             if turtle.dig() == true then
                 Flash_api.Update("Session_blocks_mined", 1)
             end
@@ -171,7 +185,7 @@ function Up()
             
         end
 
-        Refuel()
+        Refuel_upto(10)
         Attack_up()
     end
 
@@ -247,7 +261,9 @@ function Dig(Handle_gravel)
     --Placing a block will remove the fluid source block
     if Config.Clear_fluids == true then
         turtle.select(1)
-        Base.Turtle.Place()
+        if turtle.getItemCount(1) > 0 then
+            Base.Turtle.Place()
+        end
         turtle.select(Current_slot)
     end
 
