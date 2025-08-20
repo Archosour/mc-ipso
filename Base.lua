@@ -1,9 +1,10 @@
+---@type number
+---Total number of slots available in a turtles inventory.
+Turtle_inventory_size = 16
+
 ---Base implementation of default turtle API functions.
 Turtle = {
-    ---@type number
-    ---Total number of slots available in a turtles inventory.
-    Inventory_size = 16,
-
+    
     Forward = (
     ---Move the turtle forward one block.
     ---@return boolean #true if successfull
@@ -270,7 +271,7 @@ Turtle = {
 
     Select = (
         function(Slot)
-            if Slot > Inventory_size then
+            if Slot > Turtle_inventory_size then
                 return false, "Slot out of range"
             end
 
@@ -282,7 +283,7 @@ Turtle = {
 
     Get_item_count = (
         function(Slot)
-            if Slot > Inventory_size then
+            if Slot > Turtle_inventory_size then
                 return false, "Slot out of range"
             end
             local Result = turtle.getItemCount(Slot)
@@ -293,7 +294,7 @@ Turtle = {
 
     Get_item_space = (
         function(Slot)
-            if Slot > Inventory_size then
+            if Slot > Turtle_inventory_size then
                 return false, "Slot out of range"
             end
             local Result = turtle.getItemSpace(Slot)
