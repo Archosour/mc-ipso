@@ -261,7 +261,9 @@ function Dig(Handle_gravel)
     --Placing a block will remove the fluid source block
     if Config.Clear_fluids == true then
         turtle.select(1)
-        Base.Turtle.Place()
+        if turtle.getItemCount(1) > 0 then
+            Base.Turtle.Place()
+        end
         turtle.select(Current_slot)
     end
 
