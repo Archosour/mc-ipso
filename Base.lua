@@ -325,5 +325,116 @@ Turtle = {
 
             return Result
         end
-    )
+    ),
+
+    Compare = (
+        function()
+            local Result = turtle.compare()
+
+            return Result
+        end
+    ),
+
+    Compare_up = (
+        function()
+            local Result = turtle.compareUp()
+
+            return Result
+        end
+    ),
+
+    Compare_down = (
+        function()
+            local Result = turtle.compareDown()
+
+            return Result
+        end
+    ),
+
+    Attack = (
+        function(Side)
+            local Result, Status = turtle.attack(Side)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Attack_up = (
+        function(Side)
+            local Result, Status = turtle.attackUp(Side)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Attack_down = (
+        function(Side)
+            local Result, Status = turtle.attackDown(Side)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Suck = (
+        function(Count)
+            local Result, Status = turtle.suck(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Suck_up = (
+        function(Count)
+            local Result, Status = turtle.suckUp(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Suck_down = (
+        function(Count)
+            local Result, Status = turtle.suckDown(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    ---Get the amount of fuel this turtle currently holds.
+    ---@return number #Current fuel slot.
+    ---@return boolean #Fuel is required by config.
+    Get_fuel_level = (
+        function()
+            local Result = turtle.getFuelLevel()
+
+            if type(Result) == "string" then
+                return 999999, false
+            end
+
+            return Result, true
+        end
+    ),
 }
