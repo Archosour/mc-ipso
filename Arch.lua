@@ -64,28 +64,18 @@ end
 ---@return integer Count Number of consumed items to reach target
 function Refuel_upto(Target_level)
     local Count = 0
-    print()
-    print(turtle.getFuelLevel() .. " : " .. Target_level)
 
     if turtle.getFuelLevel() > Target_level then
-        print("Refuel not needed")
         return true, Count
     end
 
-    print("between loop")
-
     while turtle.getFuelLevel() < Target_level do
         if Refuel() == false then
-            print("refuel succesfull")
-            sleep(1)
             return false, Count
         end
 
         Count = Count + 1
     end
-
-    print("end of function")
-    sleep(1)
     return true, Count
 end
 
@@ -142,8 +132,6 @@ function Forward()
         Attack()
     end
 
-    print("101 Turtle could not move forward due to unknown reason")
-    print("Fuel level: " .. turtle.getFuelLevel())
     return false
 end
 
@@ -252,11 +240,13 @@ end
 
 ---Dig in front of the turtle. 
 ---@param Handle_gravel boolean Set to true if gravel is to be expected
+---@param Intermediate_drop_off boolean Allow item dropoff when 
 ---@return boolean Succes True if minging was succesfull
-function Dig(Handle_gravel)
+function Dig(Handle_gravel, Intermediate_drop_off)
     local Current_slot = turtle.getSelectedSlot()
 
     if Handle_gravel == nil then Handle_gravel = false end
+    if Intermediate_drop_off == nil then Intermediate_drop_off = false end
 
     --Placing a block will remove the fluid source block
     if Config.Clear_fluids == true then
@@ -265,6 +255,12 @@ function Dig(Handle_gravel)
             Base.Turtle.Place()
         end
         turtle.select(Current_slot)
+    end
+
+    if (Intermediate_drop_off == true and Config.Chest_dump_type == "Ender chest") then
+        if (Base.Turtle.Get_item_count(13) > 0) then
+            Chest_dump()
+        end
     end
 
     if Handle_gravel == false then
@@ -276,6 +272,8 @@ function Dig(Handle_gravel)
         Flash_api.Update("Session_blocks_mined", 1)
         sleep(0.2)
     end
+
+    
 
     return true
 end
@@ -406,7 +404,7 @@ function Tunnel_slice(Input)
 
     Turn_left() --turtle.turnLeft()
     for Traveled = 0, Expected_hight, 1 do
-        Dig(true)
+        Dig(true, true)
 
         if Up() == false then
             break
@@ -423,10 +421,7 @@ function Tunnel_slice(Input)
     Dig(true)
 
     if Config.Tunnel_width == 4 then
-        if Forward() == false then
-            print("375 Turtle failed to move forward in tunnel slice")
-            print("Fuel level: " .. turtle.getFuelLevel())
-        end
+        Forward()
         Dig(true)
     end
 
@@ -438,7 +433,7 @@ function Tunnel_slice(Input)
             error("Block could not be mined, terminate program...")
         end
 
-        Dig()
+        Dig(false, true)
     end
 
     Dig()
@@ -449,10 +444,7 @@ function Tunnel_slice(Input)
     Dig(true)
 
     if Config.Tunnel_width == 4 then
-        if Forward() == false then
-            print("401 Turtle failed to move forward in tunnel slice")
-            print("Fuel level: " .. turtle.getFuelLevel())
-        end
+        Forward()
         Dig(true)
     end
 
