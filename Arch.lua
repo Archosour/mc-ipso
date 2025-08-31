@@ -401,7 +401,7 @@ function Tunnel_slice(Input)
 
     Turn_left() --turtle.turnLeft()
     for Traveled = 0, Expected_hight, 1 do
-        Dig(true)
+        Dig(true, true)
 
         if Up() == false then
             break
@@ -430,7 +430,7 @@ function Tunnel_slice(Input)
             error("Block could not be mined, terminate program...")
         end
 
-        Dig()
+        Dig(false, true)
     end
 
     Dig()
