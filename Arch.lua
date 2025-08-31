@@ -246,6 +246,7 @@ function Dig(Handle_gravel, Intermediate_drop_off)
     local Current_slot = turtle.getSelectedSlot()
 
     if Handle_gravel == nil then Handle_gravel = false end
+    if Intermediate_drop_off == nil then Intermediate_drop_off = false end
 
     --Placing a block will remove the fluid source block
     if Config.Clear_fluids == true then
@@ -257,7 +258,7 @@ function Dig(Handle_gravel, Intermediate_drop_off)
     end
 
     if (Intermediate_drop_off == true and Config.Chest_dump_type == "Ender chest") then
-        if (Base.Get_item_count(13) > 0) then
+        if (Base.Turtle.Get_item_count(13) > 0) then
             Chest_dump()
         end
     end

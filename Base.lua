@@ -287,7 +287,6 @@ Turtle = {
                 return false, "Slot out of range"
             end
             local Result = turtle.getItemCount(Slot)
-            print(Result)
 
             return Result, ""
         end
