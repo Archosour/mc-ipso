@@ -234,6 +234,12 @@ Turtle = {
     ),
 
     Drop = (
+    ---Drop the currently selected stack into the inventory in front of the turtle, 
+    ---or as an item into the world if there is no inventory.
+    ---@param Count number The number of items to drop. If not given, the entire stack will be dropped.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Count)
             local Result, Status = turtl.drop(Count)
 
@@ -246,6 +252,12 @@ Turtle = {
     ),
 
     Drop_up = (
+    ---Drop the currently selected stack into the inventory above of the turtle, 
+    ---or as an item into the world if there is no inventory.
+    ---@param Count number The number of items to drop. If not given, the entire stack will be dropped.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Count)
             local Result, Status = turtle.dropUp(Count)
 
@@ -258,6 +270,12 @@ Turtle = {
     ),
 
     Drop_down = (
+    ---Drop the currently selected stack into the inventory in below of the turtle, 
+    ---or as an item into the world if there is no inventory.
+    ---@param Count number The number of items to drop. If not given, the entire stack will be dropped.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Count)
             local Result, Status = turtle.dropDown(Count)
 
@@ -270,6 +288,12 @@ Turtle = {
     ),
 
     Select = (
+    ---Change the currently selected slot.
+    ---The selected slot is determines what slot actions like drop or getItemCount act on.
+    ---@param Slot number The slot to select.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Slot)
             if Slot > Turtle_inventory_size then
                 return false, "Slot out of range"
@@ -282,6 +306,11 @@ Turtle = {
     ),
 
     Get_item_count = (
+    ---Get the number of items in the given slot.
+    ---@param Slot number The slot we wish to check. Defaults to the selected slot.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Slot)
             if Slot > Turtle_inventory_size then
                 return false, "Slot out of range"
@@ -293,6 +322,11 @@ Turtle = {
     ),
 
     Get_item_space = (
+    ---Get the remaining number of items which may be stored in this stack.
+    ---@param Slot number The slot we wish to check. Defaults to the selected slot.
+    ---@return boolean #true if successfull
+    ---@return boolean #false if unsuccessfull
+    ---@return string #status 
         function(Slot)
             if Slot > Turtle_inventory_size then
                 return false, "Slot out of range"
@@ -304,6 +338,9 @@ Turtle = {
     ),
 
     Detect = (
+    ---Check if there is a solid block in front of the turtle. In this case, solid refers to any non-air or liquid block.
+    ---@return boolean #true if solid block
+    ---@return boolean #false if non solid or air
         function()
             local Result = turtle.detect()
 
@@ -312,6 +349,9 @@ Turtle = {
     ),
 
     Detect_up = (
+    ---Check if there is a solid block above the turtle. In this case, solid refers to any non-air or liquid block.
+    ---@return boolean #true if solid block
+    ---@return boolean #false if non solid or air
         function()
             local Result = turtle.detectUp()
 
@@ -320,6 +360,9 @@ Turtle = {
     ),
 
     Detect_down = (
+    ---Check if there is a solid block below the turtle. In this case, solid refers to any non-air or liquid block.
+    ---@return boolean #true if solid block
+    ---@return boolean #false if non solid or air
         function()
             local Result = turtle.detectDown()
 
@@ -328,6 +371,9 @@ Turtle = {
     ),
 
     Compare = (
+    ---Check if the block in front of the turtle is equal to the item in the currently selected slot.
+    ---@return boolean #true if equal
+    ---@return boolean #false if not equal
         function()
             local Result = turtle.compare()
 
@@ -336,6 +382,9 @@ Turtle = {
     ),
 
     Compare_up = (
+    ---Check if the block above the turtle is equal to the item in the currently selected slot.
+    ---@return boolean #true if equal
+    ---@return boolean #false if not equal
         function()
             local Result = turtle.compareUp()
 
@@ -344,6 +393,9 @@ Turtle = {
     ),
 
     Compare_down = (
+    ---Check if the block below the turtle is equal to the item in the currently selected slot.
+    ---@return boolean #true if equal
+    ---@return boolean #false if not equal
         function()
             local Result = turtle.compareDown()
 
