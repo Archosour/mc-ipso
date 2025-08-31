@@ -256,6 +256,12 @@ function Dig(Handle_gravel, Intermediate_drop_off)
         turtle.select(Current_slot)
     end
 
+    if (Intermediate_drop_off == true and Config.Chest_dump_type == "Ender chest") then
+        if (Base.Get_item_count(13) > 0) then
+            Chest_dump()
+        end
+    end
+
     if Handle_gravel == false then
         Flash_api.Update("Session_blocks_mined", 1)
         return Base.Turtle.Dig()
@@ -266,11 +272,7 @@ function Dig(Handle_gravel, Intermediate_drop_off)
         sleep(0.2)
     end
 
-    if (Intermediate_drop_off == true and Config.Chest_dump_type == "Ender chest") then
-        if (Base.Get_item_count(13) > 0) then
-            Chest_dump()
-        end
-    end
+    
 
     return true
 end
