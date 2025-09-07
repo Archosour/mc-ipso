@@ -353,6 +353,10 @@ function Compare_down()
     return Result
 end
 
+---Attack the entity in front of the turtle.
+---@param Side any The specific tool to use
+---@return boolean #Whether an entity was attacked
+---@return string #The reason nothing was attacked
 function Attack(Side)
     local Result, Status = turtle.attack(Side)
 
@@ -363,6 +367,10 @@ function Attack(Side)
     end
 end
 
+---Attack the entity above the turtle.
+---@param Side any The specific tool to use
+---@return boolean #Whether an entity was attacked
+---@return string #The reason nothing was attacked
 function Attack_up(Side)
     local Result, Status = turtle.attackUp(Side)
 
@@ -373,6 +381,10 @@ function Attack_up(Side)
     end
 end
 
+---Attack the entity below the turtle.
+---@param Side any The specific tool to use
+---@return boolean #Whether an entity was attacked
+---@return string #The reason nothing was attacked
 function Attack_down(Side)
     local Result, Status = turtle.attackDown(Side)
 
@@ -383,6 +395,11 @@ function Attack_down(Side)
     end
 end
 
+---Suck an item from the inventory in front of the turtle, or from an item floating in the world.
+---This will pull items into the first acceptable slot, starting at the currently selected one.
+---@param Count any The number of items to suck. If not given, up to a stack of items will be picked up
+---@return boolean #Whether items were picked up
+---@return string #The reason the no items were picked up
 function Suck(Count)
     local Result, Status = turtle.suck(Count)
 
@@ -393,6 +410,11 @@ function Suck(Count)
     end
 end
 
+---Suck an item from the inventory above the turtle, or from an item floating in the world.
+---This will pull items into the first acceptable slot, starting at the currently selected one.
+---@param Count any The number of items to suck. If not given, up to a stack of items will be picked up
+---@return boolean #Whether items were picked up
+---@return string #The reason the no items were picked up
 function Suck_up(Count)
     local Result, Status = turtle.suckUp(Count)
 
@@ -403,6 +425,11 @@ function Suck_up(Count)
     end
 end
 
+---Suck an item from the inventory below the turtle, or from an item floating in the world.
+---This will pull items into the first acceptable slot, starting at the currently selected one.
+---@param Count any The number of items to suck. If not given, up to a stack of items will be picked up
+---@return boolean #Whether items were picked up
+---@return string #The reason the no items were picked up
 function Suck_down(Count)
     local Result, Status = turtle.suckDown(Count)
 
@@ -414,8 +441,8 @@ function Suck_down(Count)
 end
 
 ---Get the amount of fuel this turtle currently holds.
----@return number #Current fuel slot.
----@return boolean #Fuel is required by config.
+---@return number #The current amount of fuel a turtle this turtle has
+---@return boolean #Fuel is required by config
 function Get_fuel_level()
     local Result = turtle.getFuelLevel()
 
@@ -426,6 +453,14 @@ function Get_fuel_level()
     return Result, true
 end
 
+---Refuel this turtle.
+---While most actions a turtle can perform (such as digging or placing blocks) are free, moving consumes fuel from the turtle's internal buffer. 
+---If a turtle has no fuel, it will not move.
+---refuel refuels the turtle, consuming fuel items (such as coal or lava buckets) from the currently selected slot and converting them into energy. 
+---This finishes once the turtle is fully refuelled or all items have been consumed.
+---@param Count any The maximum number of items to consume. One can pass 0 to check if an item is combustable or not
+---@return boolean #true If the turtle was refuelled
+---@return string #The reason the turtle was not refuelled
 function Refuel(Count)
     local Result, Status = turtle.refuel(Count)
 
@@ -436,32 +471,53 @@ function Refuel(Count)
     end
 end
 
+---Compare the item in the currently selected slot to the item in another slot.
+---@param Slot any #The slot to compare to
+---@return boolean #If the two items are equal
 function Compare_to(Slot)
-    local Result, Status = turtle.compareTo(Slot)
+    local Result = turtle.compareTo(Slot)
 
-    if Result == true then
-        return true, ""
-    else
-        return false, Status
-    end
+    return Result
 end
 
+---Move an item from the selected slot to another one.
+---@param Slot any #The slot to move this item to
+---@param Count any #The maximum number of items to move
+---@return boolean If some items were successfully moved
+---@return string
 function Transfer_to(Slot, Count)
-    local Result, Status = turtle.transferTo(Slot, Count)
+    local Result = turtle.transferTo(Slot, Count)
 
-    if Result == true then
-        return true, ""
-    else
-        return false, Status
-    end
+    return Result
 end
 
+---Get the currently selected slot.
+---@return number #The current slot
 function Get_selected_slot()
     local Result = turtle.getSelectedSlot()
 
     return Result
 end
 
+---Get the maximum amount of fuel this turtle can hold.
+---By default, normal turtles have a limit of 20,000 and advanced turtles of 100,000.
+---@return number #The maximum amount of fuel a turtle can hold
+function Get_fuel_limit()
+    local Result = turtle.getFuelLevel()
+
+    if type(Result) == "string" then
+        return 999999
+    end
+
+    return Result
+end
+
+---Equip (or unequip) an item on the left side of this turtle.
+---This finds the item in the currently selected slot and attempts to equip it to the left side of the turtle. 
+---The previous upgrade is removed and placed into the turtle's inventory.
+---If there is no item in the slot, the previous upgrade is removed, but no new one is equipped.
+---@return boolean #If the item was equipped
+---@return string #The reason equipping this item failed
 function Equip_left()
     local Result, Status = turtle.equipLeft()
 
@@ -472,6 +528,12 @@ function Equip_left()
     end
 end
 
+---Equip (or unequip) an item on the right side of this turtle.
+---This finds the item in the currently selected slot and attempts to equip it to the right side of the turtle. 
+---The previous upgrade is removed and placed into the turtle's inventory.
+---If there is no item in the slot, the previous upgrade is removed, but no new one is equipped.
+---@return boolean #If the item was equipped
+---@return string #The reason equipping this item failed
 function Equip_right()
     local Result, Status = turtle.equipRight()
 
@@ -482,6 +544,9 @@ function Equip_right()
     end
 end
 
+---Get the upgrade currently equipped on the left of the turtle.
+---@return boolean #True if information could be retrieved
+---@return table #Item details
 function Get_equiped_left()
     local Result = turtle.getEquipedLeft()
 
@@ -492,6 +557,9 @@ function Get_equiped_left()
     return false, nil
 end
 
+---Get the upgrade currently equipped on the right of the turtle.
+---@return boolean #True if information could be retrieved
+---@return table #Item details
 function Get_equiped_right()
     local Result = turtle.getEquipedRight()
 
@@ -502,42 +570,59 @@ function Get_equiped_right()
     return false, nil
 end
 
+---Get information about the block in front of the turtle.
+---@return boolean #Whether there is a block in front of the turtle
+---@return table #Information about the block in front, or a message explaining that there is no block
+---@return string #Error message if one
 function Inspect()
     local Result, Data = turtle.inspect()
 
-    if Result == true then
+    if type(Data) == "table" then
         return Result, Data, ""
     end
 
     return Result, nil, Data
 end
 
+---Get information about the block above the turtle.
+---@return boolean #Whether there is a block above the turtle
+---@return table #Information about the block in front, or a message explaining that there is no block
+---@return string #Error message if one
 function Inspect_up()
     local Result, Data = turtle.inspectUp()
 
-    if Result == true then
+    if type(Data) == "table" then
         return Result, Data, ""
     end
 
     return Result, nil, Data
 end
 
+---Get information about the block below the turtle.
+---@return boolean #Whether there is a block below the turtle
+---@return table #Information about the block in front, or a message explaining that there is no block
+---@return string #Error message if any
 function Inspect_down()
     local Result, Data = turtle.inspectDown()
 
-    if Result == true then
+    if type(Data) == "table" then
         return Result, Data, ""
     end
 
     return Result, nil, Data
 end
 
+---Get detailed information about the items in the given slot.
+---@param Slot number #The slot to get information about. Defaults to the selected slot
+---@param Detailed boolean #Whether to include "detailed" information. When true the method will contain much more information about the item at the cost of taking longer to run.
+---@return table #Item detail table
+---@return string #Error message if any
 function Get_item_detail(Slot, Detailed)
-    local Result, Data = turtle.getItemDetail(Slot, Detailed)
+    local Data = turtle.getItemDetail(Slot, Detailed)
 
-    if Result == true then
-        return Result, Data, ""
+    if type(Data) == "table" then
+        return Data, ""
     end
 
-    return Result, nil, Data
+    return nil, Data
 end
