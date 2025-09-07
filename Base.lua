@@ -489,4 +489,144 @@ Turtle = {
             return Result, true
         end
     ),
+
+    Refuel = (
+        function(Count)
+            local Result, Status = turtle.refuel(Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Compare_to = (
+        function(Slot)
+            local Result, Status = turtle.compareTo(Slot)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Transfer_to = (
+        function(Slot, Count)
+            local Result, Status = turtle.transferTo(Slot, Count)
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Get_selected_slot = (
+        function()
+            local Result = turtle.getSelectedSlot()
+
+            return Result
+        end
+    ),
+
+    Equip_left = (
+        function()
+            local Result, Status = turtle.equipLeft()
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Equip_right = (
+        function()
+            local Result, Status = turtle.equipRight()
+
+            if Result == true then
+                return true, ""
+            else
+                return false, Status
+            end
+        end
+    ),
+
+    Get_equiped_left = (
+        function()
+            local Result = turtle.getEquipedLeft()
+
+            if type(Result) == "table" then
+                return true, Result
+            end
+
+            return false, nil
+        end
+    ),
+
+    Get_equiped_right = (
+        function()
+            local Result = turtle.getEquipedRight()
+
+            if type(Result) == "table" then
+                return true, Result
+            end
+
+            return false, nil
+        end
+    ),
+
+    Inspect = (
+        function()
+            local Result, Data = turtle.inspect()
+
+            if Result == true then
+                return Result, Data, ""
+            end
+
+            return Result, nil, Data
+        end
+    ),
+
+    Inspect_up = (
+        function()
+            local Result, Data = turtle.inspectUp()
+
+            if Result == true then
+                return Result, Data, ""
+            end
+
+            return Result, nil, Data
+        end
+    ),
+
+    Inspect_down = (
+        function()
+            local Result, Data = turtle.inspectDown()
+
+            if Result == true then
+                return Result, Data, ""
+            end
+
+            return Result, nil, Data
+        end
+    ),
+
+    Get_item_detail = (
+        function(Slot, Detailed)
+            local Result, Data = turtle.getItemDetail(Slot, Detailed)
+
+            if Result == true then
+                return Result, Data, ""
+            end
+
+            return Result, nil, Data
+        end
+    ),
 }
